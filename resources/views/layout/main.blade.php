@@ -244,34 +244,53 @@
         <nav class="mt-2">
           <!--begin::Sidebar Menu-->
           <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-            <li class="nav-item menu-open">
-              <a href="#" class="nav-link active">
-                <i class="nav-icon bi bi-speedometer"></i>
-                <p>
-                  Dashboard
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
+            <li class="nav-item">
+              <a href="{{route("home")}}" class="nav-link active">
+                <i class="nav-icon bi bi-palette"></i>
+                <p>Home</p>
               </a>
-              <ul class="nav nav-treeview">
-                @if(auth()->user()->role == "admin")
-          <li class="nav-item">
-            <a href="{{ route("halaman1") }}" class="nav-link active">
-            <i class="nav-icon bi bi-circle"></i>
-            <p>Halaman 1</p>
-            </a>
-          </li>
-        @endif
-                <li class="nav-item">
-                  <a href="{{ route("halaman2")}}" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>Halaman 2</p>
-                  </a>
-                </li>
-
-              </ul>
             </li>
-
-
+            <li class="nav-item">
+              <a href="{{ route("dataSiswa") }}" class="nav-link">
+                <i class="nav-icon bi bi-download"></i>
+                <p>Data Siswa</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route("logAktivitas") }}" class="nav-link">
+                <i class="nav-icon bi bi-grip-horizontal"></i>
+                <p>Log Aktivitas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon bi bi-box-seam-fill"></i>
+                  <p>
+                    Jenis Pembayaran
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route("jenisPembayaran")}}"class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Jenis Pembayaran Siswa</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route("tambahJenisPembayaran") }}"class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Tambah Jenis Pembayaran</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route("statusPembayaranSiswa") }}"class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Status Pembayaran Siswa</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
             <li class="nav-item">
               <a href="{{route("logout")}}" class="nav-link">
                 <i class="nav-icon bi bi-box-arrow-in-right"></i>
@@ -280,10 +299,6 @@
                 </p>
               </a>
             </li>
-
-
-
-
           </ul>
           <!--end::Sidebar Menu-->
         </nav>

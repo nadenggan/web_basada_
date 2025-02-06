@@ -1,4 +1,4 @@
 @extends("layout.main")
 @section("content")
-home
+statusPemayran Siswa
 @endsection

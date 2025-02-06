@@ -1,4 +1,5 @@
 @extends("layout.main")
 @section("content")
-home
+Jenis Pembayaran
+
 @endsection
