@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 
 class DataSiswa extends Controller
 {
-    public function dataSiswa(){
-        return view('dataSiswa');
+    public function dataSiswaAdmin(){
+        return view('admin/dataSiswa');
+    }
+    public function dataSiswaGuru(){
+        return view('guru/dataSiswa');
     }
 }

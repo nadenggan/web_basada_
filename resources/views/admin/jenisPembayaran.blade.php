@@ -1,5 +1,5 @@
 @extends("layout.main")
 @section("content")
-Jenis Pembayaran
+Jenis Pembayaran admin
 
 @endsection

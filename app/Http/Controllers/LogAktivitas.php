@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class LogAktivitas extends Controller
 {
     public function logAktivitas(){
-        return view('logAktivitas');
+        return view('admin/logAktivitas');
     }
 }

@@ -1,4 +1,4 @@
 @extends("layout.main")
 @section("content")
-halaman 1
+home siswa
 @endsection

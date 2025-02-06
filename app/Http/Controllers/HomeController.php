@@ -7,13 +7,8 @@ class HomeController extends Controller{
         return view('home');
     }
 
-    public function halaman1(){
-        return view('halaman1');
+    public function homeSiswa(){
+        return view('siswa/home');
     }
-
-    public function halaman2(){
-        return view('halaman2');
-    }
-
 
 }

@@ -12,7 +12,15 @@ class LoginController extends Controller
         // dd($request->all());
 
         if (Auth::attempt($request->only("email", "password"))) {
-            return redirect("/home");
+
+            $role = Auth::user()->role;
+
+            if ($role === "admin" || $role === "guru") {
+                return redirect("/home");
+            } else {
+
+                return redirect("/homeSiswa");
+            }
         }
 
         return redirect("/login");

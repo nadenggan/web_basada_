@@ -19,18 +19,24 @@ Route::get('/logout', [LoginController::class, 'logout'])->name("logout");
 
 
 Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
-
-    Route::get('/halaman1', [HomeController::class, 'halaman1'])->name("halaman1");
+    Route::get('/dataSiswaAdmin', [DataSiswa::class, 'dataSiswaAdmin'])->name("dataSiswaAdmin");
+    Route::get('/logAktivitas', [LogAktivitas::class, 'logAktivitas'])->name("logAktivitas");
+    Route::get('/tambahJenisPembayaran', [TambahJenisPembayaran::class, 'tambahJenisPembayaran'])->name("tambahJenisPembayaran");
+    Route::get('/jenisPembayaranAdmin', [JenisPembayaran::class, 'jenisPembayaranAdmin'])->name("jenisPembayaranAdmin");
+    
 });
 
 Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
     Route::get('/home', [HomeController::class, 'home'])->name("home");
-    Route::get('/dataSiswa', [DataSiswa::class, 'dataSiswa'])->name("dataSiswa");
-    Route::get('/logAktivitas', [LogAktivitas::class, 'logAktivitas'])->name("logAktivitas");
-    Route::get('/tambahJenisPembayaran', [TambahJenisPembayaran::class, 'tambahJenisPembayaran'])->name("tambahJenisPembayaran");
-    Route::get('/jenisPembayaran', [JenisPembayaran::class, 'jenisPembayaran'])->name("jenisPembayaran");
     Route::get('/statusPembayaranSiswa', [StatusPembayaranSiswa::class, 'statusPembayaranSiswa'])->name("statusPembayaranSiswa");
-    Route::get('/halaman2', [HomeController::class, 'halaman2'])->name("halaman2");
 });
 
+Route::group(["middleware" => ["auth", "checkrole:siswa"]], function () {
+    Route::get('/homeSiswa', [HomeController::class, 'homeSiswa'])->name("homeSiswa");
+});
+
+Route::group(["middleware" => ["auth", "checkrole:guru"]], function () {
+    Route::get('/dataSiswa', [DataSiswa::class, 'dataSiswaGuru'])->name("dataSiswaGuru");
+    Route::get('/jenisPembayaran', [JenisPembayaran::class, 'jenisPembayaranGuru'])->name("jenisPembayaranGuru");
+});
 

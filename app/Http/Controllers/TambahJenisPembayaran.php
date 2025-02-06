@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class TambahJenisPembayaran extends Controller
 {
     public function tambahJenisPembayaran(){
-        return view('tambahJenisPembayaran');
+        return view('admin/tambahJenisPembayaran');
     }
 }

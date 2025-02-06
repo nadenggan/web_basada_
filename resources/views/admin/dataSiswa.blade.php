@@ -1,5 +1,5 @@
 @extends("layout.main")
 @section("content")
-data siswa
+data siswa admin
 @endsection
 
