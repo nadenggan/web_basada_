@@ -9,11 +9,11 @@
             <div class="row align-items-center">
                 <div class="col-sm-3 text-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        <button type="button" style="min-width:185px" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Jenis Pembayaran
                         </button>
-                        <ul class="dropdown-menu" style="max-height:150px; overflow-y:auto;">
+                        <ul class="dropdown-menu" style="max-height:150px; overflow-y:auto; min-width:185px">
                             <li><a class="dropdown-item" href="#">SPP</a></li>
                             <li><a class="dropdown-item" href="#">Uang Kegiatan</a></li>
                             <li><a class="dropdown-item" href="#">Uang Praktikum</a></li>
