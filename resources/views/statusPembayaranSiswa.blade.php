@@ -13,14 +13,31 @@
                             aria-expanded="false">
                             Jenis Pembayaran
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <ul class="dropdown-menu" style="max-height:150px; overflow-y:auto;">
+                            <li><a class="dropdown-item" href="#">SPP</a></li>
+                            <li><a class="dropdown-item" href="#">Uang Kegiatan</a></li>
+                            <li><a class="dropdown-item" href="#">Uang Praktikum</a></li>
                             <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                            <li><a class="dropdown-item" href="#">Sarpras</a></li>
+                            <li><a class="dropdown-item" href="#">Seragam Putra</a></li>
+                            <li><a class="dropdown-item" href="#">Seragam Putri</a></li>
+                            <li>
+                            <li><a class="dropdown-item" href="#">Kunjungan Industri</a></li>
+                            <li><a class="dropdown-item" href="#">PKL</a></li>
+                            <li><a class="dropdown-item" href="#">ASTS Gs</a></li>
+                            <li>
+                            <li><a class="dropdown-item" href="#">ASAS Gs</a></li>
+                            <li><a class="dropdown-item" href="#">ASTS Gn</a></li>
+                            <li><a class="dropdown-item" href="#">ASAS Gn</a></li>
+                            <li>
+                            <li><a class="dropdown-item" href="#">Buku LKS Semester 1</a></li>
+                            <li><a class="dropdown-item" href="#">Buku LKS Semester 2</a></li>
+                            <li><a class="dropdown-item" href="#">UKK</a></li>
+                            <li>
+                            <li><a class="dropdown-item" href="#">Ujian Sekolah</a></li>
+                            <li><a class="dropdown-item" href="#">Perpisahan</a></li>
+                            <li><a class="dropdown-item" href="#">Cetak Kalender</a></li>
+                            <li>
                         </ul>
                     </div>
                 </div>
@@ -59,7 +76,8 @@
             </div>
 
             <div class="row mt-3">
-                <div class="col-sm-12" style="font-size: 25px; padding-left:5%"> <b>Deadline Pembayaran: 1 Juli 2024</b></div>
+                <div class="col-sm-12" style="font-size: 25px; padding-left:5%"> <b>Deadline Pembayaran: 1 Juli 2024</b>
+                </div>
             </div>
             <!--end::Row-->
         </div>
