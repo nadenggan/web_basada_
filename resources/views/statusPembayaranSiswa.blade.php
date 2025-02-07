@@ -32,33 +32,27 @@
                 </div>
                 <div class="col-sm-3 text-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:80px "
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Kelas
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        <ul class="dropdown-menu" style="min-width:80px;">
+                            <li><a class="dropdown-item" id="10" href="#">X</a></li>
+                            <li><a class="dropdown-item" id="11" href="#">XI</a></li>
+                            <li><a class="dropdown-item" id="12" href="#">XII</a></li>
                         </ul>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:95px"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Jurusan
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        <ul class="dropdown-menu" style="min-width:95px;">
+                            <li><a class="dropdown-item" href="#">TKJ</a></li>
+                            <li><a class="dropdown-item" href="#">AK</a></li>
+                            <li><a class="dropdown-item" href="#">MPLB</a></li>
+                            <li><a class="dropdown-item" href="#">BDP</a></li>
+                            <li><a class="dropdown-item" href="#">OTKP</a></li>
                         </ul>
                     </div>
                 </div>
@@ -129,5 +123,34 @@
         <!--end::Container-->
     </div>
     <!--end::App Content-->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".btn-group").forEach(group => {
+                let button = group.querySelector(".dropdown-toggle");
+                let defaultText = button.textContent;
+
+                group.querySelectorAll(".dropdown-item").forEach(item => {
+                    item.addEventListener("click", function (event) {
+                        event.preventDefault(); // Prevents page reload when clicking item
+
+                        let selectedText = this.textContent.replace(" ✓", ""); // Remove exist checklist
+                        let menuItems = group.querySelectorAll(".dropdown-item");
+
+                        // Find and remove checklist in items
+                        menuItems.forEach(i => i.innerHTML = i.textContent.replace(" ✓", ""));
+
+                        if (button.textContent === selectedText) {
+                            button.textContent = defaultText;
+                        } else {
+                            this.innerHTML = selectedText + " ✓"; // Add checkmark
+                            button.textContent = selectedText; // Update button text
+                        }
+                    })
+                })
+
+            });
+        });
+    </script>
 </main>
 @endsection
