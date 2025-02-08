@@ -22,17 +22,18 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::get('/dataSiswaAdmin', [DataSiswa::class, 'dataSiswaAdmin'])->name("dataSiswaAdmin");
     Route::get('/logAktivitas', [LogAktivitas::class, 'logAktivitas'])->name("logAktivitas");
     Route::get('/tambahJenisPembayaran', [TambahJenisPembayaran::class, 'tambahJenisPembayaran'])->name("tambahJenisPembayaran");
-    Route::get('/jenisPembayaranAdmin', [JenisPembayaran::class, 'jenisPembayaranAdmin'])->name("jenisPembayaranAdmin");
-    Route::get('/rekap-pembayaran/{nis}', function ($nis) {
-        return view('admin.rekapPembayaran', ['nis' => $nis]);
+    Route::get('/jenisPembayaranAdmin', [JenisPembayaran::class, 'jenisPembayaranAdmin'])->name("jenisPembayaranAdmin");  
+    Route::get('/tambah-data/', function () {
+        return view('admin.tambahDataSiswa');
     });
-    
-    
 });
 
 Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
     Route::get('/home', [HomeController::class, 'home'])->name("home");
     Route::get('/statusPembayaranSiswa', [StatusPembayaranSiswa::class, 'statusPembayaranSiswa'])->name("statusPembayaranSiswa");
+    Route::get('/rekap-pembayaran/{nis}', function ($nis) {
+        return view('rekapPembayaran', ['nis' => $nis]);
+    });
 });
 
 Route::group(["middleware" => ["auth", "checkrole:siswa"]], function () {

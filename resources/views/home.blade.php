@@ -30,12 +30,26 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <p>Total Siswa :</p>
-                            <p>Total Siswa Kelas 10 :</p>
-                            <p>Total Siswa Kelas 11 :</p>
-                            <p>Total Siswa Kelas 12 :</p>
-                            <p>Total Jenis Pembayaran:</p>
-
+                            <div class="row">
+                                <div class="col-5">Total Siswa</div>
+                                <div class="col-7">: 1000</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">Total Siswa Kelas X</div>
+                                <div class="col-7">: 3000</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">Total Siswa Kelas XI</div>
+                                <div class="col-7">: 300</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">Total Siswa Kelas XII</div>
+                                <div class="col-7">: 400</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">Total Jenis Pembayaran</div>
+                                <div class="col-6">: 16</div>
+                            </div>
                         </div>
                     </div>
                 </div>

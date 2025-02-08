@@ -88,7 +88,7 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer clearfix">
-                            <button class="btn btn-primary">Tambah Data</button>
+                            <button class="tambah-data btn btn-primary">Tambah Data</button>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Import
                                 Excel</button>
 
@@ -167,6 +167,23 @@
             });
         });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".tambah-data").forEach(item => {
+                item.addEventListener("click", function (event) {
+                    event.preventDefault();
+
+                    fetch(`/tambah-data/`)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.querySelector(".app-main").innerHTML = html;
+                        
+                            // Mengubah URL tanpa reload halaman
+                            window.history.pushState({}, "", `/tambah-data/`);
+                        })
+                        .catch(error => console.error("Error:", error));
+                });
+            });
+        });
 
     </script>
 
