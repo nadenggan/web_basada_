@@ -6,8 +6,8 @@
         <!--begin::Container-->
         <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row align-items-center">
-                <div class="col-sm-3 text-center">
+            <div class="row align-items-center d-flex justify-content-center">
+                <div class="col-sm-2 text-center">
                     <h3 class="mb-0">Data Siswa</h3>
                 </div>
                 <div class="col-sm-6">

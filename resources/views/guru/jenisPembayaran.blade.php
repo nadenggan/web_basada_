@@ -6,7 +6,7 @@
         <!--begin::Container-->
         <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row align-items-center">
+            <div class="row align-items-center d-flex justify-content-center">
                 <div class="col-sm-3 text-center">
                     <h3 class="mb-0">Jenis Pembayaran</h3>
                 </div>
@@ -16,7 +16,7 @@
                         <button class="btn btn-primary" type="submit">Search</button>
                     </form>
                 </div>
-                <div class="col-sm-3 text-center">
+                <div class="col-sm-2 text-center">
                 <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:80px "
                             data-bs-toggle="dropdown" aria-expanded="false">

@@ -6,7 +6,7 @@
         <!--begin::Container-->
         <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row align-items-center">
+            <div class="row align-items-center d-flex justify-content-around">
                 <div class="col-sm-3 text-center">
                     <div class="btn-group">
                         <button type="button" style="min-width:185px" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
@@ -41,7 +41,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-primary" type="submit">Search</button>

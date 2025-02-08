@@ -23,6 +23,10 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::get('/logAktivitas', [LogAktivitas::class, 'logAktivitas'])->name("logAktivitas");
     Route::get('/tambahJenisPembayaran', [TambahJenisPembayaran::class, 'tambahJenisPembayaran'])->name("tambahJenisPembayaran");
     Route::get('/jenisPembayaranAdmin', [JenisPembayaran::class, 'jenisPembayaranAdmin'])->name("jenisPembayaranAdmin");
+    Route::get('/rekap-pembayaran/{nis}', function ($nis) {
+        return view('admin.rekapPembayaran', ['nis' => $nis]);
+    });
+    
     
 });
 

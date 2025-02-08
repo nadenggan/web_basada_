@@ -43,91 +43,89 @@
             </div>
             <!--end::Row-->
             <!--begin::Row-->
-                <div class="row  align-items-center d-flex justify-content-around" >
-                    <div class="col-sm-5" style="font-size: 28px;">
-                        <b>Data Siswa</b>
-                    </div>
-                    <div class="col-sm-5 d-flex justify-content-end" ">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:80px "
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Kelas
-                            </button>
-                            <ul class="dropdown-menu" style="min-width:80px;">
-                                <li><a class="dropdown-item" id="10" href="#">X</a></li>
-                                <li><a class="dropdown-item" id="11" href="#">XI</a></li>
-                                <li><a class="dropdown-item" id="12" href="#">XII</a></li>
-                            </ul>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:95px"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Jurusan
-                            </button>
-                            <ul class="dropdown-menu" style="min-width:95px;">
-                                <li><a class="dropdown-item" href="#">TKJ</a></li>
-                                <li><a class="dropdown-item" href="#">AK</a></li>
-                                <li><a class="dropdown-item" href="#">MPLB</a></li>
-                                <li><a class="dropdown-item" href="#">BDP</a></li>
-                                <li><a class="dropdown-item" href="#">OTKP</a></li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row  align-items-center d-flex justify-content-around">
+                <div class="col-sm-5" style="font-size: 28px;">
+                    <b>Data Siswa</b>
                 </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row justify-content-center mt-2">
-                <div class="col-md-11">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="card-title">Bordered Table</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 10px">NIS</th>
-                                        <th>Nama</th>
-                                        <th>Kelas</th>
-                                        <th style="width: 40px">Jurusan</th>
-                                        <th>Alamat</th>
-                                        <th>Pembayaran</th>
-                                        <th>Prediksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="align-middle">
-                                        <td>133</td>
-                                        <td>Ananda Kila</td>
-                                        <td>10 </td>
-                                        <td>TKJT A</td>
-                                        <td>Jl. Pahlawan No.12, Kelurahan Bumirejo, Kecamatan Kebumen</td>
-                                        <td>Lihat Status</td>
-                                        <td>Tepat Waktu</td>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
+                <div class="col-sm-5 d-flex justify-content-end" ">
+                        <div class=" btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle me-1" style="min-width:80px "
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Kelas
+                    </button>
+                    <ul class="dropdown-menu" style="min-width:80px;">
+                        <li><a class="dropdown-item" id="10" href="#">X</a></li>
+                        <li><a class="dropdown-item" id="11" href="#">XI</a></li>
+                        <li><a class="dropdown-item" id="12" href="#">XII</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:95px"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Jurusan
+                    </button>
+                    <ul class="dropdown-menu" style="min-width:95px;">
+                        <li><a class="dropdown-item" href="#">TKJ</a></li>
+                        <li><a class="dropdown-item" href="#">AK</a></li>
+                        <li><a class="dropdown-item" href="#">MPLB</a></li>
+                        <li><a class="dropdown-item" href="#">BDP</a></li>
+                        <li><a class="dropdown-item" href="#">OTKP</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row justify-content-center mt-2">
+            <div class="col-md-11">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title">Bordered Table</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">NIS</th>
+                                    <th>Nama</th>
+                                    <th>Kelas</th>
+                                    <th style="width: 40px">Jurusan</th>
+                                    <th>Alamat</th>
+                                    <th>Pembayaran</th>
+                                    <th>Prediksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="align-middle">
+                                    <td>133</td>
+                                    <td>Ananda Kila</td>
+                                    <td>10 </td>
+                                    <td>TKJT A</td>
+                                    <td>Jl. Pahlawan No.12, Kelurahan Bumirejo, Kecamatan Kebumen</td>
+                                    <td><a class="lihat-rekap" href="" data-nis="133">Lihat Rekap</a></td>
+                                    <td>Tepat Waktu</td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
 
-                        <div class="card-footer clearfix">
-                            <ul class="pagination pagination-sm m-0 float-end">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
-                        </div>
+                    <div class="card-footer clearfix">
+                        <ul class="pagination pagination-sm m-0 float-end">
+                            <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <!--end::Row-->
-
         </div>
-        <!--end::Container-->
+        <!--end::Row-->
     </div>
-    <!--end::App Content-->
+    <!--end::Container-->
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -156,6 +154,27 @@
 
             });
         });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".lihat-rekap").forEach(item => {
+                item.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    let nis = this.getAttribute("data-nis");
+
+                    fetch(`/rekap-pembayaran/${nis}`)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.querySelector(".app-main").innerHTML = html;
+
+                            // Mengubah URL tanpa reload halaman
+                            window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
+                        })
+                        .catch(error => console.error("Error:", error));
+                });
+            });
+        });
+
     </script>
 </main>
 @endsection

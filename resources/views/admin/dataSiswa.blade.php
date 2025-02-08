@@ -7,14 +7,14 @@
         <!--begin::Container-->
         <div class="container-fluid">
             <!--begin::Row-->
-            <div class="row align-items-center">
-                <div class="col-sm-3 text-center">
+            <div class="row align-items-center d-flex justify-content-center">
+                <div class="col-sm-2 text-center">
                     <h3 class="mb-0">Data Siswa</h3>
                 </div>
                 <div class="col-sm-6">
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <button class="btn btn-primary " type="submit">Search</button>
                     </form>
                 </div>
                 <div class="col-sm-3 text-center">
@@ -88,8 +88,40 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer clearfix">
-                            <button class="btn btn-primary" type="submit">Tambah Data</button>
-                            <button class="btn btn-primary" type="submit">Import Excel</button>
+                            <button class="btn btn-primary">Tambah Data</button>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Import
+                                Excel</button>
+
+                            <!-- Upload Excel Modal -->
+                            <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="uploadModalLabel">Upload Excel File</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <a href="template.xlsx" download class="text-primary" style="text-decoration:none;">*Download template
+                                                    Excel</a>
+                                            </div>
+                                            <form id="uploadForm">
+                                                <input type="file" class="form-control" id="excelFile"
+                                                    accept=".xlsx, .xls">
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-center">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Batal</button>
+                                            <button type="button" class="btn btn-primary"
+                                                id="uploadButton">Upload</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                             <ul class="pagination pagination-sm m-0 float-end">
                                 <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
                                 <li class="page-item"><a class="page-link" href="#">1</a></li>
