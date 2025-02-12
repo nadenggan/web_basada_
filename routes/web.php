@@ -26,6 +26,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::get('/tambah-data/', function () {
         return view('admin.tambahDataSiswa');
     });
+    Route::post('/importExcel', [DataSiswa::class, 'importExcel'])->name("importExcel");  
 });
 
 Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {

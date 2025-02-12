@@ -102,25 +102,27 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <a href="template.xlsx" download class="text-primary" style="text-decoration:none;">*Download template
+                                                <a href="template.xlsx" download class="text-primary"
+                                                    style="text-decoration:none;">*Download template
                                                     Excel</a>
                                             </div>
-                                            <form id="uploadForm">
+                                            <form id="uploadForm" action="{{route("importExcel")}}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
                                                 <input type="file" class="form-control" id="excelFile"
-                                                    accept=".xlsx, .xls">
+                                                    accept=".xlsx, .xls" name="file" required>
+
+                                                <div class="modal-footer d-flex justify-content-center">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                                </div>
                                             </form>
                                         </div>
-                                        <div class="modal-footer d-flex justify-content-center">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Batal</button>
-                                            <button type="button" class="btn btn-primary"
-                                                id="uploadButton">Upload</button>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-
-
 
                             <ul class="pagination pagination-sm m-0 float-end">
                                 <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
@@ -176,7 +178,7 @@
                         .then(response => response.text())
                         .then(html => {
                             document.querySelector(".app-main").innerHTML = html;
-                        
+
                             // Mengubah URL tanpa reload halaman
                             window.history.pushState({}, "", `/tambah-data/`);
                         })
@@ -184,6 +186,10 @@
                 });
             });
         });
+
+        document.getElementById("uploadButton").addEventListener("click", function () {
+            document.getElementById("uploadForm").submit();
+        })
 
     </script>
 
