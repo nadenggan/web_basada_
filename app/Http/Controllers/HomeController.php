@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User;
 
 class HomeController extends Controller{
     public function home(){
-        return view('home');
+        $users = User::with("kelas")->whereNotNull("nis")->paginate(10);
+        return view('home',compact("users"));
     }
 
     public function homeSiswa(){

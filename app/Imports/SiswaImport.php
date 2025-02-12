@@ -51,8 +51,6 @@ class SiswaImport implements ToModel, WithHeadingRow
             ]);
         }
 
-        
-
         $id_kelas = $kelas->id_kelas ;
 
         return new User([

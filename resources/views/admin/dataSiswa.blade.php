@@ -75,13 +75,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="align-middle">
-                                        <td>133</td>
-                                        <td>Ananda Kila</td>
-                                        <td>10 </td>
-                                        <td>TKJT A</td>
-                                        <td>Jl. Pahlawan No.12, Kelurahan Bumirejo, Kecamatan Kebumen</td>
-                                        <td>button</td>
+                                    @foreach($users as $user)
+                                        <tr class="align-middle">
+                                            <td>{{$user->nis}}</td>
+                                            <td>{{$user->name}}</td>
+                                            <td>{{$user->kelas->tingkat_kelas}}</td>
+                                            <td>{{$user->kelas->jurusan}}</td>
+                                            <td>{{$user->alamat}}</td>
+                                            <td>
+                                                <button class="btn btn-primary">Edit</button>
+                                                <button class="btn btn-danger">Hapus</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -124,13 +130,9 @@
                                 </div>
                             </div>
 
-                            <ul class="pagination pagination-sm m-0 float-end">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
+                           <div class="float-end">
+                             {{$users->links()}}
+                           </div>
                         </div>
                     </div>
                 </div>
@@ -179,7 +181,7 @@
                         .then(html => {
                             document.querySelector(".app-main").innerHTML = html;
 
-                            // Mengubah URL tanpa reload halaman
+                            // Change URL without reload page
                             window.history.pushState({}, "", `/tambah-data/`);
                         })
                         .catch(error => console.error("Error:", error));

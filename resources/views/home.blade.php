@@ -111,27 +111,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="align-middle">
-                                    <td>133</td>
-                                    <td>Ananda Kila</td>
-                                    <td>10 </td>
-                                    <td>TKJT A</td>
-                                    <td>Jl. Pahlawan No.12, Kelurahan Bumirejo, Kecamatan Kebumen</td>
-                                    <td><a class="lihat-rekap" href="" data-nis="133">Lihat Rekap</a></td>
-                                    <td>Tepat Waktu</td>
+                                @foreach ($users as $user)
+                                    <tr class="align-middle">
+                                        <td>{{ $user->nis }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->kelas->tingkat_kelas }} </td>
+                                        <td>{{ $user->kelas->jurusan }}</td>
+                                        <td>{{ $user->alamat }}</td>
+                                        <td><a class="lihat-rekap" href="" data-nis="133">Lihat Rekap</a></td>
+                                        <td>Tepat Waktu</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
 
-                    <div class="card-footer clearfix">
-                        <ul class="pagination pagination-sm m-0 float-end">
-                            <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                        </ul>
+                    <div class="d-flex justify-content-center">
+                        {{ $users->links() }}
                     </div>
                 </div>
             </div>

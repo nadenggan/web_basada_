@@ -73,24 +73,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach ($users as $user )
                                     <tr class="align-middle">
-                                        <td>133</td>
-                                        <td>Ananda Kila</td>
-                                        <td>10 </td>
-                                        <td>TKJT A</td>
-                                        <td>Jl. Pahlawan No.12, Kelurahan Bumirejo, Kecamatan Kebumen</td>
+                                        <td>{{ $user->nis }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->kelas->tingkat_kelas }}</td>
+                                        <td>{{$user->kelas->jurusan}}</td>
+                                        <td>{{ $user->alamat }}</td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                         <!-- /.card-body -->
-                        <div class="card-footer clearfix">
-                            <ul class="pagination pagination-sm m-0 float-end">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
+                        <div class="d-flex justify-content-center">
+                           {{$users->links()}}
                         </div>
 
                     </div>
