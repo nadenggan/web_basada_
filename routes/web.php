@@ -22,7 +22,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::get('/dataSiswaAdmin', [DataSiswa::class, 'dataSiswaAdmin'])->name("dataSiswaAdmin");
     Route::get('/logAktivitas', [LogAktivitas::class, 'logAktivitas'])->name("logAktivitas");
     Route::get('/tambahJenisPembayaran', [TambahJenisPembayaran::class, 'tambahJenisPembayaran'])->name("tambahJenisPembayaran");
-    Route::put('/inputJenisPembayaran', [TambahJenisPembayaran::class, 'inputJenisPembayaran'])->name("inputJenisPembayaran");
+    Route::post('/inputJenisPembayaran', [TambahJenisPembayaran::class, 'inputJenisPembayaran'])->name("inputJenisPembayaran");
     Route::get('/jenisPembayaranAdmin', [JenisPembayaran::class, 'jenisPembayaranAdmin'])->name("jenisPembayaranAdmin");
     Route::get('/tambah-data/', function () {
         return view('admin.tambahDataSiswa');

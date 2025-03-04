@@ -21,7 +21,7 @@
                             <!--begin::Form-->
                             <form method="POST" action="{{ route('inputJenisPembayaran') }}">
                                 @csrf
-                                @method('PUT')
+
                                 <!--begin::Body-->
                                 <div class="card-body">
                                     <div class="mb-3">
@@ -41,6 +41,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Tingkat Kelas</label>
                                         <select name="tingkat_kelas" id="tingkatKelas" class="form-control">
+                                            <option selected>Pilih Tingkat Kelas</option>
                                             <option value="X">X</option>
                                             <option value="XI">XI</option>
                                             <option value="XII">XII</option>
@@ -50,6 +51,7 @@
                                     <div class="mb-3">
                                         <label class="form-label"> Periode</label>
                                         <select name="periode" id="periode" class="form-control">
+                                            <option selected>Pilih Periode</option>
                                             <option value="bulanan">Bulanan</option>
                                             <option value="sekali">Sekali</option>
                                             <option value="tahunan">Tahunan</option>
