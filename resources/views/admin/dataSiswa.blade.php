@@ -12,8 +12,8 @@
                     <h3 class="mb-0">Data Siswa</h3>
                 </div>
                 <div class="col-sm-6">
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <form class="d-flex" role="search" method="GET" action="{{ route('dataSiswaAdmin') }}">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ $request->get('search') }}">
                         <button class="btn btn-primary " type="submit">Search</button>
                     </form>
                 </div>

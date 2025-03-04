@@ -42,8 +42,8 @@
                     </div>
                 </div>
                 <div class="col-sm-5">
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <form class="d-flex" role="search" method="get" action="{{ route("statusPembayaranSiswa") }}">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ $request->get("search") }}">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </form>
                 </div>
