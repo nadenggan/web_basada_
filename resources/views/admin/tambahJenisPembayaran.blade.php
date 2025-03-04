@@ -40,12 +40,23 @@
 
                                     <div class="mb-3">
                                         <label class="form-label">Tingkat Kelas</label>
-                                        <select name="tingkat_kelas" id="tingkatKelas" class="form-control">
-                                            <option selected>Pilih Tingkat Kelas</option>
-                                            <option value="X">X</option>
-                                            <option value="XI">XI</option>
-                                            <option value="XII">XII</option>
-                                        </select>
+                                        <div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tingkat_kelas[]"
+                                                    value="X" >
+                                                <label class="form-check-label" for="tingkatKelasX">X</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tingkat_kelas[]"
+                                                    value="XI" >
+                                                <label class="form-check-label" for="tingkatKelasXI">XI</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="tingkat_kelas[]"
+                                                    value="XII">
+                                                <label class="form-check-label" for="tingkatKelasXII">XII</label>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="mb-3">
