@@ -114,7 +114,7 @@
                                     @foreach ($users as $user )
                                     <tr class="align-middle">
                                         <td>{{ $user->nis }}</td>
-                                        <td>$user->name</td>
+                                        <td>{{ $user->name }}</td>
                                         <td>{{ $user->kelas->tingkat_kelas  }}</td>
                                         <td>{{ $user->kelas->jurusan }}</td>
                                         <td>{{ $user->alamat }}</td>

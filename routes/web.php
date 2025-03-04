@@ -22,11 +22,13 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::get('/dataSiswaAdmin', [DataSiswa::class, 'dataSiswaAdmin'])->name("dataSiswaAdmin");
     Route::get('/logAktivitas', [LogAktivitas::class, 'logAktivitas'])->name("logAktivitas");
     Route::get('/tambahJenisPembayaran', [TambahJenisPembayaran::class, 'tambahJenisPembayaran'])->name("tambahJenisPembayaran");
-    Route::get('/jenisPembayaranAdmin', [JenisPembayaran::class, 'jenisPembayaranAdmin'])->name("jenisPembayaranAdmin");  
+    Route::put('/inputJenisPembayaran', [TambahJenisPembayaran::class, 'inputJenisPembayaran'])->name("inputJenisPembayaran");
+    Route::get('/jenisPembayaranAdmin', [JenisPembayaran::class, 'jenisPembayaranAdmin'])->name("jenisPembayaranAdmin");
     Route::get('/tambah-data/', function () {
         return view('admin.tambahDataSiswa');
     });
-    Route::post('/importExcel', [DataSiswa::class, 'importExcel'])->name("importExcel");  
+    Route::post('/importExcel', [DataSiswa::class, 'importExcel'])->name("importExcel");
+ 
 });
 
 Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {

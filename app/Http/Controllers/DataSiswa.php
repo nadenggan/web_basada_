@@ -27,7 +27,7 @@ class DataSiswa extends Controller
         $namaFile=rand().$file->getClientOriginalName();
 
         // Put file in path  public/DataSiswa
-        $file->move("DataSiswa", $namaFile); 
+        $file->move("DataSiswaExcel", $namaFile); 
 
         Excel::import(new SiswaImport, public_path("/DataSiswaExcel/".$namaFile));
 
