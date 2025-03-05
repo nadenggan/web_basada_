@@ -43,7 +43,7 @@
                     <div class="col-sm-auto text-center">
                         <form action="{{ route("dataSiswaAdmin") }}" method="get" class="d-flex">
                             <!-- begin::Filter kelas-->
-                            <select name="kelas" id="kelas" class="form-control me-2" style="width: 100px;">
+                            <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
                                 <option selected>Kelas</option>
                                 <option value="X">X</option>
                                 <option value="XI">XI</option>
@@ -93,7 +93,9 @@
                                                 <td>{{$user->kelas->jurusan}}</td>
                                                 <td>{{$user->alamat}}</td>
                                                 <td>
-                                                    <button class="btn btn-primary">Edit</button>
+                                                    <button class="btn btn-primary"><a href="" class="edit"
+                                                            value="{{ $user->nis }}"
+                                                            style="color: white; text-decoration: none;">Edit</a></button>
                                                     <button class="btn btn-danger hapus" value="{{ $user->nis }}">Hapus</button>
                                                 </td>
                                             </tr>
@@ -171,6 +173,29 @@
                 });
             });
 
+
+            // Get Edit Data Siswa Page
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector(".app-main").addEventListener("click", function (e) {
+                    if (e.target.classList.contains("edit")) {
+                        e.preventDefault();
+
+                        // Get NIS from button
+                        var siswa_nis = e.target.getAttribute("value");
+
+                        console.log(siswa_nis);
+                        fetch(`/dataSiswaAdmin/edit/${siswa_nis}`)
+                            .then(response => response.text())
+                            .then(html => {
+                                document.querySelector(".app-main").innerHTML = html;
+
+                                // Mengubah URL tanpa reload halaman
+                                window.history.pushState({}, "", `/dataSiswaAdmin/edit/${siswa_nis}`);
+                            })
+                            .catch(error => console.error("Error:", error));
+                    }
+                });
+            });
 
             // Add Data
             document.addEventListener("DOMContentLoaded", function () {

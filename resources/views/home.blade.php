@@ -71,7 +71,7 @@
                     <div class="col-sm-auto text-center">
                         <form action="{{ route("home") }}" method="get" class="d-flex">
                             <!-- begin::Filter kelas-->
-                            <select name="kelas" id="kelas" class="form-control me-2" style="width: 100px;">
+                            <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
                                 <option selected>Kelas</option>
                                 <option value="X">X</option>
                                 <option value="XI">XI</option>
@@ -178,6 +178,7 @@
                 })
             }
 
+            // Get Rekap Pembayaran Siswa Page
             document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll(".lihat-rekap").forEach(item => {
                     item.addEventListener("click", function (event) {
