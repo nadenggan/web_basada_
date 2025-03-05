@@ -7,71 +7,37 @@
         <div class="container-fluid">
             <!--begin::Row-->
             <div class="row align-items-center d-flex justify-content-around">
-                <div class="col-sm-3 text-center">
-                    <div class="btn-group">
-                        <button type="button" style="min-width:185px" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Jenis Pembayaran
-                        </button>
-                        <ul class="dropdown-menu" style="max-height:150px; overflow-y:auto; min-width:185px">
-                            <li><a class="dropdown-item" href="#">SPP</a></li>
-                            <li><a class="dropdown-item" href="#">Uang Kegiatan</a></li>
-                            <li><a class="dropdown-item" href="#">Uang Praktikum</a></li>
-                            <li>
-                            <li><a class="dropdown-item" href="#">Sarpras</a></li>
-                            <li><a class="dropdown-item" href="#">Seragam Putra</a></li>
-                            <li><a class="dropdown-item" href="#">Seragam Putri</a></li>
-                            <li>
-                            <li><a class="dropdown-item" href="#">Kunjungan Industri</a></li>
-                            <li><a class="dropdown-item" href="#">PKL</a></li>
-                            <li><a class="dropdown-item" href="#">ASTS Gs</a></li>
-                            <li>
-                            <li><a class="dropdown-item" href="#">ASAS Gs</a></li>
-                            <li><a class="dropdown-item" href="#">ASTS Gn</a></li>
-                            <li><a class="dropdown-item" href="#">ASAS Gn</a></li>
-                            <li>
-                            <li><a class="dropdown-item" href="#">Buku LKS Semester 1</a></li>
-                            <li><a class="dropdown-item" href="#">Buku LKS Semester 2</a></li>
-                            <li><a class="dropdown-item" href="#">UKK</a></li>
-                            <li>
-                            <li><a class="dropdown-item" href="#">Ujian Sekolah</a></li>
-                            <li><a class="dropdown-item" href="#">Perpisahan</a></li>
-                            <li><a class="dropdown-item" href="#">Cetak Kalender</a></li>
-                            <li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-5">
+                <div class="col-6">
                     <form class="d-flex" role="search" method="get" action="{{ route("statusPembayaranSiswa") }}">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ $request->get("search") }}">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </form>
                 </div>
-                <div class="col-sm-3 text-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:80px "
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Kelas
-                        </button>
-                        <ul class="dropdown-menu" style="min-width:80px;">
-                            <li><a class="dropdown-item" id="10" href="#">X</a></li>
-                            <li><a class="dropdown-item" id="11" href="#">XI</a></li>
-                            <li><a class="dropdown-item" id="12" href="#">XII</a></li>
-                        </ul>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:95px"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Jurusan
-                        </button>
-                        <ul class="dropdown-menu" style="min-width:95px;">
-                            <li><a class="dropdown-item" href="#">TKJ</a></li>
-                            <li><a class="dropdown-item" href="#">AK</a></li>
-                            <li><a class="dropdown-item" href="#">MPLB</a></li>
-                            <li><a class="dropdown-item" href="#">BDP</a></li>
-                            <li><a class="dropdown-item" href="#">OTKP</a></li>
-                        </ul>
-                    </div>
+                <div class="col-auto">
+                <form action="{{ route("statusPembayaranSiswa") }}" method="get" class="d-flex">
+                            <!-- begin::Filter kelas-->
+                            <select name="kelas" id="kelas" class="form-control me-2" style="width: 80px;">
+                                <option selected>Kelas</option>
+                                <option value="X">X</option>
+                                <option value="XI">XI</option>
+                                <option value="XII">XII</option>
+                            </select>
+                            <!-- end::Filter kelas-->
+
+                            <!-- begin::Filter Jenis Pembayaran-->
+                            <select name="jenisPembayaran" id="jenisPembayaran" class="form-control me-2" style="width: 150px;">
+                                <option selected>Jenis Pembayaran</option>
+                                <option value="SPP">SPP</option>
+                                <option value="Uang Kegiatan">Uang Kegiatan</option>
+                                <option value="Uang Praktikum">Uang Praktikum</option>
+                                <option value="Sarpras">Sarpras</option>
+                                <option value="Seragam Putra">Seragam Putra</option>
+                                <option value="Seragam Putri">Seragam Putri</option>
+                            </select>
+                            <!-- end::Filter Jenis Pembayaran-->
+
+                            <button class="btn btn-primary " type="submit">Filter</button>
+                        </form>
                 </div>
             </div>
 

@@ -57,34 +57,29 @@
                 </div>
                 <!--end::Row-->
                 <!--begin::Row-->
-                <div class="row  align-items-center d-flex justify-content-around">
-                    <div class="col-sm-5" style="font-size: 28px;">
+                <div class="row  align-items-center d-flex justify-content-center">
+                    <div class="col-sm-auto text-center" style="font-size: 28px;">
                         <b>Data Siswa</b>
                     </div>
-                    <div class="col-sm-5 d-flex justify-content-end" ">
-                                <div class=" btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle me-1" style="min-width:80px "
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Kelas
-                        </button>
-                        <ul class="dropdown-menu" style="min-width:80px;">
-                            <li><a class="dropdown-item" id="10" href="#">X</a></li>
-                            <li><a class="dropdown-item" id="11" href="#">XI</a></li>
-                            <li><a class="dropdown-item" id="12" href="#">XII</a></li>
-                        </ul>
+                    <div class="col-sm-6">
+                        <form class="d-flex" role="search" method="GET" action="{{ route('home') }}">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                                name="search" value="{{ $request->get("search") }}">
+                            <button class="btn btn-primary " type="submit">Search</button>
+                        </form>
                     </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:95px"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Jurusan
-                        </button>
-                        <ul class="dropdown-menu" style="min-width:95px;">
-                            <li><a class="dropdown-item" href="#">TKJ</a></li>
-                            <li><a class="dropdown-item" href="#">AK</a></li>
-                            <li><a class="dropdown-item" href="#">MPLB</a></li>
-                            <li><a class="dropdown-item" href="#">BDP</a></li>
-                            <li><a class="dropdown-item" href="#">OTKP</a></li>
-                        </ul>
+                    <div class="col-sm-auto text-center">
+                        <form action="{{ route("home") }}" method="get" class="d-flex">
+                            <!-- begin::Filter kelas-->
+                            <select name="kelas" id="kelas" class="form-control me-2" style="width: 100px;">
+                                <option selected>Kelas</option>
+                                <option value="X">X</option>
+                                <option value="XI">XI</option>
+                                <option value="XII">XII</option>
+                            </select>
+                            <!-- end::Filter kelas-->
+                            <button class="btn btn-primary " type="submit">Filter</button>
+                        </form>
                     </div>
                 </div>
             </div>

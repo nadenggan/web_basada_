@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row align-items-center d-flex justify-content-center">
-                    <div class="col-sm-3 text-center">
+                    <div class="col-auto text-center">
                         <h3 class="mb-0">Jenis Pembayaran</h3>
                     </div>
                     <div class="col-sm-6">
@@ -17,7 +17,7 @@
                             <button class="btn btn-primary" type="submit">Search</button>
                         </form>
                     </div>
-                    <div class="col-sm-2 text-center">
+                    <div class="col-auto text-center">
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:80px "
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,7 +66,7 @@
                                     <tbody>
                                         @foreach($data as $item)
                                             <tr class="align-middle">
-                                                <td>1</td>
+                                                <td>{{ $loop->iteration  }}</td>
                                                 <td>{{ $item->nama_jenis_pembayaran }}</td>
                                                 <td>{{ $item->deskripsi }}</td>
                                                 <td>{{ $item->tingkat_kelas }}</td>

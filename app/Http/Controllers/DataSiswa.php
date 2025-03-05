@@ -15,9 +15,24 @@ class DataSiswa extends Controller
         // Only get data Siswa
         $users = User::with("kelas")->whereNotNull("nis");
 
-        // Filter by Name
+        // Filter by Name, NIS, Jurusan
         if ($request->get('search')) {
-            $users->where('name', 'LIKE', '%' . $request->get('search') . '%');
+            $search = $request->get('search');
+
+            $users->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('nis', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('kelas', function ($kelasQuery) use ($search) {
+                        $kelasQuery->where('jurusan', 'LIKE', '%' . $search . '%');
+                    });
+            });
+        }
+
+        // Filter by Kelas
+        if ($request->get("kelas")) {
+            $users->whereHas('kelas', function ($query) use ($request) {
+                $query->where('tingkat_kelas', $request->get("kelas"));
+            });
         }
 
         // Paginate
@@ -30,15 +45,30 @@ class DataSiswa extends Controller
         // Only get data Siswa
         $users = User::with("kelas")->whereNotNull("nis");
 
-        // Filter by Name
+        // Filter by Name, NIS, Jurusan
         if ($request->get('search')) {
-            $users->where('name', 'LIKE', '%' . $request->get('search') . '%');
+            $search = $request->get('search');
+
+            $users->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('nis', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('kelas', function ($kelasQuery) use ($search) {
+                        $kelasQuery->where('jurusan', 'LIKE', '%' . $search . '%');
+                    });
+            });
+        }
+
+        // Filter by Kelas
+        if ($request->get("kelas")) {
+            $users->whereHas('kelas', function ($query) use ($request) {
+                $query->where('tingkat_kelas', $request->get("kelas"));
+            });
         }
 
         // Paginate
         $users = $users->paginate(10);
 
-        return view('guru/dataSiswa', compact("users","request"));
+        return view('guru/dataSiswa', compact("users", "request"));
     }
 
     public function importExcel(request $request)
