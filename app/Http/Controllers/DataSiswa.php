@@ -40,6 +40,22 @@ class DataSiswa extends Controller
 
         return view('admin/dataSiswa', compact("users", "request"));
     }
+
+    public function deleteDataSiswaAdmin(Request $request)
+    {
+        $nis = $request->input('delete_nis'); 
+        $user = User::where('nis', $nis)->first(); 
+    
+        if (!$user) {
+            return redirect()->route('dataSiswaAdmin')->with('error', 'Siswa tidak ditemukan.');
+        }
+    
+        // Delete Data
+        $user->delete(); 
+    
+        return redirect()->route('dataSiswaAdmin')->with('success', 'Data siswa berhasil dihapus.');
+    }
+
     public function dataSiswaGuru(Request $request)
     {
         // Only get data Siswa

@@ -20,6 +20,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name("logout");
 
 Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::get('/dataSiswaAdmin', [DataSiswa::class, 'dataSiswaAdmin'])->name("dataSiswaAdmin");
+    Route::post('/deleteDataSiswaAdmin', [DataSiswa::class, 'deleteDataSiswaAdmin'])->name("deleteDataSiswaAdmin");
     Route::get('/logAktivitas', [LogAktivitas::class, 'logAktivitas'])->name("logAktivitas");
     Route::get('/tambahJenisPembayaran', [TambahJenisPembayaran::class, 'tambahJenisPembayaran'])->name("tambahJenisPembayaran");
     Route::post('/inputJenisPembayaran', [TambahJenisPembayaran::class, 'inputJenisPembayaran'])->name("inputJenisPembayaran");

@@ -1,6 +1,28 @@
 @extends("layout.main")
 @section("content")
 
+    <!-- begin::Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="deleteForm" action="{{ route('deleteDataSiswaAdmin') }}" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Data Siswa</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="delete_nis" id="siswa_nis">
+                        <p>Apakah kamu yakin akan menghapus data NIS <span id="nis_display"></span>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Ya</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end::Delete Modal -->
     <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
@@ -72,7 +94,7 @@
                                                 <td>{{$user->alamat}}</td>
                                                 <td>
                                                     <button class="btn btn-primary">Edit</button>
-                                                    <button class="btn btn-danger">Hapus</button>
+                                                    <button class="btn btn-danger hapus" value="{{ $user->nis }}">Hapus</button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -131,7 +153,26 @@
         </div>
         <!--end::App Content-->
 
+
         <script>
+            // Delete Data
+            $(document).ready(function () {
+                $(".hapus").click(function (e) {
+
+                    e.preventDefault();
+                    // Get NIS from button
+                    var siswa_nis = $(this).val();
+                    // Send nis to modal
+                    $('#siswa_nis').val(siswa_nis);
+                    // Show nis in body modal
+                    $('#nis_display').text(siswa_nis);
+                    // Show modal
+                    $("#deleteModal").modal("show");
+                });
+            });
+
+
+            // Add Data
             document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll(".tambah-data").forEach(item => {
                     item.addEventListener("click", function (event) {
