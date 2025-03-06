@@ -10,19 +10,17 @@
                     </div>
                 </div>
                 <div class="col-sm-7">
-                    <div class=" btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:95px"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Jenis Pembayaran
-                        </button>
-                        <ul class="dropdown-menu" style="min-width:95px;">
-                            <li><a class="dropdown-item" href="#">TKJ</a></li>
-                            <li><a class="dropdown-item" href="#">AK</a></li>
-                            <li><a class="dropdown-item" href="#">MPLB</a></li>
-                            <li><a class="dropdown-item" href="#">BDP</a></li>
-                            <li><a class="dropdown-item" href="#">OTKP</a></li>
-                        </ul>
-                    </div>
+                    <!-- begin::Filter Jenis Pembayaran-->
+                    <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 172px;">
+                        <option selected>Jenis Pembayaran</option>
+                        <option value="SPP">SPP</option>
+                        <option value="Uang Kegiatan">Uang Kegiatan</option>
+                        <option value="Uang Praktikum">Uang Praktikum</option>
+                        <option value="Sarpras">Sarpras</option>
+                        <option value="Seragam Putra">Seragam Putra</option>
+                        <option value="Seragam Putri">Seragam Putri</option>
+                    </select>
+                    <!-- end::Filter Jenis Pembayaran-->
                 </div>
             </div>
         </div>
@@ -38,23 +36,23 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-3 fw-bold">NIS</div>
-                                <div class="col-9">: 133</div>
+                                <div class="col-9">: {{ $data->nis }}</div>
                             </div>
                             <div class="row">
                                 <div class="col-3 fw-bold">Nama</div>
-                                <div class="col-9">: Ananda Kila</div>
+                                <div class="col-9">: {{ $data->name }}</div>
                             </div>
                             <div class="row">
                                 <div class="col-3 fw-bold">Kelas</div>
-                                <div class="col-9">: 10</div>
+                                <div class="col-9">: {{ $data->kelas->tingkat_kelas }}</div>
                             </div>
                             <div class="row">
                                 <div class="col-3 fw-bold">Jurusan</div>
-                                <div class="col-9">: TJKT A</div>
+                                <div class="col-9">: {{ $data->kelas->jurusan }}</div>
                             </div>
                             <div class="row">
                                 <div class="col-3 fw-bold">Alamat</div>
-                                <div class="col-9">: Jl. Pahlawan No.12, Kelurahan Bumirejo, Kecamatan Kebumen</div>
+                                <div class="col-9">: {{ $data->alamat}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-3 fw-bold">Prediksi</div>

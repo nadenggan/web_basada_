@@ -36,9 +36,8 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
 Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
     Route::get('/home', [HomeController::class, 'home'])->name("home");
     Route::get('/statusPembayaranSiswa', [StatusPembayaranSiswa::class, 'statusPembayaranSiswa'])->name("statusPembayaranSiswa");
-    Route::get('/rekap-pembayaran/{nis}', function ($nis) {
-        return view('rekapPembayaran', ['nis' => $nis]);
-    });
+    Route::get('/rekap-pembayaran/{nis}', [DataSiswa::class, 'rekapDataSiswa'])->name("rekapDataSiswa");
+    
 });
 
 Route::group(["middleware" => ["auth", "checkrole:siswa"]], function () {

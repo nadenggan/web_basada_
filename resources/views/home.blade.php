@@ -113,7 +113,7 @@
                                             <td>{{ $user->kelas->tingkat_kelas }} </td>
                                             <td>{{ $user->kelas->jurusan }}</td>
                                             <td>{{ $user->alamat }}</td>
-                                            <td><a class="lihat-rekap" href="" data-nis="133">Lihat Rekap</a></td>
+                                            <td><a class="lihat-rekap" href="" data-nis="{{ $user->nis }}">Lihat Rekap</a></td>
                                             <td>Tepat Waktu</td>
                                         </tr>
                                     @endforeach

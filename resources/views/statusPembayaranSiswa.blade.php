@@ -16,7 +16,7 @@
                 <div class="col-auto">
                 <form action="{{ route("statusPembayaranSiswa") }}" method="get" class="d-flex">
                             <!-- begin::Filter kelas-->
-                            <select name="kelas" id="kelas" class="form-select me-2" style="width: 80px;">
+                            <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
                                 <option selected>Kelas</option>
                                 <option value="X">X</option>
                                 <option value="XI">XI</option>
@@ -25,7 +25,7 @@
                             <!-- end::Filter kelas-->
 
                             <!-- begin::Filter Jenis Pembayaran-->
-                            <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 150px;">
+                            <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 172px;">
                                 <option selected>Jenis Pembayaran</option>
                                 <option value="SPP">SPP</option>
                                 <option value="Uang Kegiatan">Uang Kegiatan</option>

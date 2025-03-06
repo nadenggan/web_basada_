@@ -50,27 +50,31 @@ class DataSiswa extends Controller
 
     public function storeDataSiswa(Request $request)
     {
-       //dd($request->all());
-       $data['nis'] = $request->nis;
-       $data['name'] = $request->name;
-       $data['alamat'] = $request->alamat;
-       $data['id_kelas'] = $request->id_kelas;
-       $data['role'] = "siswa";
-       $data['email'] = $request->nis.'@example.com';
-       $data['password'] = $request->nis;
+        //dd($request->all());
+        $data['nis'] = $request->nis;
+        $data['name'] = $request->name;
+        $data['alamat'] = $request->alamat;
+        $data['id_kelas'] = $request->id_kelas;
+        $data['role'] = "siswa";
+        $data['email'] = $request->nis . '@example.com';
+        $data['password'] = $request->nis;
 
-       User::create($data);
+        User::create($data);
 
-       return redirect()->route('dataSiswaAdmin')->with('success', 'Data siswa berhasil ditambah.');
+        return redirect()->route('dataSiswaAdmin')->with('success', 'Data siswa berhasil ditambah.');
 
     }
-
-
+    public function rekapDataSiswa($nis)
+    {
+        $data = User::where('nis', $nis)->firstOrFail();
+        $kelas = Kelas::all();
+        return view('rekapPembayaran', compact('data', 'kelas'));
+    }
     public function editDataSiswaAdmin($nis)
     {
         $data = User::where('nis', $nis)->firstOrFail();
         $kelas = Kelas::all();
-        return view('admin/editDataSiswa', compact('data','kelas'));
+        return view('admin/editDataSiswa', compact('data', 'kelas'));
     }
 
     public function updateDataSiswa(Request $request, $nis)
