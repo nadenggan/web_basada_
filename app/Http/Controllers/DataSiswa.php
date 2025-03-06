@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\SiswaImport;
 use App\Models\User;
+use App\Models\Kelas;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
@@ -44,7 +45,8 @@ class DataSiswa extends Controller
     public function editDataSiswaAdmin($nis)
     {
         $data = User::where('nis', $nis)->firstOrFail();
-        return view('admin/editDataSiswa', compact('data'));
+        $kelas = Kelas::all();
+        return view('admin/editDataSiswa', compact('data','kelas'));
     }
 
     public function updateDataSiswa(Request $request, $nis)

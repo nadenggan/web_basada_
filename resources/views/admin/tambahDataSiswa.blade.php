@@ -62,6 +62,8 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="gridRadios"
                                                 id="gridRadios1" value="option1" checked />
+                                                <label class="form-check-label" for="gridRadios1">TJKT A</label>
+                                                <label class="form-check-label" for="gridRadios1">TJKT B</label>
                                             <label class="form-check-label" for="gridRadios1">TKJ</label>
                                         </div>
                                         <div class="form-check">
@@ -72,7 +74,9 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="gridRadios"
                                                 id="gridRadios2" value="option2" />
-                                            <label class="form-check-label" for="gridRadios2">MPLB</label>
+                                                <label class="form-check-label" for="gridRadios2">AKL</label>
+                                                <label class="form-check-label" for="gridRadios2">MPLB A</label>
+                                            <label class="form-check-label" for="gridRadios2">MPLB B</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="gridRadios"
