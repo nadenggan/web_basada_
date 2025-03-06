@@ -15,81 +15,40 @@
                         </div>
                         <!--end::Header-->
                         <!--begin::Form-->
-                        <form>
+                        <form method="post" action="{{ route("storeDataSiswa") }}">
+                            @csrf
                             <!--begin::Body-->
                             <div class="card-body">
                                 <div class="row mb-3">
                                     <label for="inputEmail3" class="col-sm-2 col-form-label">NIS</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail3" />
+                                        <input type="text" class="form-control" name="nis" />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="inputPassword3" class="col-sm-2 col-form-label">Nama</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="inputPassword3" />
+                                        <input type="text" class="form-control" name='name'" />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label for="inputPassword3" class="col-sm-2 col-form-label">Alamat</label>
                                     <div class="col-sm-10">
-                                        <textarea type="password" class="form-control" id="inputPassword3"></textarea>
+                                        <textarea type="password" class="form-control" name="alamat"></textarea>
                                     </div>
                                 </div>
-                                <fieldset class="row mb-3">
-                                    <legend class="col-form-label col-sm-2 pt-0">Kelas</legend>
+                                <div class="row mb-3">
+                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Kelas</label>
                                     <div class="col-sm-10">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gridRadios"
-                                                id="gridRadios1" value="option1" checked />
-                                            <label class="form-check-label" for="gridRadios1">X</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gridRadios"
-                                                id="gridRadios2" value="option2" />
-                                            <label class="form-check-label" for="gridRadios2">XI</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gridRadios"
-                                                id="gridRadios2" value="option2" />
-                                            <label class="form-check-label" for="gridRadios2">XII</label>
-                                        </div>
+                                        <select name="id_kelas" id="kelas" class="form-select" style="width: 150px;">
+                                            <option selected>Pilih Kelas</option>
+                                            @foreach($kelas as $k)
+                                                <option value="{{ $k->tingkat_kelas }}-{{ $k->jurusan}}">{{ $k->tingkat_kelas }}-{{ $k->jurusan}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                </fieldset>
-                                <fieldset class="row mb-3">
-                                    <legend class="col-form-label col-sm-2 pt-0">Jurusan</legend>
-                                    <div class="col-sm-10">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gridRadios"
-                                                id="gridRadios1" value="option1" checked />
-                                                <label class="form-check-label" for="gridRadios1">TJKT A</label>
-                                                <label class="form-check-label" for="gridRadios1">TJKT B</label>
-                                            <label class="form-check-label" for="gridRadios1">TKJ</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gridRadios"
-                                                id="gridRadios2" value="option2" />
-                                            <label class="form-check-label" for="gridRadios2">AK</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gridRadios"
-                                                id="gridRadios2" value="option2" />
-                                                <label class="form-check-label" for="gridRadios2">AKL</label>
-                                                <label class="form-check-label" for="gridRadios2">MPLB A</label>
-                                            <label class="form-check-label" for="gridRadios2">MPLB B</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gridRadios"
-                                                id="gridRadios2" value="option2" />
-                                            <label class="form-check-label" for="gridRadios2">BDP</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gridRadios"
-                                                id="gridRadios2" value="option2" />
-                                            <label class="form-check-label" for="gridRadios2">OTKP</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
+                                </div>
+
                             </div>
                             <!--end::Body-->
                             <!--begin::Footer-->

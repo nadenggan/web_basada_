@@ -42,6 +42,30 @@ class DataSiswa extends Controller
         return view('admin/dataSiswa', compact("users", "request"));
     }
 
+    public function tambahDataSiswa()
+    {
+        $kelas = Kelas::all();
+        return view('admin/tambahDataSiswa', compact('kelas'));
+    }
+
+    public function storeDataSiswa(Request $request)
+    {
+       //dd($request->all());
+       $data['nis'] = $request->nis;
+       $data['name'] = $request->name;
+       $data['alamat'] = $request->alamat;
+       $data['id_kelas'] = $request->id_kelas;
+       $data['role'] = "siswa";
+       $data['email'] = $request->nis.'@example.com';
+       $data['password'] = $request->nis;
+
+       User::create($data);
+
+       return redirect()->route('dataSiswaAdmin')->with('success', 'Data siswa berhasil ditambah.');
+
+    }
+
+
     public function editDataSiswaAdmin($nis)
     {
         $data = User::where('nis', $nis)->firstOrFail();

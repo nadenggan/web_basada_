@@ -35,18 +35,14 @@
                                     <textarea class="form-control" name="alamat" rows="3">{{ $data->alamat }}</textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Kelas & Jurusan</label>
-                                    <div class="col-sm-10">
+                                    <label class="form-label">Kelas</label>
+                                    <select name="id_kelas" class="form-select" style="width:150px;">
                                         @foreach ($kelas as $k)
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="id_kelas"
-                                                    value="{{ $k->id_kelas }}" {{ $data->id_kelas == $k->id_kelas ? 'checked' : '' }} />
-                                                <label class="form-check-label">{{ $k->tingkat_kelas }} -
-                                                    {{ $k->jurusan }}</label>
-                                            </div>
+                                            <option value="{{ $k->id_kelas }}" {{ $data->id_kelas == $k->id_kelas ? 'selected' : '' }}>
+                                                {{ $k->tingkat_kelas }} - {{ $k->jurusan }}
+                                            </option>
                                         @endforeach
-                                    </div>
-
+                                    </select>
                                 </div>
                                 <!--end::Body-->
                                 <!--begin::Footer-->
