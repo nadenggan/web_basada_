@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-sm-6">
                         <form class="d-flex" role="search" method="GET" action="{{ route('home') }}">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                            <input class="form-control me-2" type="search" placeholder="Cari" aria-label="Search"
                                 name="search" value="{{ $request->get("search") }}">
                             <button class="btn btn-primary " type="submit">Search</button>
                         </form>
