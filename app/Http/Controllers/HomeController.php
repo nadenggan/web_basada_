@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -34,7 +35,33 @@ class HomeController extends Controller
         // Paginate
         $users = $users->paginate(10);
 
-        return view('/home', compact("users", "request"));
+        // Total Siswa (All class)
+        $total = DB::table("users")
+            ->where("role", "siswa")
+            ->count("nis");
+
+        // Total Siswa (X)
+        $totalX = User::join("kelas", "users.id_kelas", "=", "kelas.id_kelas")
+            ->where("users.role", "siswa")
+            ->where("kelas.tingkat_kelas", "X")
+            ->count();
+
+        // Total Siswa (XI)
+        $totalXI = User::join("kelas", "users.id_kelas", "=", "kelas.id_kelas")
+            ->where("users.role", "siswa")
+            ->where("kelas.tingkat_kelas", "XI")
+            ->count();
+
+        // Total Siswa (XII)
+        $totalXII = User::join("kelas", "users.id_kelas", "=", "kelas.id_kelas")
+            ->where("users.role", "siswa")
+            ->where("kelas.tingkat_kelas", "XII")
+            ->count();
+
+        // Total Jenis Pembayaran
+        $totalJenisPembayaran = DB::table("jenis_pembayaran")->count();
+
+        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request"));
     }
 
     public function homeSiswa()

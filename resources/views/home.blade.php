@@ -32,23 +32,23 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-5">Total Siswa</div>
-                                    <div class="col-7">: 1000</div>
+                                    <div class="col-7">: {{ $total }}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-5">Total Siswa Kelas X</div>
-                                    <div class="col-7">: 3000</div>
+                                    <div class="col-7">: {{$totalX }}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-5">Total Siswa Kelas XI</div>
-                                    <div class="col-7">: 300</div>
+                                    <div class="col-7">: {{$totalXI}}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-5">Total Siswa Kelas XII</div>
-                                    <div class="col-7">: 400</div>
+                                    <div class="col-7">: {{$totalXII}}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">Total Jenis Pembayaran</div>
-                                    <div class="col-6">: 16</div>
+                                    <div class="col-6">: {{  $totalJenisPembayaran }}</div>
                                 </div>
                             </div>
                         </div>
