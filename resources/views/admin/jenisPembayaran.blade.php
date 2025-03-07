@@ -18,17 +18,18 @@
                         </form>
                     </div>
                     <div class="col-auto text-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" style="min-width:80px "
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Kelas
-                            </button>
-                            <ul class="dropdown-menu" style="min-width:80px;">
-                                <li><a class="dropdown-item" id="10" href="#">X</a></li>
-                                <li><a class="dropdown-item" id="11" href="#">XI</a></li>
-                                <li><a class="dropdown-item" id="12" href="#">XII</a></li>
-                            </ul>
-                        </div>
+                    <form action="{{ route("jenisPembayaranAdmin") }}" method="get" class="d-flex">
+                            <!-- begin::Filter kelas-->
+                            <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
+                                <option selected>Kelas</option>
+                                <option value="X">X</option>
+                                <option value="XI">XI</option>
+                                <option value="XII">XII</option>
+                            </select>
+                            <!-- end::Filter kelas-->
+                            <button class="btn btn-primary " type="submit">Filter</button>
+                        </form>
+                        
                     </div>
                 </div>
                 <!--end::Row-->
@@ -69,11 +70,14 @@
                                                 <td>{{ $loop->iteration  }}</td>
                                                 <td>{{ $item->nama_jenis_pembayaran }}</td>
                                                 <td>{{ $item->deskripsi }}</td>
-                                                <td>{{ $item->tingkat_kelas }}</td>
+                                                <td>{{ implode(', ', json_decode($item->tingkat_kelas, true)) }}</td>
                                                 <td>Rp.{{ $item->nominal }}</td>
                                                 <td>{{ $item->periode }}</td>
-                                                <td>{{ $item->tenggat_waktu }}</td>
-                                                <td>Button</td>
+                                                <td>{{ $item->periode === 'bulanan' ? $item->dynamicTenggatWaktu : $item->tenggat_waktu }}</td>
+                                                <td> <button class="btn btn-primary"><a href="" class="edit"
+                                                           
+                                                            style="color: white; text-decoration: none;">Edit</a></button>
+                                                            <button class="btn btn-danger hapus" >Hapus</button></td>
                                         @endforeach
                                     </tbody>
                                 </table>

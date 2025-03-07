@@ -21,9 +21,8 @@ class TambahJenisPembayaran extends Controller
         $tingkatKelas = $request->input('tingkat_kelas');
 
         // Check tingkatKelas is array or no
-        if (is_array($tingkatKelas)) {
-            $data['tingkat_kelas'] = implode(',', $tingkatKelas);
-        }
+        $data['tingkat_kelas'] = json_encode($tingkatKelas); // Simpan sebagai JSON array
+
 
         // Check periode
         if ($request->periode === 'bulanan') {

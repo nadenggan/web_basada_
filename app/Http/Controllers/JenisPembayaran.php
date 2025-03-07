@@ -11,8 +11,14 @@ class JenisPembayaran extends Controller
     {
         $data = Pembayaran::query();
 
+        // Filter by Nama Jenis Pembayaran
         if ($request->get('search')) {
             $data->where('nama_jenis_pembayaran', 'LIKE', '%' . $request->get('search') . '%');
+        }
+
+        // Filter by Kelas
+        if ($request->get('kelas')) {
+            $data->whereJsonContains('tingkat_kelas', $request->get('kelas'));
         }
 
         // Paginate
@@ -28,6 +34,12 @@ class JenisPembayaran extends Controller
         if ($request->get('search')) {
             $data->where('nama_jenis_pembayaran', 'LIKE', '%' . $request->get('search') . '%');
         }
+
+        // Filter by Kelas
+        if ($request->get('kelas')) {
+            $data->whereJsonContains('tingkat_kelas', $request->get('kelas'));
+        }
+
 
         // Paginate
         $data = $data->paginate(10);
