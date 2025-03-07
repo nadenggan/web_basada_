@@ -46,7 +46,7 @@
 <!--end::Head-->
 <!--begin::Body-->
 
-<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<body class="layout-fixed sidebar-expand-lg" style="background-color:rgb(241, 241, 255);">
   <!--begin::App Wrapper-->
   <div class="app-wrapper">
     <!--begin::Sidebar-->
@@ -56,10 +56,10 @@
         <!--begin::Brand Link-->
         <a href="./index.html" class="brand-link">
           <!--begin::Brand Image-->
-          <img src="../../dist/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
+          <img src="img/logo.png" alt="Logo SMK Batik Sakti 2 Kebumen" class="brand-image opacity-75 shadow" />
           <!--end::Brand Image-->
           <!--begin::Brand Text-->
-          <span class="brand-text fw-light">AdminLTE 4</span>
+          <span class="brand-text fw-light">SMK Batik Sakti 2 Kebumen</span>
           <!--end::Brand Text-->
         </a>
         <!--end::Brand Link-->
@@ -73,37 +73,37 @@
             @if(auth()->user()->role == "admin" || auth()->user()->role == "guru")
         <li class="nav-item">
           <a href="{{route("home")}}" class="nav-link active">
-          <i class="nav-icon bi bi-palette"></i>
-          <p>Home</p>
+          <i class="bi bi-house-door"></i>
+          <p>Dashboard</p>
           </a>
         </li>
       @endif
             @if(auth()->user()->role == "siswa")
         <li class="nav-item">
           <a href="{{route("homeSiswa")}}" class="nav-link active">
-          <i class="nav-icon bi bi-palette"></i>
-          <p>Home (Siswa)</p>
+          <i class="bi bi-house-door"></i>
+          <p>Dashboard</p>
           </a>
         </li>
       @endif
             @if(auth()->user()->role == "guru")
         <li class="nav-item">
           <a href="{{ route("dataSiswaGuru") }}" class="nav-link">
-          <i class="nav-icon bi bi-download"></i>
-          <p>Data Siswa (Guru)</p>
+          <i class="bi bi-file-earmark-person"></i>
+          <p>Data Siswa</p>
           </a>
         </li>
       @endif
             @if(auth()->user()->role == "admin")
         <li class="nav-item">
           <a href="{{ route("dataSiswaAdmin") }}" class="nav-link">
-          <i class="nav-icon bi bi-download"></i>
-          <p>Data Siswa (Admin)</p>
+          <i class="bi bi-file-earmark-person"></i>
+          <p>Data Siswa</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="{{ route("logAktivitas") }}" class="nav-link">
-          <i class="nav-icon bi bi-grip-horizontal"></i>
+          <i class="bi bi-journal-text"></i>
           <p>Log Aktivitas</p>
           </a>
         </li>
@@ -111,7 +111,7 @@
             @if(auth()->user()->role == "admin" || auth()->user()->role == "guru")
         <li class="nav-item">
           <a href="#" class="nav-link">
-          <i class="nav-icon bi bi-box-seam-fill"></i>
+          <i class="bi bi-cash-stack"></i>
           <p>
             Jenis Pembayaran
             <i class="nav-arrow bi bi-chevron-right"></i>
@@ -123,7 +123,7 @@
           <li class="nav-item">
             <a href="{{route("jenisPembayaranGuru")}}" class="nav-link">
             <i class="nav-icon bi bi-circle"></i>
-            <p>Jenis Pembayaran Siswa (Guru)</p>
+            <p>Jenis Pembayaran Siswa</p>
             </a>
           </li>
         @endif
@@ -131,7 +131,7 @@
           <li class="nav-item">
             <a href="{{route("jenisPembayaranAdmin")}}" class="nav-link">
             <i class="nav-icon bi bi-circle"></i>
-            <p>Jenis Pembayaran Siswa (Admin)</p>
+            <p>Jenis Pembayaran Siswa</p>
             </a>
           </li>
           <li class="nav-item">
@@ -153,9 +153,9 @@
             </li>
             <li class="nav-item">
               <a href="{{route("logout")}}" class="nav-link">
-                <i class="nav-icon bi bi-box-arrow-in-right"></i>
+              <i class="bi bi-box-arrow-right"></i>
                 <p>
-                  Logout
+                  Keluar
                 </p>
               </a>
             </li>

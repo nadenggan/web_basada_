@@ -204,7 +204,7 @@ body {
   text-align: var(--bs-body-text-align);
   background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgba(118, 96, 96, 0);
 }
 
 hr {
@@ -12918,7 +12918,7 @@ textarea.form-control-lg {
 }
 :root,
 [data-bs-theme=light] {
-  --lte-sidebar-width: 250px;
+  --lte-sidebar-width: 270px;
 }
 
 .app-wrapper {
