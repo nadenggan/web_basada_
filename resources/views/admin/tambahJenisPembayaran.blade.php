@@ -43,12 +43,12 @@
                                         <div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="tingkat_kelas[]"
-                                                    value="X" >
+                                                    value="X">
                                                 <label class="form-check-label" for="tingkatKelasX">X</label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="tingkat_kelas[]"
-                                                    value="XI" >
+                                                    value="XI">
                                                 <label class="form-check-label" for="tingkatKelasXI">XI</label>
                                             </div>
                                             <div class="form-check">
@@ -61,11 +61,12 @@
 
                                     <div class="mb-3">
                                         <label class="form-label"> Periode</label>
-                                        <select name="periode" id="periode" class="form-control">
+                                        <select name="periode" id="periode" class="form-select">
                                             <option selected>Pilih Periode</option>
                                             <option value="bulanan">Bulanan</option>
                                             <option value="sekali">Sekali</option>
                                             <option value="tahunan">Tahunan</option>
+
                                         </select>
                                     </div>
 
@@ -96,4 +97,24 @@
 
     </main>
 
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const periodeSelect = document.getElementById("periode");
+            const tenggatWaktuInput = document.querySelector("input[name='tenggat_waktu']");
+
+            periodeSelect.addEventListener("change", function () {
+                if (this.value === "bulanan") {
+                    tenggatWaktuInput.type = "number";
+                    tenggatWaktuInput.placeholder = "Masukkan tanggal (1-31)";
+                    tenggatWaktuInput.min = 1;
+                    tenggatWaktuInput.max = 31;
+                } else {
+                    tenggatWaktuInput.type = "date";
+                    tenggatWaktuInput.placeholder = "";
+                }
+            });
+        });
+
+    </script>
 @endsection

@@ -16,6 +16,7 @@ class JenisPembayaran extends Model
         'nominal',
         'tenggat_waktu',
         'periode',
+        'tanggal_bulanan',
     ];
 
 }
