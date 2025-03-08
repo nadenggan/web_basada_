@@ -49,20 +49,40 @@
 <body class="layout-fixed sidebar-expand-lg" style="background-color:rgb(241, 241, 255);">
   <!--begin::App Wrapper-->
   <div class="app-wrapper">
+    <!--begin::Header-->
+    <nav class="app-header navbar navbar-expand bg-body">
+      <!--begin::Container-->
+      <div class="container-fluid">
+        <!--begin::Start Navbar Links-->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+              <i class="bi bi-list"></i>
+            </a>
+          </li>
+        </ul>
+        <!--end::Start Navbar Links-->
+        <!--begin::End Navbar Links-->
+        <ul class="navbar-nav ms-auto d-flex" style="align-items: center;">
+          <!--begin::Brand Image-->
+          <img src="img/logo.png" alt="Logo SMK Batik Sakti 2 Kebumen"  style="height: 50px;" />
+          <!--end::Brand Image-->
+          <!--begin::Brand Text-->
+          <span class="ms-2">SMK Batik Sakti 2 Kebumen</span>
+          <!--end::Brand Text-->
+        </ul>
+        <!--end::End Navbar Links-->
+      </div>
+      <!--end::Container-->
+    </nav>
+    <!--end::Header-->
     <!--begin::Sidebar-->
     <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
       <!--begin::Sidebar Brand-->
       <div class="sidebar-brand">
-        <!--begin::Brand Link-->
-        <a href="./index.html" class="brand-link">
-          <!--begin::Brand Image-->
-          <img src="img/logo.png" alt="Logo SMK Batik Sakti 2 Kebumen" class="brand-image opacity-75 shadow" />
-          <!--end::Brand Image-->
-          <!--begin::Brand Text-->
-          <span class="brand-text fw-light">SMK Batik Sakti 2 Kebumen</span>
-          <!--end::Brand Text-->
-        </a>
-        <!--end::Brand Link-->
+        <!--begin::Username Text-->
+        <span class="brand-text fw-light">Selamat Datang, {{ auth()->user()->name }}!</span>
+        <!--end::Username Text-->
       </div>
       <!--end::Sidebar Brand-->
       <!--begin::Sidebar Wrapper-->
@@ -153,7 +173,7 @@
             </li>
             <li class="nav-item">
               <a href="{{route("logout")}}" class="nav-link">
-              <i class="bi bi-box-arrow-right"></i>
+                <i class="bi bi-box-arrow-right"></i>
                 <p>
                   Keluar
                 </p>
