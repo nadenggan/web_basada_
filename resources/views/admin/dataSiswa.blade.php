@@ -142,7 +142,7 @@
                                     </div>
                                 </div>
 
-                                <div class="float-end">
+                                <div class="pagination float-end">
                                     {{$users->links()}}
                                 </div>
                             </div>

@@ -46,7 +46,7 @@
                                 </div>
                                 <!--end::Body-->
                                 <!--begin::Footer-->
-                                <div class="card-footer">
+                                <div class="">
                                     <button type="button" class="btn btn-danger"><a href="{{ route("dataSiswaAdmin") }}"
                                             style="color: white; text-decoration: none;">Kembali</a></button>
                                     <button type="submit" class="btn btn-primary">Edit Data</button>

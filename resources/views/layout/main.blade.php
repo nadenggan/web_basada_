@@ -65,7 +65,7 @@
         <!--begin::End Navbar Links-->
         <ul class="navbar-nav ms-auto d-flex" style="align-items: center;">
           <!--begin::Brand Image-->
-          <img src="img/logo.png" alt="Logo SMK Batik Sakti 2 Kebumen"  style="height: 50px;" />
+          <img src="img/logo.png" alt="Logo SMK Batik Sakti 2 Kebumen" style="height: 50px;" />
           <!--end::Brand Image-->
           <!--begin::Brand Text-->
           <span class="ms-2">SMK Batik Sakti 2 Kebumen</span>
@@ -191,16 +191,11 @@
     @yield("content")
     <!--end::App Main-->
     <!--begin::Footer-->
-    <footer class="app-footer">
-      <!--begin::To the end-->
-      <div class="float-end d-none d-sm-inline">Anything you want</div>
-      <!--end::To the end-->
+    <footer class="app-footer" style="text-align: center;">
       <!--begin::Copyright-->
       <strong>
-        Copyright &copy; 2014-2024&nbsp;
-        <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+        Copyright &copy; 2025&nbsp;
       </strong>
-      All rights reserved.
       <!--end::Copyright-->
     </footer>
     <!--end::Footer-->
