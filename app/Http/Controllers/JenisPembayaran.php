@@ -41,6 +41,25 @@ class JenisPembayaran extends Controller
         return redirect()->route('jenisPembayaranAdmin')->with('success', 'Jenis Pembayaran  berhasil dihapus.');
     }
 
+    public function editJenisPembayaran($jenisPembayaran)
+    {
+        $data = Pembayaran::where('id', $jenisPembayaran)->firstOrFail();
+        return view('admin/editJenisPembayaran', compact('data'));
+    }
+
+    public function updateJenisPembayaran(Request $request, $id)
+    {
+        $data = Pembayaran::where('id', $id)->firstOrFail();
+
+        $data->nama_jenis_pembayaran = $request->name;
+        $data->deskripsi = $request->deskripsi;
+        $data->nominal = $request->nominal;
+
+        $data->save();
+
+        return redirect()->route('jenisPembayaranAdmin')->with('success', 'Jenis Pembayaran berhasil diupdate.');
+    }
+
     public function jenisPembayaranGuru(Request $request)
     {
         $data = Pembayaran::query();

@@ -97,7 +97,7 @@
                                                 <td>{{ $item->periode }}</td>
                                                 <td>{{ $item->periode === 'bulanan' ? $item->dynamicTenggatWaktu : $item->tenggat_waktu }}</td>
                                                 <td> <button class="btn btn-primary"><a href="" class="edit"
-                                                           
+                                                            value="{{ $item->id }}"
                                                             style="color: white; text-decoration: none;">Edit</a></button>
                                                             <button class="btn btn-danger hapus" value="{{ $item->id }}" >Hapus</button></td>
                                         @endforeach
@@ -130,12 +130,34 @@
                 $(".hapus").click(function (e) {
 
                     e.preventDefault();
-                    // Get Jenis Pembayaran from button
+                    // Getidfrom button
                     var jenisPembayaran = $(this).val();
                     // Send to modal
                     $('#jenisPembayaran').val(jenisPembayaran);
                     // Show modal
                     $("#deleteModal").modal("show");
+                });
+            });
+
+              // Get Edit Jenis Pembayaran Page
+              document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector(".app-main").addEventListener("click", function (e) {
+                    if (e.target.classList.contains("edit")) {
+                        e.preventDefault();
+
+                        // Get id from button
+                        var jenisPembayaran = e.target.getAttribute("value");
+
+                        fetch(`/jenisPembayaranAdmin/edit/${jenisPembayaran}`)
+                            .then(response => response.text())
+                            .then(html => {
+                                document.querySelector(".app-main").innerHTML = html;
+
+                                // Mengubah URL tanpa reload halaman
+                                window.history.pushState({}, "", `/jenisPembayaranAdmin/edit/${jenisPembayaran}`);
+                            })
+                            .catch(error => console.error("Error:", error));
+                    }
                 });
             });
 

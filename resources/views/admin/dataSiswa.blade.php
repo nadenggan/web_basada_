@@ -183,7 +183,6 @@
                         // Get NIS from button
                         var siswa_nis = e.target.getAttribute("value");
 
-                        console.log(siswa_nis);
                         fetch(`/dataSiswaAdmin/edit/${siswa_nis}`)
                             .then(response => response.text())
                             .then(html => {
