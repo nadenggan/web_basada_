@@ -1,5 +1,27 @@
 @extends("layout.main")
 @section("content")
+  <!-- begin::Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="deleteForm" action="{{ route('deleteJenisPembayaran') }}" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Jenis Pembayaran</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="delete_id" id="jenisPembayaran">
+                        <p>Apakah kamu yakin akan menghapus Jenis Pembayaran ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Ya</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end::Delete Modal -->
     <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
@@ -77,7 +99,7 @@
                                                 <td> <button class="btn btn-primary"><a href="" class="edit"
                                                            
                                                             style="color: white; text-decoration: none;">Edit</a></button>
-                                                            <button class="btn btn-danger hapus" >Hapus</button></td>
+                                                            <button class="btn btn-danger hapus" value="{{ $item->id }}" >Hapus</button></td>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -103,6 +125,20 @@
         <!--end::App Content-->
 
         <script>
+              // Delete Data
+              $(document).ready(function () {
+                $(".hapus").click(function (e) {
+
+                    e.preventDefault();
+                    // Get Jenis Pembayaran from button
+                    var jenisPembayaran = $(this).val();
+                    // Send to modal
+                    $('#jenisPembayaran').val(jenisPembayaran);
+                    // Show modal
+                    $("#deleteModal").modal("show");
+                });
+            });
+
             document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll(".btn-group").forEach(group => {
                     let button = group.querySelector(".dropdown-toggle");

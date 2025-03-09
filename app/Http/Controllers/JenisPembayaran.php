@@ -27,6 +27,20 @@ class JenisPembayaran extends Controller
         return view('admin/jenisPembayaran', compact('data', 'request'));
     }
 
+    public function deleteJenisPembayaran(Request $request){
+        $id = $request->input('delete_id');
+        $jenisPembayaran = Pembayaran::where('id', $id)->first();
+
+        if (!$jenisPembayaran) {
+            return redirect()->route('jenisPembayaranAdmin')->with('error', 'Id tidak ditemukan.');
+        }
+
+        // Delete Data
+        $jenisPembayaran->delete();
+
+        return redirect()->route('jenisPembayaranAdmin')->with('success', 'Jenis Pembayaran  berhasil dihapus.');
+    }
+
     public function jenisPembayaranGuru(Request $request)
     {
         $data = Pembayaran::query();

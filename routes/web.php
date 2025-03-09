@@ -27,6 +27,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::get('/tambahJenisPembayaran', [TambahJenisPembayaran::class, 'tambahJenisPembayaran'])->name("tambahJenisPembayaran");
     Route::post('/inputJenisPembayaran', [TambahJenisPembayaran::class, 'inputJenisPembayaran'])->name("inputJenisPembayaran");
     Route::get('/jenisPembayaranAdmin', [JenisPembayaran::class, 'jenisPembayaranAdmin'])->name("jenisPembayaranAdmin");
+    Route::post('/deleteJenisPembayaran', [JenisPembayaran::class, 'deleteJenisPembayaran'])->name("deleteJenisPembayaran");
     Route::get('/tambah-data/', [DataSiswa::class, 'tambahDataSiswa'])->name("tambahDataSiswa");
     Route::post('/store-data/', [DataSiswa::class, 'storeDataSiswa'])->name("storeDataSiswa");
     Route::post('/importExcel', [DataSiswa::class, 'importExcel'])->name("importExcel");
