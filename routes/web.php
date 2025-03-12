@@ -8,12 +8,19 @@ use App\Http\Controllers\LogAktivitas;
 use App\Http\Controllers\StatusPembayaranSiswa;
 use App\Http\Controllers\TambahJenisPembayaran;
 use App\Http\Controllers\JenisPembayaran;
+use App\Http\Controllers\Register;
 
 Route::get('/login', function () {
     return view("login");
 })->name("login");
 
 Route::post('/postLogin', [LoginController::class, 'login'])->name("postLogin");
+
+Route::get('/register', function () {
+    return view("register");
+})->name("register");
+
+Route::post('/postRegister', [Register::class, 'register'])->name("postRegister");
 
 Route::get('/logout', [LoginController::class, 'logout'])->name("logout");
 

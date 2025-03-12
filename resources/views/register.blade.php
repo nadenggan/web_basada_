@@ -41,41 +41,47 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Masuk</p>
-                <form action="{{ route("postLogin") }}" method="post">
-                {{csrf_field()}}
+                <p class="login-box-msg">Daftar</p>
+                <form action="{{ route("postRegister") }}" method="post">
+                    {{csrf_field()}}
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" name="email" placeholder="Email" />
+                        <select name="role" class="form-select">
+                            <option selected>Pilih Role</option>
+                            <option value="guru">Guru</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="name" type="text" class="form-control" placeholder="Full Name" />
+                        <div class="input-group-text"><span class="bi bi-person"></span></div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="email" type="email" class="form-control" placeholder="Email" />
                         <div class="input-group-text"><span class="bi bi-envelope"></span></div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="password" placeholder="Password" />
+                        <input id="password" name="password" type="password" class="form-control" placeholder="Password" oninput="validateForm()"  />
                         <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
                     </div>
+                    <small id="passwordError" class="text-danger"></small>
+
                     <!--begin::Row-->
-                    <div class="row d-flex" style="align-items: center;" >
+                    <div class="row" style="align-items: center;">
                         <div class="col-8">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label class="form-check-label" for="flexCheckDefault"> Remember Me </label>
-                            </div>
+                            <p class="mb-0">
+                                <a href="{{ route('login') }}" class="text-center"> I already have a membership </a>
+                            </p>
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Masuk</button>
+                                <button type="submit" class="btn btn-primary">Daftar</button>
                             </div>
                         </div>
                         <!-- /.col -->
                     </div>
                     <!--end::Row-->
                 </form>
-              
-                <!-- /.social-auth-links -->
-                <p class="mb-1"><a href="forgot-password.html">I forgot my password</a></p>
-                <p class="mb-0">
-                    <a href="{{ route('register') }}" class="text-center"> Register a new membership </a>
-                </p>
             </div>
             <!-- /.login-card-body -->
         </div>
@@ -114,6 +120,22 @@
                 });
             }
         });
+
+        function validateForm() {
+            let password = document.getElementById("password").value;
+            let passwordError = document.getElementById("passwordError");
+            let valid = true;
+
+            passwordError.innerText = "";
+
+            // Password validation (minimum 8 characters)
+            if (password.length < 8) {
+                passwordError.innerText = "Password must be at least 8 characters.";
+                valid = false;
+            }
+
+            return valid;
+        }
     </script>
     <!--end::OverlayScrollbars Configure-->
     <!--end::Script-->
