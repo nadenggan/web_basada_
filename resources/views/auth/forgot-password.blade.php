@@ -41,34 +41,18 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Masuk</p>
-                <form action="{{ route("postLogin") }}" method="post">
+                <p class="login-box-msg">Kamu lupa password? Masukkan email Anda</p>
+                <form action="{{ route('password.email') }}" method="post" style="margin-bottom: 5%;">
                     {{csrf_field()}}
                     <div class="input-group mb-3">
                         <input type="email" class="form-control" name="email" placeholder="Email" />
                         <div class="input-group-text"><span class="bi bi-envelope"></span></div>
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="password" placeholder="Password" />
-                        <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
-                    </div>
-                    <!--begin::Row-->
-                    <div class="row d-flex" style="align-items: center;">
-                        <div class="col-8">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label class="form-check-label" for="flexCheckDefault"> Remember Me </label>
-                            </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100">Request new password</button>
                         </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Masuk</button>
-                            </div>
-                        </div>
-                        <!-- /.col -->
                     </div>
-                    <!--end::Row-->
                 </form>
 
                 <!-- Error -->
@@ -84,13 +68,15 @@
 
                 <!-- Success -->
                 @if(session('status'))
-                    <div class="alert alert-success col-md-12 mt-3">
-                        {{session('status')}};
-                    </div>
-                @endif
+                 <div class="alert alert-success col-md-12 mt-3">
+                   {{session('status')}};
+                 </div>
+                 @endif
 
                 <!-- /.social-auth-links -->
-                <p class="mb-1"><a href="{{ route('password.request') }}">I forgot my password</a></p>
+                <p class="mb-1">
+                    <a href="{{ route('login') }}" class="text-center"> I already have a membership </a>
+                </p>
                 <p class="mb-0">
                     <a href="{{ route('register') }}" class="text-center"> Register a new membership </a>
                 </p>
