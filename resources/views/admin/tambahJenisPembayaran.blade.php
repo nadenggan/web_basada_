@@ -1,14 +1,12 @@
 @extends("layout.main")
 @section("content")
     <main class="app-main">
-
         <!--begin::App Content-->
         <div class="app-content">
             <!--begin::Container-->
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row mt-4 d-flex justify-content-center align-items-center">
-
                     <!--begin::Col-->
                     <div class="col-md-8">
                         <!--begin::Horizontal Form-->
@@ -96,7 +94,6 @@
 
 
     </main>
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

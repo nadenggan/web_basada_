@@ -113,7 +113,9 @@
                                             <td>{{ $user->kelas->tingkat_kelas }} </td>
                                             <td>{{ $user->kelas->jurusan }}</td>
                                             <td>{{ $user->alamat }}</td>
-                                            <td><a class="lihat-rekap" href="" data-nis="{{ $user->nis }}">Lihat Rekap</a></td>
+                                            <td><a class="lihat-rekap" href="" data-nis="{{ $user->nis }}">Lihat Rekap</a>
+                                        
+                                            <a class="input-bayar" href="" data-nis="{{ $user->nis }}">Input</a></td>
                                             <td>Tepat Waktu</td>
                                         </tr>
                                     @endforeach
@@ -198,6 +200,25 @@
                 });
             });
 
+             // Input Pembayaran Siswa
+             document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".input-bayar").forEach(item => {
+                    item.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        let nis = this.getAttribute("data-nis");
+
+                        fetch(`/inputPembayaran/${nis}`)
+                            .then(response => response.text())
+                            .then(html => {
+                                document.querySelector(".app-main").innerHTML = html;
+
+                                // Mengubah URL tanpa reload halaman
+                                window.history.pushState({}, "", `/inputPembayaran/${nis}`);
+                            })
+                            .catch(error => console.error("Error:", error));
+                    });
+                });
+            });
         </script>
     </main>
 @endsection

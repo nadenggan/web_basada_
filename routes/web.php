@@ -10,6 +10,7 @@ use App\Http\Controllers\TambahJenisPembayaran;
 use App\Http\Controllers\JenisPembayaran;
 use App\Http\Controllers\Register;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\InputPembayaranSiswa;
 
 Route::get('/login', function () {
     return view("login");
@@ -61,6 +62,9 @@ Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
     Route::get('/home', [HomeController::class, 'home'])->name("home");
     Route::get('/statusPembayaranSiswa', [StatusPembayaranSiswa::class, 'statusPembayaranSiswa'])->name("statusPembayaranSiswa");
     Route::get('/rekap-pembayaran/{nis}', [DataSiswa::class, 'rekapDataSiswa'])->name("rekapDataSiswa");
+    Route::get('/inputPembayaran/{nis}', [inputPembayaranSiswa::class, 'showInputPembayaran']);
+    Route::post('/storePembayaranSiswa/', [InputPembayaranSiswa::class, 'storePembayaranSiswa'])->name("storePembayaranSiswa");
+
 
 });
 
