@@ -44,6 +44,7 @@
                                 <div class="mb-3" style="display: none;" id="bulan">
                                     <label class="form-label">Bulan</label>
                                     <select class="form-select" name="bulan">
+                                        <option selected>Pilih Bulan</option>
                                         <option value="Januari">Januari</option>
                                         <option value="Februari">Februari</option>
                                         <option value="Maret">Maret</option>

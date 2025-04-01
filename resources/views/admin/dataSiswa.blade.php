@@ -68,9 +68,6 @@
                 <div class="row justify-content-center">
                     <div class="col-md-11">
                         <div class="card mb-4">
-                            <div class="card-header">
-                                <h3 class="card-title">Bordered Table</h3>
-                            </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
@@ -85,21 +82,27 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($users as $user)
-                                            <tr class="align-middle">
-                                                <td>{{$user->nis}}</td>
-                                                <td>{{$user->name}}</td>
-                                                <td>{{$user->kelas->tingkat_kelas}}</td>
-                                                <td>{{$user->kelas->jurusan}}</td>
-                                                <td>{{$user->alamat}}</td>
-                                                <td>
-                                                    <button class="btn btn-primary"><a href="" class="edit"
-                                                            value="{{ $user->nis }}"
-                                                            style="color: white; text-decoration: none;">Edit</a></button>
-                                                    <button class="btn btn-danger hapus" value="{{ $user->nis }}">Hapus</button>
-                                                </td>
+                                        @if($users->isEmpty())
+                                            <tr>
+                                                <td colspan="6" style="text-align: center;"> DATA TIDAK ADA</td>
                                             </tr>
-                                        @endforeach
+                                        @else
+                                            @foreach($users as $user)
+                                                <tr class="align-middle">
+                                                    <td>{{$user->nis}}</td>
+                                                    <td>{{$user->name}}</td>
+                                                    <td>{{$user->kelas->tingkat_kelas}}</td>
+                                                    <td>{{$user->kelas->jurusan}}</td>
+                                                    <td>{{$user->alamat}}</td>
+                                                    <td>
+                                                        <button class="btn btn-primary"><a href="" class="edit"
+                                                                value="{{ $user->nis }}"
+                                                                style="color: white; text-decoration: none;">Edit</a></button>
+                                                        <button class="btn btn-danger hapus" value="{{ $user->nis }}">Hapus</button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

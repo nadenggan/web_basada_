@@ -1,20 +1,21 @@
 @extends("layout.main")
 @section("content")
-<main class="app-main">
-    <!--begin::App Content Header-->
-    <div class="app-content-header">
-        <!--begin::Container-->
-        <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row align-items-center d-flex justify-content-around">
-                <div class="col-6">
-                    <form class="d-flex" role="search" method="get" action="{{ route("statusPembayaranSiswa") }}">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ $request->get("search") }}">
-                        <button class="btn btn-primary" type="submit">Search</button>
-                    </form>
-                </div>
-                <div class="col-auto">
-                <form action="{{ route("statusPembayaranSiswa") }}" method="get" class="d-flex">
+    <main class="app-main">
+        <!--begin::App Content Header-->
+        <div class="app-content-header">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Row-->
+                <div class="row align-items-center d-flex justify-content-around">
+                    <div class="col-6">
+                        <form class="d-flex" role="search" method="get" action="{{ route("statusPembayaranSiswa") }}">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                                name="search" value="{{ $request->get("search") }}">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="col-auto">
+                        <form action="{{ route("statusPembayaranSiswa") }}" method="get" class="d-flex">
                             <!-- begin::Filter kelas-->
                             <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
                                 <option selected>Kelas</option>
@@ -25,7 +26,8 @@
                             <!-- end::Filter kelas-->
 
                             <!-- begin::Filter Jenis Pembayaran-->
-                            <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 172px;">
+                            <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2"
+                                style="width: 172px;">
                                 <option selected>Jenis Pembayaran</option>
                                 <option value="SPP">SPP</option>
                                 <option value="Uang Kegiatan">Uang Kegiatan</option>
@@ -38,100 +40,102 @@
 
                             <button class="btn btn-primary " type="submit">Filter</button>
                         </form>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-sm-12" style="font-size: 25px; padding-left:5%"> <b>Deadline Pembayaran: 1 Juli 2024</b>
-                </div>
-            </div>
-            <!--end::Row-->
-        </div>
-        <!--end::Container-->
-    </div>
-    <!--end::App Content Header-->
-
-    <!--begin::App Content-->
-    <div class="app-content">
-        <!--begin::Container-->
-        <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row justify-content-center">
-                <div class="col-md-11">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="card-title">Bordered Table</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 10px">NIS</th>
-                                        <th>Nama</th>
-                                        <th>Kelas</th>
-                                        <th style="width: 40px">Jurusan</th>
-                                        <th>Alamat</th>
-                                        <th>Status</th>
-                                        <th>View</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($users as $user )
-                                    <tr class="align-middle">
-                                        <td>{{ $user->nis }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->kelas->tingkat_kelas  }}</td>
-                                        <td>{{ $user->kelas->jurusan }}</td>
-                                        <td>{{ $user->alamat }}</td>
-                                        <td>Lunas</td>
-                                        <td>Button</td>
-                                        </tr>
-                                        @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-
-                      <div class="d-flex justify-content-center">
-                        {{$users->links()}}
-                      </div>
                     </div>
                 </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-12" style="font-size: 25px; padding-left:5%"> <b>Deadline Pembayaran: 1 Juli 2024</b>
+                    </div>
+                </div>
+                <!--end::Row-->
             </div>
-            <!--end::Row-->
+            <!--end::Container-->
         </div>
-        <!--end::Container-->
-    </div>
-    <!--end::App Content-->
+        <!--end::App Content Header-->
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".btn-group").forEach(group => {
-                let button = group.querySelector(".dropdown-toggle");
-                let defaultText = button.textContent;
+        <!--begin::App Content-->
+        <div class="app-content">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Row-->
+                <div class="row justify-content-center">
+                    <div class="col-md-11">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10px">NIS</th>
+                                            <th>Nama</th>
+                                            <th>Kelas</th>
+                                            <th style="width: 40px">Jurusan</th>
+                                            <th>Alamat</th>
+                                            <th>Status</th>
+                                            <th>View</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if($users->isEmpty())
+                                            <tr>
+                                                <td colspan="7" style="text-align: center;">DATA TIDAK ADA</td>
+                                            </tr>
+                                        @else
+                                            @foreach ($users as $user)
+                                                <tr class="align-middle">
+                                                    <td>{{ $user->nis }}</td>
+                                                    <td>{{ $user->name }}</td>
+                                                    <td>{{ $user->kelas->tingkat_kelas  }}</td>
+                                                    <td>{{ $user->kelas->jurusan }}</td>
+                                                    <td>{{ $user->alamat }}</td>
+                                                    <td>Lunas</td>
+                                                    <td>Button</td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
 
-                group.querySelectorAll(".dropdown-item").forEach(item => {
-                    item.addEventListener("click", function (event) {
-                        event.preventDefault(); // Prevents page reload when clicking item
+                            <div class="d-flex justify-content-center">
+                                {{$users->links()}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::App Content-->
 
-                        let selectedText = this.textContent.replace(" ✓", ""); // Remove exist checklist
-                        let menuItems = group.querySelectorAll(".dropdown-item");
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".btn-group").forEach(group => {
+                    let button = group.querySelector(".dropdown-toggle");
+                    let defaultText = button.textContent;
 
-                        // Find and remove checklist in items
-                        menuItems.forEach(i => i.innerHTML = i.textContent.replace(" ✓", ""));
+                    group.querySelectorAll(".dropdown-item").forEach(item => {
+                        item.addEventListener("click", function (event) {
+                            event.preventDefault(); // Prevents page reload when clicking item
 
-                        if (button.textContent === selectedText) {
-                            button.textContent = defaultText;
-                        } else {
-                            this.innerHTML = selectedText + " ✓"; // Add checkmark
-                            button.textContent = selectedText; // Update button text
-                        }
+                            let selectedText = this.textContent.replace(" ✓", ""); // Remove exist checklist
+                            let menuItems = group.querySelectorAll(".dropdown-item");
+
+                            // Find and remove checklist in items
+                            menuItems.forEach(i => i.innerHTML = i.textContent.replace(" ✓", ""));
+
+                            if (button.textContent === selectedText) {
+                                button.textContent = defaultText;
+                            } else {
+                                this.innerHTML = selectedText + " ✓"; // Add checkmark
+                                button.textContent = selectedText; // Update button text
+                            }
+                        })
                     })
-                })
 
+                });
             });
-        });
-    </script>
-</main>
+        </script>
+    </main>
 @endsection

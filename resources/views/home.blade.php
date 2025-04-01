@@ -88,9 +88,6 @@
             <div class="row justify-content-center mt-2">
                 <div class="col-md-11">
                     <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="card-title">Bordered Table</h3>
-                        </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table class="table table-bordered">
@@ -106,20 +103,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $user)
-                                        <tr class="align-middle">
-                                            <td>{{ $user->nis }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->kelas->tingkat_kelas }} </td>
-                                            <td>{{ $user->kelas->jurusan }}</td>
-                                            <td>{{ $user->alamat }}</td>
-                                            <td><a class="lihat-rekap" href="" data-nis="{{ $user->nis }}">Lihat Rekap</a>
-
-                                                <a class="input-bayar" href="" data-nis="{{ $user->nis }}">Input</a>
-                                            </td>
-                                            <td>Tepat Waktu</td>
+                                    @if($users->isEmpty())
+                                        <tr>
+                                            <td colspan="7" style="text-align:center;">DATA TIDAK ADA</td>
                                         </tr>
-                                    @endforeach
+                                    @else
+                                        @foreach ($users as $user)
+                                            <tr class="align-middle">
+                                                <td>{{ $user->nis }}</td>
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->kelas->tingkat_kelas }} </td>
+                                                <td>{{ $user->kelas->jurusan }}</td>
+                                                <td>{{ $user->alamat }}</td>
+                                                <td><a class="lihat-rekap" href="" data-nis="{{ $user->nis }}">Lihat Rekap</a>
+
+                                                    <a class="input-bayar" href="" data-nis="{{ $user->nis }}">Input</a>
+                                                </td>
+                                                <td>Tepat Waktu</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -228,7 +231,7 @@
                                         }
                                     });
                                 }
-                                
+
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/inputPembayaran/${nis}`);
                             })
