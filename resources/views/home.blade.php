@@ -115,9 +115,9 @@
                                                 <td>{{ $user->kelas->tingkat_kelas }} </td>
                                                 <td>{{ $user->kelas->jurusan }}</td>
                                                 <td>{{ $user->alamat }}</td>
-                                                <td><a class="lihat-rekap" href="" data-nis="{{ $user->nis }}">Lihat Rekap</a>
+                                                <td><button class="btn btn-warning" ><a class="lihat-rekap" href="" data-nis="{{ $user->nis }}"> <i class="fa-solid fa-eye" style="color: white;"></i></a></button>
 
-                                                    <a class="input-bayar" href="" data-nis="{{ $user->nis }}">Input</a>
+                                                   <button class="btn btn-success"><a class="input-bayar" href="" data-nis="{{ $user->nis }}"><i class="fa-solid fa-square-plus" style="color: white;"></i></a></button> 
                                                 </td>
                                                 <td>Tepat Waktu</td>
                                             </tr>

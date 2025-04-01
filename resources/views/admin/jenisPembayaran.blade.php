@@ -95,8 +95,8 @@
                                                 </td>
                                                 <td> <button class="btn btn-primary"><a href="" class="edit"
                                                             value="{{ $item->id }}"
-                                                            style="color: white; text-decoration: none;">Edit</a></button>
-                                                    <button class="btn btn-danger hapus" value="{{ $item->id }}">Hapus</button>
+                                                            style="color: white; text-decoration: none;"> <i class="fa-solid fa-pen-to-square"></i></a></button>
+                                                    <button class="btn btn-danger hapus" value="{{ $item->id }}"><i class="fa-solid fa-trash"></i></button>
                                                 </td>
                                         @endforeach
                                     </tbody>
