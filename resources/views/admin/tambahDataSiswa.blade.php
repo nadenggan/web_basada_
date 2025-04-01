@@ -20,25 +20,25 @@
                             <!--begin::Body-->
                             <div class="card-body">
                                 <div class="row mb-3">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">NIS</label>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label required">NIS</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="nis" />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Nama</label>
+                                    <label for="inputPassword3" class="col-sm-2 col-form-label required">Nama</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name='name'" />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Alamat</label>
+                                    <label for="inputPassword3" class="col-sm-2 col-form-label required">Alamat</label>
                                     <div class="col-sm-10">
                                         <textarea type="password" class="form-control" name="alamat"></textarea>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Kelas</label>
+                                    <label for="inputPassword3" class="col-sm-2 col-form-label required">Kelas</label>
                                     <div class="col-sm-10">
                                         <select name="id_kelas" id="kelas" class="form-select" style="width: 150px;">
                                             <option selected>Pilih Kelas</option>

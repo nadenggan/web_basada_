@@ -45,6 +45,14 @@
 
   <!-- Jquery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Style required -->
+  <style>
+    .required::after {
+      content: " *";
+      color: red;
+    }
+  </style>
 </head>
 <!--end::Head-->
 <!--begin::Body-->

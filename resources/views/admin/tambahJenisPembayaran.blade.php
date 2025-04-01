@@ -23,7 +23,7 @@
                                 <!--begin::Body-->
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <label class="form-label">Nama Jenis Pembayaran</label>
+                                        <label class="form-label required">Nama Jenis Pembayaran</label>
                                         <input type="text" class="form-control" name="nama_jenis_pembayaran" />
                                     </div>
                                     <div class="mb-3">
@@ -32,12 +32,12 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Nominal</label>
+                                        <label class="form-label required">Nominal</label>
                                         <input class="form-control" name="nominal"></input>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Tingkat Kelas</label>
+                                        <label class="form-label required">Tingkat Kelas</label>
                                         <div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="tingkat_kelas[]"
@@ -58,7 +58,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label"> Periode</label>
+                                        <label class="form-label required"> Periode</label>
                                         <select name="periode" id="periode" class="form-select">
                                             <option selected>Pilih Periode</option>
                                             <option value="bulanan">Bulanan</option>
@@ -69,7 +69,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Tenggat Waktu</label>
+                                        <label class="form-label required">Tenggat Waktu</label>
                                         <input type="date" class="form-control" name="tenggat_waktu">
                                     </div>
                                 </div>
