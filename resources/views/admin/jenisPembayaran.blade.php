@@ -1,7 +1,7 @@
 @extends("layout.main")
 @section("content")
-  <!-- begin::Delete Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- begin::Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="deleteForm" action="{{ route('deleteJenisPembayaran') }}" method="post">
@@ -40,7 +40,7 @@
                         </form>
                     </div>
                     <div class="col-auto text-center">
-                    <form action="{{ route("jenisPembayaranAdmin") }}" method="get" class="d-flex">
+                        <form action="{{ route("jenisPembayaranAdmin") }}" method="get" class="d-flex">
                             <!-- begin::Filter kelas-->
                             <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
                                 <option selected>Kelas</option>
@@ -51,7 +51,7 @@
                             <!-- end::Filter kelas-->
                             <button class="btn btn-primary " type="submit">Filter</button>
                         </form>
-                        
+
                     </div>
                 </div>
                 <!--end::Row-->
@@ -68,10 +68,6 @@
                 <div class="row justify-content-center">
                     <div class="col-md-11">
                         <div class="card mb-4">
-                            <div class="card-header">
-                                <h3 class="card-title">Bordered Table</h3>
-                            </div>
-                            <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
@@ -95,11 +91,13 @@
                                                 <td>{{ implode(', ', json_decode($item->tingkat_kelas, true)) }}</td>
                                                 <td>Rp.{{ $item->nominal }}</td>
                                                 <td>{{ $item->periode }}</td>
-                                                <td>{{ $item->periode === 'bulanan' ? $item->dynamicTenggatWaktu : $item->tenggat_waktu }}</td>
+                                                <td>{{ $item->periode === 'bulanan' ? $item->tanggal_bulanan : $item->tenggat_waktu }}
+                                                </td>
                                                 <td> <button class="btn btn-primary"><a href="" class="edit"
                                                             value="{{ $item->id }}"
                                                             style="color: white; text-decoration: none;">Edit</a></button>
-                                                            <button class="btn btn-danger hapus" value="{{ $item->id }}" >Hapus</button></td>
+                                                    <button class="btn btn-danger hapus" value="{{ $item->id }}">Hapus</button>
+                                                </td>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -125,8 +123,8 @@
         <!--end::App Content-->
 
         <script>
-              // Delete Data
-              $(document).ready(function () {
+            // Delete Data
+            $(document).ready(function () {
                 $(".hapus").click(function (e) {
 
                     e.preventDefault();
@@ -139,8 +137,8 @@
                 });
             });
 
-              // Get Edit Jenis Pembayaran Page
-              document.addEventListener("DOMContentLoaded", function () {
+            // Get Edit Jenis Pembayaran Page
+            document.addEventListener("DOMContentLoaded", function () {
                 document.querySelector(".app-main").addEventListener("click", function (e) {
                     if (e.target.classList.contains("edit")) {
                         e.preventDefault();
@@ -152,6 +150,38 @@
                             .then(response => response.text())
                             .then(html => {
                                 document.querySelector(".app-main").innerHTML = html;
+
+                                const periodeSelect = document.getElementById("periode");
+                                const tenggatWaktuInput = document.querySelector("input[name='tenggat_waktu']");
+
+                                if (periodeSelect && tenggatWaktuInput) {
+                                    periodeSelect.addEventListener("change", function () {
+                                        if (this.value === "bulanan") {
+                                            tenggatWaktuInput.type = "number";
+                                            tenggatWaktuInput.placeholder = "Masukkan tanggal (1-31)";
+                                            tenggatWaktuInput.min = 1;
+                                            tenggatWaktuInput.max = 31;
+                                        } else {
+                                            tenggatWaktuInput.type = "date";
+                                            tenggatWaktuInput.placeholder = "";
+                                            tenggatWaktuInput.removeAttribute("min");
+                                            tenggatWaktuInput.removeAttribute("max");
+                                        }
+                                    });
+
+                                    // Change periode and tenggat waktu in form edit
+                                    if (periodeSelect.value === "bulanan") {
+                                        tenggatWaktuInput.type = "number";
+                                        tenggatWaktuInput.placeholder = "Masukkan tanggal (1-31)";
+                                        tenggatWaktuInput.min = 1;
+                                        tenggatWaktuInput.max = 31;
+                                    } else {
+                                        tenggatWaktuInput.type = "date";
+                                        tenggatWaktuInput.placeholder = "";
+                                        tenggatWaktuInput.removeAttribute("min");
+                                        tenggatWaktuInput.removeAttribute("max");
+                                    }
+                                }
 
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/jenisPembayaranAdmin/edit/${jenisPembayaran}`);

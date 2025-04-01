@@ -27,7 +27,8 @@ class JenisPembayaran extends Controller
         return view('admin/jenisPembayaran', compact('data', 'request'));
     }
 
-    public function deleteJenisPembayaran(Request $request){
+    public function deleteJenisPembayaran(Request $request)
+    {
         $id = $request->input('delete_id');
         $jenisPembayaran = Pembayaran::where('id', $id)->first();
 
@@ -54,6 +55,25 @@ class JenisPembayaran extends Controller
         $data->nama_jenis_pembayaran = $request->name;
         $data->deskripsi = $request->deskripsi;
         $data->nominal = $request->nominal;
+
+          // Get tingkat_kelas value
+          $tingkatKelas = $request->tingkat_kelas;
+
+          // Check tingkatKelas is array or no
+          $data->tingkat_kelas = json_encode($tingkatKelas); // Simpan sebagai JSON array
+  
+
+        // Check periode
+        if ($request->periode === 'bulanan') {
+            $data->periode = $request->periode;
+            $data->tanggal_bulanan = $request->tenggat_waktu;
+            $data->tenggat_waktu = null;
+        } else {
+            $data->periode = $request->periode;
+            $data->tenggat_waktu = $request->tenggat_waktu;
+            $data->tanggal_bulanan = null;
+        }
+
 
         $data->save();
 

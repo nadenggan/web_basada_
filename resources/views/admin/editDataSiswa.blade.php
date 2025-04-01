@@ -46,7 +46,7 @@
                                 </div>
                                 <!--end::Body-->
                                 <!--begin::Footer-->
-                                <div class="">
+                                <div>
                                     <button type="button" class="btn btn-danger"><a href="{{ route("dataSiswaAdmin") }}"
                                             style="color: white; text-decoration: none;">Kembali</a></button>
                                     <button type="submit" class="btn btn-primary">Edit Data</button>
@@ -64,6 +64,4 @@
         <!--end::Container-->
     </div>
     <!--end::App Content-->
-
-
 </main>

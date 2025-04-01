@@ -21,7 +21,6 @@
                             @csrf
                             <!--begin::Body-->
                             <div class="card-body">
-
                                 <!-- Nama Jenis Pembayaran -->
                                 <div class="mb-3">
                                     <label class="form-label">Nama Jenis Pembayaran</label>
@@ -84,9 +83,9 @@
                                 <!-- Tenggat Waktu / Tanggal Bulanan -->
                                 <div class="mb-3">
                                     <label class="form-label">Tenggat Waktu</label>
-                                    <input type="{{ $data->periode == 'bulanan' ? 'number' : 'date' }}"
+                                    <input 
                                         class="form-control"
-                                        name="{{ $data->periode == 'bulanan' ? 'tanggal_bulanan' : 'tenggat_waktu' }}"
+                                        name="tenggat_waktu"
                                         id="tenggat_waktu"
                                         value="{{ $data->periode == 'bulanan' ? $data->tanggal_bulanan : $data->tenggat_waktu }}"
                                         {{ $data->periode == 'bulanan' ? 'min=1 max=31' : '' }}>
@@ -94,7 +93,7 @@
                             </div>
                             <!--end::Body-->
                             <!--begin::Footer-->
-                            <div class="">
+                            <div class="card-footer">
                                 <button type="button" class="btn btn-danger"><a
                                         href="{{ route("jenisPembayaranAdmin") }}"
                                         style="color: white; text-decoration: none;">Kembali</a></button>
@@ -113,6 +112,4 @@
         <!--end::Container-->
     </div>
     <!--end::App Content-->
-
-
 </main>
