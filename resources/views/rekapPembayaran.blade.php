@@ -13,12 +13,9 @@
                     <!-- begin::Filter Jenis Pembayaran-->
                     <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 172px;">
                         <option selected>Jenis Pembayaran</option>
-                        <option value="SPP">SPP</option>
-                        <option value="Uang Kegiatan">Uang Kegiatan</option>
-                        <option value="Uang Praktikum">Uang Praktikum</option>
-                        <option value="Sarpras">Sarpras</option>
-                        <option value="Seragam Putra">Seragam Putra</option>
-                        <option value="Seragam Putri">Seragam Putri</option>
+                        @foreach ($jenisPembayaran as $jenis )
+                        <option value="{{ $jenis->id }}">{{$jenis->nama_jenis_pembayaran}}</option>
+                        @endforeach
                     </select>
                     <!-- end::Filter Jenis Pembayaran-->
                 </div>

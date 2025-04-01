@@ -97,6 +97,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            console.log('Event listener berjalan');
             const periodeSelect = document.getElementById("periode");
             const tenggatWaktuInput = document.querySelector("input[name='tenggat_waktu']");
 

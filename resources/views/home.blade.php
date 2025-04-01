@@ -114,8 +114,9 @@
                                             <td>{{ $user->kelas->jurusan }}</td>
                                             <td>{{ $user->alamat }}</td>
                                             <td><a class="lihat-rekap" href="" data-nis="{{ $user->nis }}">Lihat Rekap</a>
-                                        
-                                            <a class="input-bayar" href="" data-nis="{{ $user->nis }}">Input</a></td>
+
+                                                <a class="input-bayar" href="" data-nis="{{ $user->nis }}">Input</a>
+                                            </td>
                                             <td>Tepat Waktu</td>
                                         </tr>
                                     @endforeach
@@ -200,8 +201,8 @@
                 });
             });
 
-             // Input Pembayaran Siswa
-             document.addEventListener("DOMContentLoaded", function () {
+            // Input Pembayaran Siswa
+            document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll(".input-bayar").forEach(item => {
                     item.addEventListener("click", function (event) {
                         event.preventDefault();
@@ -212,6 +213,22 @@
                             .then(html => {
                                 document.querySelector(".app-main").innerHTML = html;
 
+                                // Inisialisasi event listener setelah konten dimuat
+                                const selectJenisPembayaran = document.getElementById("id_jenis_pembayaran");
+                                const bulanInput = document.getElementById("bulan");
+                                if (selectJenisPembayaran && bulanInput) {
+                                    selectJenisPembayaran.addEventListener("change", function () {
+                                        const selectedOption = this.options[this.selectedIndex];
+                                        const periode = selectedOption.getAttribute("data-periode");
+
+                                        if (periode === "bulanan") {
+                                            bulanInput.style.display = "block";
+                                        } else {
+                                            bulanInput.style.display = "none";
+                                        }
+                                    });
+                                }
+                                
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/inputPembayaran/${nis}`);
                             })

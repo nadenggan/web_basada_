@@ -32,11 +32,30 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Jenis Pembayaran</label>
-                                    <select name="id_jenis_pembayaran" class="form-select">
+                                    <select id="id_jenis_pembayaran" class="form-select" name="id_jenis_pembayaran">
+                                        <option selected>Pilih Jenis Pembayaran</option>
                                         @foreach ($jenis_pembayaran as $jenis)
-                                            <option value="{{ $jenis->id }}">{{ $jenis->nama_jenis_pembayaran }}
+                                            <option value="{{ $jenis->id }}" data-periode="{{$jenis->periode}}">
+                                                {{ $jenis->nama_jenis_pembayaran }}
                                             </option>
                                         @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3" style="display: none;" id="bulan">
+                                    <label class="form-label">Bulan</label>
+                                    <select class="form-select" name="bulan">
+                                        <option value="Januari">Januari</option>
+                                        <option value="Februari">Februari</option>
+                                        <option value="Maret">Maret</option>
+                                        <option value="April">April</option>
+                                        <option value="Mei">Mei</option>
+                                        <option value="Juni">Juni</option>
+                                        <option value="Juli">Juli</option>
+                                        <option value="Agustus">Agustus</option>
+                                        <option value="September">September</option>
+                                        <option value="Oktober">Oktober</option>
+                                        <option value="November">November</option>
+                                        <option value="Desember">Desember</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -70,6 +89,4 @@
         <!--end::Container-->
     </div>
     <!--end::App Content-->
-
-
 </main>
