@@ -66,7 +66,18 @@
                                         <option value="belum-lunas">Belum Lunas</option>
                                     </select>
                                 </div>
-                                <div class="mb-3">
+
+                                <div class="mb-3" style="display: none;" id="nominal_cicilan">
+                                    <label  class="form-label">Nominal Cicilan</label>
+                                    <input type="text" class="form-control" name="nominal_cicilan" >
+                                </div>
+
+                                <div class="mb-3" style="display: none;" id="tanggal_bayar">
+                                    <label class="form-label">Tanggal Bayar</label>
+                                    <input type="date" class="form-control" name="tanggal_bayar">
+                                </div>
+
+                                <div class="mb-3" id="tanggal_lunas">
                                     <label class="form-label">Tanggal Lunas</label>
                                     <input type="date" class="form-control" name="tanggal_lunas">
                                 </div>

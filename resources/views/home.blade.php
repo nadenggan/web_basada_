@@ -115,9 +115,13 @@
                                                 <td>{{ $user->kelas->tingkat_kelas }} </td>
                                                 <td>{{ $user->kelas->jurusan }}</td>
                                                 <td>{{ $user->alamat }}</td>
-                                                <td><button class="btn btn-warning" ><a class="lihat-rekap" href="" data-nis="{{ $user->nis }}"> <i class="fa-solid fa-eye" style="color: white;"></i></a></button>
+                                                <td><button class="btn btn-warning"><a class="lihat-rekap" href=""
+                                                            data-nis="{{ $user->nis }}"> <i class="fa-solid fa-eye"
+                                                                style="color: white;"></i></a></button>
 
-                                                   <button class="btn btn-success"><a class="input-bayar" href="" data-nis="{{ $user->nis }}"><i class="fa-solid fa-square-plus" style="color: white;"></i></a></button> 
+                                                    <button class="btn btn-success"><a class="input-bayar" href=""
+                                                            data-nis="{{ $user->nis }}"><i class="fa-solid fa-square-plus"
+                                                                style="color: white;"></i></a></button>
                                                 </td>
                                                 <td>Tepat Waktu</td>
                                             </tr>
@@ -216,7 +220,7 @@
                             .then(html => {
                                 document.querySelector(".app-main").innerHTML = html;
 
-                                // Inisialisasi event listener setelah konten dimuat
+                                // Periode & Tenggat Waktu
                                 const selectJenisPembayaran = document.getElementById("id_jenis_pembayaran");
                                 const bulanInput = document.getElementById("bulan");
                                 if (selectJenisPembayaran && bulanInput) {
@@ -230,6 +234,31 @@
                                             bulanInput.style.display = "none";
                                         }
                                     });
+                                }
+
+                                // Cicilan Option 
+                                const selectStatusPembayaran = document.getElementById("status")
+                                const nominalCicilan = document.getElementById("nominal_cicilan");
+                                const tanggalBayar = document.getElementById("tanggal_bayar");
+                                const tanggalLunas = document.getElementById("tanggal_lunas")
+
+                                if(selectStatusPembayaran){
+                                    selectStatusPembayaran.addEventListener("change",function(){
+
+                                        // Get the value
+                                        const valueStatusPembayaran=this.value;
+
+                                        if(valueStatusPembayaran==="belum-lunas"){
+                                            nominalCicilan.style.display="block";
+                                            tanggalBayar.style.display="block";
+                                            tanggalLunas.style.display="none";
+                                        }else{
+                                            nominalCicilan.style.display="none";
+                                            tanggalBayar.style.display="none";
+                                            tanggalLunas.style.display="block";
+                                        }
+                                    })
+
                                 }
 
                                 // Mengubah URL tanpa reload halaman
