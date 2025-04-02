@@ -11,7 +11,8 @@ class Pembayaran extends Model
         'user_id',
         'id_jenis_pembayaran',
         'status_pembayaran',
-        'tanggal_lunas'
+        'tanggal_lunas',
+        'bulan',
     ];
 
     public function users(){
