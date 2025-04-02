@@ -13,8 +13,8 @@
                     <!-- begin::Filter Jenis Pembayaran-->
                     <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 172px;">
                         <option selected>Jenis Pembayaran</option>
-                        @foreach ($jenisPembayaran as $jenis )
-                        <option value="{{ $jenis->id }}">{{$jenis->nama_jenis_pembayaran}}</option>
+                        @foreach ($jenisPembayaran as $jenis)
+                            <option value="{{ $jenis->id }}">{{$jenis->nama_jenis_pembayaran}}</option>
                         @endforeach
                     </select>
                     <!-- end::Filter Jenis Pembayaran-->
@@ -61,10 +61,6 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="card-title">Bordered Table</h3>
-                        </div>
-                        <!-- /.card-header -->
                         <div class="card-body">
                             <table class="table table-bordered">
                                 <thead>
@@ -86,46 +82,49 @@
                                         <td>Lunas</td>
                                         <td>2 Januari 2024</td>
                                         @if(auth()->user()->role == "admin")
-                                            <th><ion-icon name="create"></ion-icon></th>
-                                            <th><ion-icon name="eye" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                                                </ion-icon><ion-icon name="create"></ion-icon></th>
+                                            <th> 
+                                                <button class="btn btn-primary"
+                                                    style="color: white; text-decoration: none;"><i
+                                                        class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+                                                <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                            </th>
+                                            <th>
+                                                <button class="btn btn-primary"
+                                                    style="color: white; text-decoration: none;"><i
+                                                        class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                    data-bs-target="#viewCicilanModal">
+                                                    <i class="fa-solid fa-eye" style="color: white;"></i>
+                                                </button>
+                                            </th>
                                         @endif
                                 </tbody>
                             </table>
                         </div>
+
                         <!-- View Cicilan Modal -->
-                        <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal fade" id="viewCicilanModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                 <div class="modal-content">
-                                    <div class="modal-header d-flex justify-content-between">
-                                        <h5 class="modal-title" id="uploadModalLabel">Cicilan SPP Bulan
-                                            ke-8
-                                        </h5>
-                                        <ion-icon name="close" data-bs-dismiss="modal"></ion-icon>
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5">Cicilan</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 10px">No</th>
-                                                    <th>Nominal</th>
-                                                    <th>Tanggal Bayar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Rp 50,000</td>
-                                                    <td>1 Agustus 2024</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Card Footer-->
                         <div class="card-footer clearfix">
                             <ul class="pagination pagination-sm m-0 float-end">
                                 <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
@@ -147,5 +146,3 @@
     <!--end::Container-->
     </div>
 </main>
-
-
