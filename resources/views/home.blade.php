@@ -212,6 +212,8 @@
                                 // Show Cicilan Modal
                                 showCicilanModal();
 
+                                editCicilanModal();
+
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
                             })
@@ -220,6 +222,22 @@
                 });
             });
 
+            // Edit Cicilan Modal
+
+            function editCicilanModal() {
+                $(document).on('click', '.edit_cicilan_modal', function () {
+                    const idCicilan = $(this).closest('tr').data('id-cicilan');
+                    const nominal = $(this).closest('tr').data('nominal');
+                    const tanggalBayar = $(this).closest('tr').data('tanggal-bayar');
+
+                    $('#edit_id_cicilan').val(idCicilan);
+                    $('#edit_nominal_cicilan').val(nominal);
+                    $('#edit_tanggal_bayar_cicilan').val(tanggalBayar);
+
+                    $('#viewCicilanModal').modal('hide');
+                    $('#editCicilanModal').modal('show');
+                });
+            }
 
             // Show Cicilan Modal
             function showCicilanModal() {
@@ -236,7 +254,7 @@
                             .then(response => response.json()) // get data
                             .then(data => {
                                 if (data.length > 0) {
-                                    var table = $('<table class="table table-bordered"><thead><tr><th>No</th><th>Nominal</th><th>Tanggal Bayar</th></tr></thead><tbody></tbody></table>');
+                                    var table = $('<table class="table table-bordered"><thead><tr><th>No</th><th>Nominal</th><th>Tanggal Bayar</th><th>Edit</th></tr></thead><tbody></tbody></table>');
                                     var tbody = table.find('tbody');
                                     $.each(data, function (index, cicilan) {
 
@@ -246,12 +264,20 @@
                                         const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                         tbody.append(`
-                                                        <tr>
-                                                            <td>${index + 1}</td>
-                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                            <td>${formattedTanggalBayar}</td>
-                                                        </tr>
-                                                    `);
+                                                                                <tr 
+                                                                                data-id-cicilan="${cicilan.id}"
+                                                                                data-nominal="${cicilan.nominal}"
+                                                                                data-tanggal-bayar="${cicilan.tanggal_bayar}">
+
+                                                                                    <td>${index + 1}</td>
+                                                                                    <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                                                    <td>${formattedTanggalBayar}</td>
+                                                                                    <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </button></td>
+
+                                                                                </tr>
+                                                                            `);
                                     });
 
                                     cicilanListContainer.append(table);

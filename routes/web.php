@@ -66,6 +66,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
     Route::get('/rekap-pembayaran/detail/{id}', [DataSiswa::class, 'detailPembayaran'])->name('detailPembayaran');
     Route::put('/rekap-pembayaran/update', [DataSiswa::class, 'updateDataRekapSiswa'])->name('updateDataRekapSiswa');
     Route::get('/rekap-pembayaran/cicilan/{id_pembayaran}', [DataSiswa::class, 'detailCicilan'])->name('detailCicilan');
+    Route::put('/rekap-pembayaran/updateCicilan',[DataSiswa::class, 'updateCicilan'])->name('updateCicilan');
     Route::get('/inputPembayaran/{nis}', [inputPembayaranSiswa::class, 'showInputPembayaran']);
     Route::post('/storePembayaranSiswa/', [InputPembayaranSiswa::class, 'storePembayaranSiswa'])->name("storePembayaranSiswa");
 

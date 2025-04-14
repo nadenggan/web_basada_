@@ -10,6 +10,7 @@ use App\Models\JenisPembayaran;
 use App\Models\Pembayaran;
 use App\Models\Cicilan;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 
 
 use Illuminate\Http\Request;
@@ -75,10 +76,10 @@ class DataSiswa extends Controller
         $kelas = Kelas::all();
         $jenisPembayaran = JenisPembayaran::all();
         $pembayarans = Pembayaran::where('user_id', $data->id)
-                            ->with('jenisPembayaran') 
-                            ->get();
+            ->with('jenisPembayaran')
+            ->get();
 
-        return view('rekapPembayaran', compact('data', 'kelas','jenisPembayaran','pembayarans'));
+        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans'));
     }
     public function editDataSiswaAdmin($nis)
     {
@@ -119,17 +120,17 @@ class DataSiswa extends Controller
     {
         $idPembayaran = $request->input('delete_pembayaran');
         $pembayaran = Pembayaran::where('id', $idPembayaran)->first();
-    
+
         if (!$pembayaran) {
             return redirect()->back()->with('error', 'Data tidak ditemukan.');
         }
-        
+
         if ($pembayaran->users) {
             $nis = $pembayaran->users->nis;
-    
+
             // Delete Data
             $pembayaran->delete();
-    
+
             return redirect()->route('rekapDataSiswa', ['nis' => $nis])->with('success', 'Data rekap pembayaran berhasil dihapus.');
         } else {
             return redirect()->back()->with('error', 'Data pembayaran tidak terkait dengan data siswa yang valid.');
@@ -149,23 +150,32 @@ class DataSiswa extends Controller
         }
     }
 
+    public function updateCicilan(Request $request)
+    {
+        $cicilan = Cicilan::findOrFail($request->input('id_cicilan'));
+        $cicilan->nominal = $request->nominal;
+        $cicilan->tanggal_bayar = $request->tanggal_bayar;
+        $cicilan->save();
+
+        return response()->json(['message' => 'Data cicilan berhasil diperbarui.']);
+    }
     public function detailPembayaran($id): JsonResponse
     {
-        $pembayaran = Pembayaran::findOrFail($id); 
+        $pembayaran = Pembayaran::findOrFail($id);
 
-        return response()->json($pembayaran); 
+        return response()->json($pembayaran);
     }
 
     public function updateDataRekapSiswa(Request $request)
-{
-    $pembayaran = Pembayaran::findOrFail($request->id_pembayaran);
-    $pembayaran->status_pembayaran = $request->status_pembayaran;
-    $pembayaran->tanggal_lunas = $request->tanggal_lunas;
-    $nis = $pembayaran->users->nis;
-    $pembayaran->save();
+    {
+        $pembayaran = Pembayaran::findOrFail($request->id_pembayaran);
+        $pembayaran->status_pembayaran = $request->status_pembayaran;
+        $pembayaran->tanggal_lunas = $request->tanggal_lunas;
+        $nis = $pembayaran->users->nis;
+        $pembayaran->save();
 
-    return redirect()->route('rekapDataSiswa', ['nis' => $nis])->with('success', 'Data rekap pembayaran berhasil diperbarui.');
-}
+        return redirect()->route('rekapDataSiswa', ['nis' => $nis])->with('success', 'Data rekap pembayaran berhasil diperbarui.');
+    }
 
     public function dataSiswaGuru(Request $request)
     {

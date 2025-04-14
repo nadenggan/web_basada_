@@ -56,6 +56,37 @@
 </div>
 <!-- end:: Edit Modal -->
 
+<!-- start:: Edit Cicilan Modal -->
+<div class="modal fade" id="editCicilanModal" tabindex="-1" aria-labelledby="editCicilanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="editCicilanForm" action="{{ route('updateCicilan')}}" method="post">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editCicilanModalLabel">Edit Cicilan</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_cicilan" id="edit_id_cicilan">
+                    <div class="mb-3">
+                        <label for="edit_nominal_cicilan" class="form-label">Nominal Cicilan</label>
+                        <input type="number" class="form-control" id="edit_nominal_cicilan" name="nominal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_tanggal_bayar_cicilan" class="form-label">Tanggal Bayar</label>
+                        <input type="date" class="form-control" id="edit_tanggal_bayar_cicilan" name="tanggal_bayar" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end:: Edit Cicilan Modal -->
 
 <main class="app-main">
     <!--begin::App Content Header-->
@@ -157,10 +188,6 @@
                                                             class="fa-solid fa-trash"></i></button>
                                                 </th>
                                                 <th>
-                                                    <button class="btn btn-primary edit_cicilan"
-                                                        style="color: white; text-decoration: none; padding: 0.2rem 0.3rem; font-size: 0.6rem;"><i
-                                                            class="fa-solid fa-pen-to-square"></i>
-                                                    </button>
                                                     <button type="button" class="btn btn-warning showCicilan" value="{{ $pembayaran->id }}"
                                                     data-bs-toggle="modal"  style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
                                                         <i class="fa-solid fa-eye" style="color: white;"></i>
