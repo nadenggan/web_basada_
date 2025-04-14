@@ -1,25 +1,61 @@
 <!-- begin::Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="deleteForm" action="{{ route('deleteDataRekapSiswa') }}" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Rekap Data Siswa</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="delete_pembayaran" id="id_pembayaran">
-                        <p>Apakah kamu yakin akan menghapus rekap data ini?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Ya</button>
-                    </div>
-                </form>
-            </div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="deleteForm" action="{{ route('deleteDataRekapSiswa') }}" method="post">
+                @csrf
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModalLabel">Hapus Rekap Data Siswa</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="delete_pembayaran" id="id_pembayaran">
+                    <p>Apakah kamu yakin akan menghapus rekap data ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Ya</button>
+                </div>
+            </form>
         </div>
     </div>
-    <!-- end::Delete Modal -->
+</div>
+<!-- end::Delete Modal -->
+
+
+<!-- start:: Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editForm" action="{{ route('updateDataRekapSiswa') }}" method="post">
+                @csrf
+                @method('PUT') <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editModalLabel">Edit Data Pembayaran</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_pembayaran" id="edit_id_pembayaran">
+                    <div class="mb-3">
+                        <label for="edit_status_pembayaran" class="form-label">Status Pembayaran</label>
+                        <select class="form-select" id="edit_status_pembayaran" name="status_pembayaran">
+                            <option value="belum lunas">Belum Lunas</option>
+                            <option value="lunas">Lunas</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_tanggal_lunas" class="form-label">Tanggal Lunas</label>
+                        <input type="date" class="form-control" id="edit_tanggal_lunas" name="tanggal_lunas">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end:: Edit Modal -->
+
 <main class="app-main">
     <!--begin::App Content Header-->
     <div class="app-content-header mt-2">
@@ -37,7 +73,8 @@
                         <option value="">Semua Jenis Pembayaran</option>
                         @foreach ($jenisPembayaran as $jenis)
                             <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}">
-                                {{$jenis->nama_jenis_pembayaran}}</option>
+                                {{$jenis->nama_jenis_pembayaran}}
+                            </option>
                         @endforeach
                     </select>
                     <!-- end::Filter Jenis Pembayaran-->
@@ -103,25 +140,29 @@
                                         <tr class="align-middle"
                                             data-jenis-pembayaran-id="{{ $pembayaran->id_jenis_pembayaran }}">
                                             <td class="bulan-cell" style="display: none;">{{ $pembayaran->bulan }}</td>
-                                            <td>Rp {{ number_format($pembayaran->jenisPembayaran->nominal, 0, ',', '.') }}</td>
+                                            <td>Rp {{ number_format($pembayaran->jenisPembayaran->nominal, 0, ',', '.') }}
+                                            </td>
                                             <td>{{ $pembayaran->status_pembayaran }}</td>
                                             <td>{{ $pembayaran->tanggal_lunas ? \Carbon\Carbon::parse($pembayaran->tanggal_lunas)->format('d F Y') : '-' }}
                                             </td>
                                             @if(auth()->user()->role == "admin")
                                                 <th>
-                                                    <button class="btn btn-primary"
-                                                        style="color: white; text-decoration: none;"><i
+                                                    <button class="btn btn-primary edit" value="{{ $pembayaran->id }}"
+                                                        style="color: white; text-decoration: none; padding: 0.2rem 0.3rem; font-size: 0.6rem;"><i
                                                             class="fa-solid fa-pen-to-square"></i>
                                                     </button>
-                                                    <button class="btn btn-danger hapus" value="{{ $pembayaran->id }}"><i class="fa-solid fa-trash"></i></button>
+                                                    <button class="btn btn-danger hapus" value="{{ $pembayaran->id }}"
+                                                        style="padding: 0.2rem 0.3rem; font-size: 0.6rem;"><i
+                                                            class="fa-solid fa-trash"></i></button>
                                                 </th>
                                                 <th>
                                                     <button class="btn btn-primary"
-                                                        style="color: white; text-decoration: none;"><i
+                                                        style="color: white; text-decoration: none; padding: 0.2rem 0.3rem; font-size: 0.6rem;"><i
                                                             class="fa-solid fa-pen-to-square"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                        data-bs-target="#viewCicilanModal">
+                                                        data-bs-target="#viewCicilanModal"
+                                                        style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
                                                         <i class="fa-solid fa-eye" style="color: white;"></i>
                                                     </button>
                                                 </th>
@@ -180,5 +221,5 @@
     <!--end::Container-->
     </div>
 
-   
+
 </main>

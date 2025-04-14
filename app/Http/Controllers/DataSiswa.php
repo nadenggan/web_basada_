@@ -8,6 +8,7 @@ use App\Models\Kelas;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\JenisPembayaran;
 use App\Models\Pembayaran;
+use Illuminate\Http\JsonResponse;
 
 use Illuminate\Http\Request;
 
@@ -132,6 +133,24 @@ class DataSiswa extends Controller
             return redirect()->back()->with('error', 'Data pembayaran tidak terkait dengan data siswa yang valid.');
         }
     }
+
+    public function detailPembayaran($id): JsonResponse
+    {
+        $pembayaran = Pembayaran::findOrFail($id); 
+
+        return response()->json($pembayaran); 
+    }
+
+    public function updateDataRekapSiswa(Request $request)
+{
+    $pembayaran = Pembayaran::findOrFail($request->id_pembayaran);
+    $pembayaran->status_pembayaran = $request->status_pembayaran;
+    $pembayaran->tanggal_lunas = $request->tanggal_lunas;
+    $nis = $pembayaran->users->nis;
+    $pembayaran->save();
+
+    return redirect()->route('rekapDataSiswa', ['nis' => $nis])->with('success', 'Data rekap pembayaran berhasil diperbarui.');
+}
 
     public function dataSiswaGuru(Request $request)
     {

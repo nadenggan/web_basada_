@@ -206,6 +206,8 @@
                                 // Initialize the delete modal logic AFTER the content is loaded
                                 initializeDeleteModal();
 
+                                editRekapModal();
+
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
                             })
@@ -215,20 +217,43 @@
             });
 
 
+            // Edit Rekap Pembayaran
+            function editRekapModal() {
+                $(document).ready(function () {
+                    $(".edit").click(function (e) {
+                        e.preventDefault();
+                        var id_pembayaran = $(this).val();
+
+                        fetch(`/rekap-pembayaran/detail/${id_pembayaran}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                $('#edit_id_pembayaran').val(data.id);
+                                $('#edit_status_pembayaran').val(data.status_pembayaran);
+                                $('#edit_tanggal_lunas').val(data.tanggal_lunas);
+
+                                var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                                editModal.show();
+                            })
+                            .catch(error => console.error("Error fetching data:", error));
+                    });
+                });
+            }
+            
             // Delete Rekap Pembayaran
             function initializeDeleteModal() {
-            $(document).ready(function () {
-                $(".hapus").click(function (e) {
-                    e.preventDefault();
-                    // Get id from button
-                    var id_pembayaran = $(this).val();
-                    // Send id to modal
-                    $('#id_pembayaran').val(id_pembayaran);
-                    // Show modal
-                    $("#deleteModal").modal("show");
+                $(document).ready(function () {
+                    $(".hapus").click(function (e) {
+                        e.preventDefault();
+                        // Get id from button
+                        var id_pembayaran = $(this).val();
+                        // Send id to modal
+                        $('#id_pembayaran').val(id_pembayaran);
+                        // Show modal
+                        $("#deleteModal").modal("show");
+                    });
                 });
-            });
-        }
+            }
+
             // Filter Jenis Pembayaran 
             function initializeRekapPembayaranFilter() {
                 const jenisPembayaranSelect = document.getElementById('jenisPembayaran');
