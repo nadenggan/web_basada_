@@ -69,6 +69,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
     Route::put('/rekap-pembayaran/updateCicilan',[DataSiswa::class, 'updateCicilan'])->name('updateCicilan');
     Route::get('/inputPembayaran/{nis}', [inputPembayaranSiswa::class, 'showInputPembayaran']);
     Route::post('/storePembayaranSiswa/', [InputPembayaranSiswa::class, 'storePembayaranSiswa'])->name("storePembayaranSiswa");
+    Route::get('/exportData/{nis}', [DataSiswa::class, 'exportData'])->name('exportData');
 
 
 });

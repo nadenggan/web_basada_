@@ -11,6 +11,7 @@ use App\Models\Pembayaran;
 use App\Models\Cicilan;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\RekapExport;
 
 
 use Illuminate\Http\Request;
@@ -46,6 +47,17 @@ class DataSiswa extends Controller
         $users = $users->paginate(10);
 
         return view('admin/dataSiswa', compact("users", "request"));
+    }
+
+    public function exportData(Request $request, $nis)
+    {
+        $siswa = User::where('nis', $nis)->firstOrFail();
+        $pembayarans = Pembayaran::where('user_id', $siswa->id)
+            ->with(['jenisPembayaran', 'cicilans']) 
+            ->get();
+        $namaSiswa = $siswa->name;
+
+        return Excel::download(new RekapExport($pembayarans, $namaSiswa), (new RekapExport($pembayarans, $namaSiswa))->filename());
     }
 
     public function tambahDataSiswa()

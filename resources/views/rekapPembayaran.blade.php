@@ -75,7 +75,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="edit_tanggal_bayar_cicilan" class="form-label">Tanggal Bayar</label>
-                        <input type="date" class="form-control" id="edit_tanggal_bayar_cicilan" name="tanggal_bayar" required>
+                        <input type="date" class="form-control" id="edit_tanggal_bayar_cicilan" name="tanggal_bayar"
+                            required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -120,7 +121,7 @@
         <div class="container-fluid">
             <!--begin::Row-->
             <div class="row justify-content-around">
-                <div class="col-lg-4">
+                <l class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body">
                             <div class="row">
@@ -149,8 +150,10 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary">Export File</button>
-                </div>
+                    <form action="{{ route('exportData', ['nis' => $data->nis]) }}" method="GET">
+                        <button type="submit" class="btn btn-primary">Export File</button>
+                    </form>
+                </l>
                 <div class="col-lg-7">
                     <div class="card mb-4">
                         <div class="card-body">
@@ -188,8 +191,9 @@
                                                             class="fa-solid fa-trash"></i></button>
                                                 </th>
                                                 <th>
-                                                    <button type="button" class="btn btn-warning showCicilan" value="{{ $pembayaran->id }}"
-                                                    data-bs-toggle="modal"  style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
+                                                    <button type="button" class="btn btn-warning showCicilan"
+                                                        value="{{ $pembayaran->id }}" data-bs-toggle="modal"
+                                                        style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
                                                         <i class="fa-solid fa-eye" style="color: white;"></i>
                                                     </button>
                                                 </th>
@@ -216,8 +220,8 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                    <div id="cicilan-list">
-                                    </div>
+                                        <div id="cicilan-list">
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
