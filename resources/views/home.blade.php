@@ -200,6 +200,9 @@
                             .then(html => {
                                 document.querySelector(".app-main").innerHTML = html;
 
+                                // Initialize the filter logic AFTER the content is loaded
+                                initializeRekapPembayaranFilter();
+
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
                             })
@@ -207,6 +210,41 @@
                     });
                 });
             });
+
+            // Filter Jenis Pembayaran 
+            function initializeRekapPembayaranFilter() {
+                const jenisPembayaranSelect = document.getElementById('jenisPembayaran');
+                const pembayaranTable = document.getElementById('pembayaran-table').getElementsByTagName('tbody')[0];
+                const bulanColumnHeader = document.querySelector('#pembayaran-table thead .bulan-column');
+                const bulanCells = document.querySelectorAll('#pembayaran-table tbody .bulan-cell');
+
+                function filterPembayaranTable(selectedJenisPembayaranId) {
+                    Array.from(pembayaranTable.rows).forEach(row => {
+                        const jenisPembayaranId = row.dataset.jenisPembayaranId;
+                        if (selectedJenisPembayaranId === '' || jenisPembayaranId === selectedJenisPembayaranId) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                }
+
+                jenisPembayaranSelect.addEventListener('change', function () {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const selectedJenisPembayaranId = this.value;
+                    const periode = selectedOption.dataset.periode;
+
+                    if (periode === 'bulanan') {
+                        bulanColumnHeader.style.display = '';
+                        bulanCells.forEach(cell => cell.style.display = '');
+                    } else {
+                        bulanColumnHeader.style.display = 'none';
+                        bulanCells.forEach(cell => cell.style.display = 'none');
+                    }
+
+                    filterPembayaranTable(selectedJenisPembayaranId);
+                });
+            }
 
             // Input Pembayaran Siswa
             document.addEventListener("DOMContentLoaded", function () {
@@ -242,20 +280,20 @@
                                 const tanggalBayar = document.getElementById("tanggal_bayar");
                                 const tanggalLunas = document.getElementById("tanggal_lunas")
 
-                                if(selectStatusPembayaran){
-                                    selectStatusPembayaran.addEventListener("change",function(){
+                                if (selectStatusPembayaran) {
+                                    selectStatusPembayaran.addEventListener("change", function () {
 
                                         // Get the value
-                                        const valueStatusPembayaran=this.value;
+                                        const valueStatusPembayaran = this.value;
 
-                                        if(valueStatusPembayaran==="belum-lunas"){
-                                            nominalCicilan.style.display="block";
-                                            tanggalBayar.style.display="block";
-                                            tanggalLunas.style.display="none";
-                                        }else{
-                                            nominalCicilan.style.display="none";
-                                            tanggalBayar.style.display="none";
-                                            tanggalLunas.style.display="block";
+                                        if (valueStatusPembayaran === "belum lunas") {
+                                            nominalCicilan.style.display = "block";
+                                            tanggalBayar.style.display = "block";
+                                            tanggalLunas.style.display = "none";
+                                        } else {
+                                            nominalCicilan.style.display = "none";
+                                            tanggalBayar.style.display = "none";
+                                            tanggalLunas.style.display = "block";
                                         }
                                     })
 

@@ -63,7 +63,7 @@
                                     <label class="form-label">Status Pembayaran</label>
                                     <select name="status_pembayaran" id="status" class="form-select">
                                         <option value="lunas">Lunas</option>
-                                        <option value="belum-lunas">Belum Lunas</option>
+                                        <option value="belum lunas">Belum Lunas</option>
                                     </select>
                                 </div>
 

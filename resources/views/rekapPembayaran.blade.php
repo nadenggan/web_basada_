@@ -11,10 +11,11 @@
                 </div>
                 <div class="col-sm-7">
                     <!-- begin::Filter Jenis Pembayaran-->
-                    <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 172px;">
-                        <option selected>Jenis Pembayaran</option>
+                    <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 220px;">
+                        <option value="">Semua Jenis Pembayaran</option>
                         @foreach ($jenisPembayaran as $jenis)
-                            <option value="{{ $jenis->id }}">{{$jenis->nama_jenis_pembayaran}}</option>
+                            <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}">
+                                {{$jenis->nama_jenis_pembayaran}}</option>
                         @endforeach
                     </select>
                     <!-- end::Filter Jenis Pembayaran-->
@@ -62,10 +63,10 @@
                 <div class="col-lg-7">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="pembayaran-table">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px">Bulan</th>
+                                        <th style="width: 10px; display: none;" class="bulan-column">Bulan</th>
                                         <th>Nominal</th>
                                         <th>Status</th>
                                         <th>Tanggal Lunas</th>
@@ -76,30 +77,41 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="align-middle">
-                                        <td>1</td>
-                                        <td>Rp 130,000</td>
-                                        <td>Lunas</td>
-                                        <td>2 Januari 2024</td>
-                                        @if(auth()->user()->role == "admin")
-                                            <th> 
-                                                <button class="btn btn-primary"
-                                                    style="color: white; text-decoration: none;"><i
-                                                        class="fa-solid fa-pen-to-square"></i>
+                                    @forelse($pembayarans as $pembayaran)
+                                        <tr class="align-middle"
+                                            data-jenis-pembayaran-id="{{ $pembayaran->id_jenis_pembayaran }}">
+                                            <td class="bulan-cell" style="display: none;">{{ $pembayaran->bulan }}</td>
+                                            <td>Rp {{ number_format($pembayaran->jenisPembayaran->nominal, 0, ',', '.') }}</td>
+                                            <td>{{ $pembayaran->status_pembayaran }}</td>
+                                            <td>{{ $pembayaran->tanggal_lunas ? \Carbon\Carbon::parse($pembayaran->tanggal_lunas)->format('d F Y') : '-' }}
+                                            </td>
+                                            @if(auth()->user()->role == "admin")
+                                                <th>
+                                                    <button class="btn btn-primary"
+                                                        style="color: white; text-decoration: none;"><i
+                                                            class="fa-solid fa-pen-to-square"></i>
                                                     </button>
-                                                <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
-                                            </th>
-                                            <th>
-                                                <button class="btn btn-primary"
-                                                    style="color: white; text-decoration: none;"><i
-                                                        class="fa-solid fa-pen-to-square"></i>
+                                                    <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                                </th>
+                                                <th>
+                                                    <button class="btn btn-primary"
+                                                        style="color: white; text-decoration: none;"><i
+                                                            class="fa-solid fa-pen-to-square"></i>
                                                     </button>
-                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#viewCicilanModal">
-                                                    <i class="fa-solid fa-eye" style="color: white;"></i>
-                                                </button>
-                                            </th>
-                                        @endif
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#viewCicilanModal">
+                                                        <i class="fa-solid fa-eye" style="color: white;"></i>
+                                                    </button>
+                                                </th>
+                                            @endif
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="{{ auth()->user()->role == 'admin' ? 5 : 4 }}" class="text-center">
+                                                Tidak ada data pembayaran.
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -145,4 +157,6 @@
     </div>
     <!--end::Container-->
     </div>
+
+   
 </main>

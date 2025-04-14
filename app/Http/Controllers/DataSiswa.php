@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Kelas;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\JenisPembayaran;
+use App\Models\Pembayaran;
 
 use Illuminate\Http\Request;
 
@@ -70,7 +71,11 @@ class DataSiswa extends Controller
         $data = User::where('nis', $nis)->firstOrFail();
         $kelas = Kelas::all();
         $jenisPembayaran = JenisPembayaran::all();
-        return view('rekapPembayaran', compact('data', 'kelas','jenisPembayaran'));
+        $pembayarans = Pembayaran::where('user_id', $data->id)
+                            ->with('jenisPembayaran') 
+                            ->get();
+
+        return view('rekapPembayaran', compact('data', 'kelas','jenisPembayaran','pembayarans'));
     }
     public function editDataSiswaAdmin($nis)
     {
