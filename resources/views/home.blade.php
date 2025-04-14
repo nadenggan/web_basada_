@@ -203,6 +203,9 @@
                                 // Initialize the filter logic AFTER the content is loaded
                                 initializeRekapPembayaranFilter();
 
+                                // Initialize the delete modal logic AFTER the content is loaded
+                                initializeDeleteModal();
+
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
                             })
@@ -211,6 +214,21 @@
                 });
             });
 
+
+            // Delete Rekap Pembayaran
+            function initializeDeleteModal() {
+            $(document).ready(function () {
+                $(".hapus").click(function (e) {
+                    e.preventDefault();
+                    // Get id from button
+                    var id_pembayaran = $(this).val();
+                    // Send id to modal
+                    $('#id_pembayaran').val(id_pembayaran);
+                    // Show modal
+                    $("#deleteModal").modal("show");
+                });
+            });
+        }
             // Filter Jenis Pembayaran 
             function initializeRekapPembayaranFilter() {
                 const jenisPembayaranSelect = document.getElementById('jenisPembayaran');

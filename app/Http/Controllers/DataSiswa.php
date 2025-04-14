@@ -112,6 +112,27 @@ class DataSiswa extends Controller
         return redirect()->route('dataSiswaAdmin')->with('success', 'Data siswa berhasil dihapus.');
     }
 
+    public function deleteDataRekapSiswa(Request $request)
+    {
+        $idPembayaran = $request->input('delete_pembayaran');
+        $pembayaran = Pembayaran::where('id', $idPembayaran)->first();
+    
+        if (!$pembayaran) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
+        }
+        
+        if ($pembayaran->users) {
+            $nis = $pembayaran->users->nis;
+    
+            // Delete Data
+            $pembayaran->delete();
+    
+            return redirect()->route('rekapDataSiswa', ['nis' => $nis])->with('success', 'Data rekap pembayaran berhasil dihapus.');
+        } else {
+            return redirect()->back()->with('error', 'Data pembayaran tidak terkait dengan data siswa yang valid.');
+        }
+    }
+
     public function dataSiswaGuru(Request $request)
     {
         // Only get data Siswa

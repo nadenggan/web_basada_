@@ -1,3 +1,25 @@
+<!-- begin::Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="deleteForm" action="{{ route('deleteDataRekapSiswa') }}" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Rekap Data Siswa</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="delete_pembayaran" id="id_pembayaran">
+                        <p>Apakah kamu yakin akan menghapus rekap data ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Ya</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end::Delete Modal -->
 <main class="app-main">
     <!--begin::App Content Header-->
     <div class="app-content-header mt-2">
@@ -91,7 +113,7 @@
                                                         style="color: white; text-decoration: none;"><i
                                                             class="fa-solid fa-pen-to-square"></i>
                                                     </button>
-                                                    <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                                    <button class="btn btn-danger hapus" value="{{ $pembayaran->id }}"><i class="fa-solid fa-trash"></i></button>
                                                 </th>
                                                 <th>
                                                     <button class="btn btn-primary"
