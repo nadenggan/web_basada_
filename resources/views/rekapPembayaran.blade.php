@@ -24,7 +24,7 @@
 
 <!-- start:: Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="editForm" action="{{ route('updateDataRekapSiswa') }}" method="post">
                 @csrf
@@ -55,6 +55,7 @@
     </div>
 </div>
 <!-- end:: Edit Modal -->
+
 
 <main class="app-main">
     <!--begin::App Content Header-->
@@ -156,13 +157,12 @@
                                                             class="fa-solid fa-trash"></i></button>
                                                 </th>
                                                 <th>
-                                                    <button class="btn btn-primary"
+                                                    <button class="btn btn-primary edit_cicilan"
                                                         style="color: white; text-decoration: none; padding: 0.2rem 0.3rem; font-size: 0.6rem;"><i
                                                             class="fa-solid fa-pen-to-square"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                        data-bs-target="#viewCicilanModal"
-                                                        style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
+                                                    <button type="button" class="btn btn-warning showCicilan" value="{{ $pembayaran->id }}"
+                                                    data-bs-toggle="modal"  style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
                                                         <i class="fa-solid fa-eye" style="color: white;"></i>
                                                     </button>
                                                 </th>
@@ -189,7 +189,8 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        ...
+                                    <div id="cicilan-list">
+                                    </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -220,6 +221,4 @@
     </div>
     <!--end::Container-->
     </div>
-
-
 </main>

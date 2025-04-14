@@ -200,13 +200,17 @@
                             .then(html => {
                                 document.querySelector(".app-main").innerHTML = html;
 
-                                // Initialize the filter logic AFTER the content is loaded
+                                // Filter Jenis Pembayaran
                                 initializeRekapPembayaranFilter();
 
-                                // Initialize the delete modal logic AFTER the content is loaded
+                                // Delete Rekap Modal
                                 initializeDeleteModal();
 
+                                // Edit Rekap Modal
                                 editRekapModal();
+
+                                // Show Cicilan Modal
+                                showCicilanModal();
 
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
@@ -216,6 +220,58 @@
                 });
             });
 
+
+            // Show Cicilan Modal
+            function showCicilanModal() {
+                $(document).ready(function () {
+                    $(".showCicilan").click(function (e) {
+                        e.preventDefault();
+                        // Get id from button
+                        var id_pembayaran = $(this).val();
+                        // Table body
+                        var cicilanListContainer = $('#cicilan-list');
+                        cicilanListContainer.empty();
+
+                        fetch(`/rekap-pembayaran/cicilan/${id_pembayaran}`)
+                            .then(response => response.json()) // get data
+                            .then(data => {
+                                if (data.length > 0) {
+                                    var table = $('<table class="table table-bordered"><thead><tr><th>No</th><th>Nominal</th><th>Tanggal Bayar</th></tr></thead><tbody></tbody></table>');
+                                    var tbody = table.find('tbody');
+                                    $.each(data, function (index, cicilan) {
+
+                                        // Format Tanggal Bayar 
+                                        const tanggalBayar = new Date(cicilan.tanggal_bayar);
+                                        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                                        const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
+
+                                        tbody.append(`
+                                                        <tr>
+                                                            <td>${index + 1}</td>
+                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                            <td>${formattedTanggalBayar}</td>
+                                                        </tr>
+                                                    `);
+                                    });
+
+                                    cicilanListContainer.append(table);
+
+                                    var viewCicilanModal = new bootstrap.Modal(document.getElementById('viewCicilanModal'));
+                                    viewCicilanModal.show();
+                                } else {
+                                    cicilanListContainer.append('<p>Tidak ada data cicilan untuk pembayaran ini.</p>');
+
+                                    var viewCicilanModal = new bootstrap.Modal(document.getElementById('viewCicilanModal'));
+                                    viewCicilanModal.show();
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error fetching data cicilan:", error);
+                            });
+
+                    });
+                });
+            }
 
             // Edit Rekap Pembayaran
             function editRekapModal() {
@@ -238,7 +294,7 @@
                     });
                 });
             }
-            
+
             // Delete Rekap Pembayaran
             function initializeDeleteModal() {
                 $(document).ready(function () {

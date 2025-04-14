@@ -8,7 +8,9 @@ use App\Models\Kelas;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\JenisPembayaran;
 use App\Models\Pembayaran;
+use App\Models\Cicilan;
 use Illuminate\Http\JsonResponse;
+
 
 use Illuminate\Http\Request;
 
@@ -131,6 +133,19 @@ class DataSiswa extends Controller
             return redirect()->route('rekapDataSiswa', ['nis' => $nis])->with('success', 'Data rekap pembayaran berhasil dihapus.');
         } else {
             return redirect()->back()->with('error', 'Data pembayaran tidak terkait dengan data siswa yang valid.');
+        }
+    }
+
+    public function detailCicilan($id_pembayaran): JsonResponse
+    {
+        try {
+            $cicilan = Cicilan::where('id_pembayaran', $id_pembayaran)
+                ->orderBy('tanggal_bayar')
+                ->get();
+
+            return response()->json($cicilan);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Terjadi kesalahan server saat mengambil data cicilan.'], 500);
         }
     }
 
