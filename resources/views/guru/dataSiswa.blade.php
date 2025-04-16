@@ -21,7 +21,7 @@
                         <form action="{{ route("dataSiswaAdmin") }}" method="get" class="d-flex">
                             <!-- begin::Filter kelas-->
                             <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
-                                <option selected>Kelas</option>
+                                <option value="">Kelas</option>
                                 <option value="X">X</option>
                                 <option value="XI">XI</option>
                                 <option value="XII">XII</option>

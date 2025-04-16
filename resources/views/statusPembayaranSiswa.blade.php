@@ -18,7 +18,7 @@
                         <form action="{{ route("statusPembayaranSiswa") }}" method="get" class="d-flex">
                             <!-- begin::Filter kelas-->
                             <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
-                                <option selected>Kelas</option>
+                                <option value="">Kelas</option>
                                 <option value="X">X</option>
                                 <option value="XI">XI</option>
                                 <option value="XII">XII</option>
@@ -27,14 +27,13 @@
 
                             <!-- begin::Filter Jenis Pembayaran-->
                             <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2"
-                                style="width: 172px;">
-                                <option selected>Jenis Pembayaran</option>
-                                <option value="SPP">SPP</option>
-                                <option value="Uang Kegiatan">Uang Kegiatan</option>
-                                <option value="Uang Praktikum">Uang Praktikum</option>
-                                <option value="Sarpras">Sarpras</option>
-                                <option value="Seragam Putra">Seragam Putra</option>
-                                <option value="Seragam Putri">Seragam Putri</option>
+                                style="width: 220px;">
+                                <option value="">Semua Jenis Pembayaran</option>
+                                @foreach ($jenisPembayaran as $jenis)
+                                    <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}">
+                                        {{$jenis->nama_jenis_pembayaran}}
+                                    </option>
+                                @endforeach
                             </select>
                             <!-- end::Filter Jenis Pembayaran-->
 

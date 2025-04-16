@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\JenisPembayaran;
 
 use Illuminate\Http\Request;
 
@@ -10,6 +11,7 @@ class StatusPembayaranSiswa extends Controller
     public function statusPembayaranSiswa(Request $request)
     {
         $users = User::with("kelas")->whereNotNull("nis");
+        $jenisPembayaran = JenisPembayaran::all();
 
         // Filter by Name, NIS, Jurusan
         if ($request->get('search')) {
@@ -33,6 +35,6 @@ class StatusPembayaranSiswa extends Controller
 
         $users = $users->paginate(10);
 
-        return view('statusPembayaranSiswa', compact("users", "request"));
+        return view('statusPembayaranSiswa', compact("users", "request","jenisPembayaran" ));
     }
 }
