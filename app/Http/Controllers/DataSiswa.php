@@ -162,6 +162,19 @@ class DataSiswa extends Controller
         }
     }
 
+    public function detailCicilanSiswa($id_pembayaran): JsonResponse
+    {
+        try {
+            $cicilan = Cicilan::where('id_pembayaran', $id_pembayaran)
+                ->orderBy('tanggal_bayar')
+                ->get();
+
+            return response()->json($cicilan);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Terjadi kesalahan server saat mengambil data cicilan.'], 500);
+        }
+    }
+
     public function updateCicilan(Request $request)
     {
         $cicilan = Cicilan::findOrFail($request->input('id_cicilan'));

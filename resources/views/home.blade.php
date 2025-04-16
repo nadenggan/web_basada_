@@ -264,20 +264,20 @@
                                         const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                         tbody.append(`
-                                                                                <tr 
-                                                                                data-id-cicilan="${cicilan.id}"
-                                                                                data-nominal="${cicilan.nominal}"
-                                                                                data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                                                    <tr 
+                                                                                    data-id-cicilan="${cicilan.id}"
+                                                                                    data-nominal="${cicilan.nominal}"
+                                                                                    data-tanggal-bayar="${cicilan.tanggal_bayar}">
 
-                                                                                    <td>${index + 1}</td>
-                                                                                    <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                                                    <td>${formattedTanggalBayar}</td>
-                                                                                    <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
-                        <i class="fa-solid fa-pen-to-square"></i> Edit
-                    </button></td>
+                                                                                        <td>${index + 1}</td>
+                                                                                        <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                                                        <td>${formattedTanggalBayar}</td>
+                                                                                        <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                        </button></td>
 
-                                                                                </tr>
-                                                                            `);
+                                                                                    </tr>
+                                                                                `);
                                     });
 
                                     cicilanListContainer.append(table);
@@ -344,14 +344,32 @@
                 const bulanCells = document.querySelectorAll('#pembayaran-table tbody .bulan-cell');
 
                 function filterPembayaranTable(selectedJenisPembayaranId) {
+                    let rowCount = 0;
                     Array.from(pembayaranTable.rows).forEach(row => {
                         const jenisPembayaranId = row.dataset.jenisPembayaranId;
                         if (selectedJenisPembayaranId === '' || jenisPembayaranId === selectedJenisPembayaranId) {
                             row.style.display = '';
+                            rowCount++;
                         } else {
                             row.style.display = 'none';
                         }
                     });
+
+                    // Delete "Empty Data" text if there is data from selected jenis pembayaran
+                    const noDataRow = pembayaranTable.querySelector('.no-data');
+                    if (noDataRow) {
+                        pembayaranTable.removeChild(noDataRow);
+                    }
+
+                    // "Empty Data" text if there is no data from selected jenis pembayaran
+                    if (rowCount === 0) {
+                        const newRow = pembayaranTable.insertRow();
+                        newRow.classList.add('no-data');
+                        const cell = newRow.insertCell();
+                        cell.colSpan = document.querySelector('#pembayaran-table thead tr').cells.length;
+                        cell.style.textAlign = 'center';
+                        cell.textContent = 'TIDAK ADA RIWAYAT PEMBAYARAN';
+                    }
                 }
 
                 jenisPembayaranSelect.addEventListener('change', function () {

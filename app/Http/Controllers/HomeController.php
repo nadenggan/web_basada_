@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Pembayaran;
+use App\Models\JenisPembayaran;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -66,7 +69,13 @@ class HomeController extends Controller
 
     public function homeSiswa()
     {
-        return view('siswa/home');
+        $user = Auth::user();
+        $siswa = User::find($user->id);
+        $pembayarans = Pembayaran::where('user_id', $siswa->id)
+            ->with('jenisPembayaran')
+            ->get();
+        $jenisPembayaran = JenisPembayaran::all();
+        return view('siswa/home', compact('siswa', 'pembayarans', 'jenisPembayaran'));
     }
 
 }

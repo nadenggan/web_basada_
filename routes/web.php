@@ -76,6 +76,8 @@ Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
 
 Route::group(["middleware" => ["auth", "checkrole:siswa"]], function () {
     Route::get('/homeSiswa', [HomeController::class, 'homeSiswa'])->name("homeSiswa");
+    
+    Route::get('/rekap-pembayaran/cicilanSiswaPage/{id_pembayaran}', [DataSiswa::class, 'detailCicilanSiswa'])->name('detailCicilanSiswa');
 });
 
 Route::group(["middleware" => ["auth", "checkrole:guru"]], function () {
