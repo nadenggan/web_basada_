@@ -223,7 +223,6 @@
             });
 
             // Edit Cicilan Modal
-
             function editCicilanModal() {
                 $(document).on('click', '.edit_cicilan_modal', function () {
                     const idCicilan = $(this).closest('tr').data('id-cicilan');
@@ -236,6 +235,7 @@
 
                     $('#viewCicilanModal').modal('hide');
                     $('#editCicilanModal').modal('show');
+                    
                 });
             }
 
@@ -264,20 +264,20 @@
                                         const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                         tbody.append(`
-                                                                                    <tr 
-                                                                                    data-id-cicilan="${cicilan.id}"
-                                                                                    data-nominal="${cicilan.nominal}"
-                                                                                    data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                                                                                <tr 
+                                                                                                                data-id-cicilan="${cicilan.id}"
+                                                                                                                data-nominal="${cicilan.nominal}"
+                                                                                                                data-tanggal-bayar="${cicilan.tanggal_bayar}">
 
-                                                                                        <td>${index + 1}</td>
-                                                                                        <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                                                        <td>${formattedTanggalBayar}</td>
-                                                                                        <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
-                            <i class="fa-solid fa-pen-to-square"></i> Edit
-                        </button></td>
+                                                                                                                    <td>${index + 1}</td>
+                                                                                                                    <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                                                                                    <td>${formattedTanggalBayar}</td>
+                                                                                                                    <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                                                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                    </button></td>
 
-                                                                                    </tr>
-                                                                                `);
+                                                                                                                </tr>
+                                                                                                            `);
                                     });
 
                                     cicilanListContainer.append(table);
@@ -315,6 +315,40 @@
 
                                 var editModal = new bootstrap.Modal(document.getElementById('editModal'));
                                 editModal.show();
+
+                                // Ajax after edit rekap and redirect to fetch page
+                                $('#editForm').off('submit').on('submit', function (e) {
+                                    e.preventDefault();
+                                    let formData = $(this).serialize();
+                                    let url = $(this).attr('action');
+
+                                    $.ajax({
+                                        type: 'PUT',
+                                        url: url,
+                                        data: formData,
+                                        success: function (response) {
+                                            $('#editModal').modal('hide');
+                                            // reload  recap content with fetch
+                                            let nis = response.nis;
+                                            fetch(`/rekap-pembayaran/${nis}`)
+                                                .then(response => response.text())
+                                                .then(html => {
+                                                    $('.app-main').html(html);
+                                                    initializeRekapPembayaranFilter();
+                                                    initializeDeleteModal();
+                                                    editRekapModal();
+                                                    showCicilanModal();
+                                                    editCicilanModal();
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error fetching rekap:', error);
+                                                });
+                                        },
+                                        error: function (error) {
+                                            console.error('Error updating rekap:', error);
+                                        }
+                                    });
+                                });
                             })
                             .catch(error => console.error("Error fetching data:", error));
                     });
@@ -326,12 +360,44 @@
                 $(document).ready(function () {
                     $(".hapus").click(function (e) {
                         e.preventDefault();
-                        // Get id from button
-                        var id_pembayaran = $(this).val();
-                        // Send id to modal
-                        $('#id_pembayaran').val(id_pembayaran);
-                        // Show modal
-                        $("#deleteModal").modal("show");
+                        var idPembayaran = $(this).val();
+                        $('#id_pembayaran').val(idPembayaran);
+                        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                        deleteModal.show();
+                    });
+
+                    // Ajax after delete rekap and redirect to fetch page
+                    $('#deleteForm').off('submit').on('submit', function (e) {
+                        e.preventDefault();
+                        let formData = $(this).serialize();
+                        let url = $(this).attr('action');
+
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data: formData,
+                            success: function (response) {
+                                $('#deleteModal').modal('hide');
+                                // reload  recap content with fetch
+                                let nis = response.nis;
+                                fetch(`/rekap-pembayaran/${nis}`)
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        $('.app-main').html(html);
+                                        initializeRekapPembayaranFilter();
+                                        initializeDeleteModal();
+                                        editRekapModal();
+                                        showCicilanModal();
+                                        editCicilanModal();
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching rekap:', error);
+                                    });
+                            },
+                            error: function (error) {
+                                console.error('Error deleting rekap:', error);
+                            }
+                        });
                     });
                 });
             }

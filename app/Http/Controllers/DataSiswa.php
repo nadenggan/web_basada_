@@ -53,7 +53,7 @@ class DataSiswa extends Controller
     {
         $siswa = User::where('nis', $nis)->firstOrFail();
         $pembayarans = Pembayaran::where('user_id', $siswa->id)
-            ->with(['jenisPembayaran', 'cicilans']) 
+            ->with(['jenisPembayaran', 'cicilans'])
             ->get();
         $namaSiswa = $siswa->name;
 
@@ -143,9 +143,9 @@ class DataSiswa extends Controller
             // Delete Data
             $pembayaran->delete();
 
-            return redirect()->route('rekapDataSiswa', ['nis' => $nis])->with('success', 'Data rekap pembayaran berhasil dihapus.');
+            return response()->json(['success' => 'Data rekap pembayaran berhasil dihapus.', 'nis' => $nis]);
         } else {
-            return redirect()->back()->with('error', 'Data pembayaran tidak terkait dengan data siswa yang valid.');
+            return response()->json(['error' => 'Data pembayaran tidak terkait dengan data siswa yang valid.'], 400);
         }
     }
 
@@ -199,7 +199,7 @@ class DataSiswa extends Controller
         $nis = $pembayaran->users->nis;
         $pembayaran->save();
 
-        return redirect()->route('rekapDataSiswa', ['nis' => $nis])->with('success', 'Data rekap pembayaran berhasil diperbarui.');
+        return response()->json(['success' => 'Data rekap pembayaran berhasil diperbarui.', 'nis' => $nis]);
     }
 
     public function dataSiswaGuru(Request $request)
