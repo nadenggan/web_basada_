@@ -12,16 +12,26 @@ class StatusPembayaranSiswa extends Controller
     {
         $users = User::with("kelas")->whereNotNull("nis");
         $jenisPembayaran = JenisPembayaran::all();
+        $selectedJenisPembayaranId = $request->get('jenisPembayaran');
 
-        // Filter by Name, NIS, Jurusan
+         // Selected the top jenisPembayaran
+         if (!$selectedJenisPembayaranId && $jenisPembayaran->isNotEmpty()) {
+            $selectedJenisPembayaranId = $jenisPembayaran->first()->id;
+            $request->merge(['jenisPembayaran' => $selectedJenisPembayaranId]);
+        }
+
+        // Filter by Name, NIS, Jurusan, Status
         if ($request->get('search')) {
             $search = $request->get('search');
-
+        
             $users->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', '%' . $search . '%')
                     ->orWhere('nis', 'LIKE', '%' . $search . '%')
                     ->orWhereHas('kelas', function ($kelasQuery) use ($search) {
                         $kelasQuery->where('jurusan', 'LIKE', '%' . $search . '%');
+                    })
+                    ->orWhereHas('pembayarans', function ($pembayaranQuery) use ($search) {
+                        $pembayaranQuery->where('status_pembayaran', 'LIKE', '%' . $search . '%');
                     });
             });
         }
@@ -34,6 +44,15 @@ class StatusPembayaranSiswa extends Controller
         }
 
         $users = $users->paginate(10);
+
+        // Load pembayaran for each user based on the selected jenis pembayaran
+        $users->each(function ($user) use ($selectedJenisPembayaranId) {
+            $user->load(['pembayarans' => function ($query) use ($selectedJenisPembayaranId) {
+                if ($selectedJenisPembayaranId) {
+                    $query->where('id_jenis_pembayaran', $selectedJenisPembayaranId);
+                }
+            }]);
+        });
 
         return view('statusPembayaranSiswa', compact("users", "request","jenisPembayaran" ));
     }

@@ -11,6 +11,7 @@
                         <form class="d-flex" role="search" method="get" action="{{ route("statusPembayaranSiswa") }}">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                                 name="search" value="{{ $request->get("search") }}">
+                            <input type="hidden" name="jenisPembayaran" value="{{ $request->get('jenisPembayaran') }}">
                             <button class="btn btn-primary" type="submit">Search</button>
                         </form>
                     </div>
@@ -28,9 +29,8 @@
                             <!-- begin::Filter Jenis Pembayaran-->
                             <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2"
                                 style="width: 220px;">
-                                <option value="">Semua Jenis Pembayaran</option>
                                 @foreach ($jenisPembayaran as $jenis)
-                                    <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}">
+                                    <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}" {{ $request->get('jenisPembayaran') == $jenis->id ? 'selected' : '' }}>
                                         {{$jenis->nama_jenis_pembayaran}}
                                     </option>
                                 @endforeach
@@ -43,7 +43,28 @@
                 </div>
 
                 <div class="row mt-3">
-                    <div class="col-sm-12" style="font-size: 25px; padding-left:5%"> <b>Deadline Pembayaran: 1 Juli 2024</b>
+                    <div class="col-sm-12" style="font-size: 25px; padding-left:5%"> <b>Deadline Pembayaran:
+                            @if ($request->get('jenisPembayaran'))
+                                                    @php
+                                                        $filteredJenisPembayaran = \App\Models\JenisPembayaran::find($request->get('jenisPembayaran'));
+                                                    @endphp
+                                                    @if ($filteredJenisPembayaran)
+                                                        @if ($filteredJenisPembayaran->periode === 'bulanan')
+                                                            Setiap tanggal {{ $filteredJenisPembayaran->tanggal_bulanan }}
+                                                        @else
+                                                            @if ($filteredJenisPembayaran->tenggat_waktu)
+                                                                {{ \Carbon\Carbon::parse($filteredJenisPembayaran->tenggat_waktu)->locale('id')->isoFormat('D MMMM YYYY') }}
+                                                            @else
+                                                                Tidak Ada Tenggat Waktu
+                                                            @endif
+                                                        @endif
+                                                    @else
+                                                        Jenis Pembayaran Tidak Ditemukan
+                                                    @endif
+                            @else
+                                (Pilih Jenis Pembayaran untuk Melihat Deadline)
+                            @endif
+                        </b>
                     </div>
                 </div>
                 <!--end::Row-->
@@ -70,7 +91,6 @@
                                             <th style="width: 40px">Jurusan</th>
                                             <th>Alamat</th>
                                             <th>Status</th>
-                                            <th>View</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -86,8 +106,13 @@
                                                     <td>{{ $user->kelas->tingkat_kelas  }}</td>
                                                     <td>{{ $user->kelas->jurusan }}</td>
                                                     <td>{{ $user->alamat }}</td>
-                                                    <td>Lunas</td>
-                                                    <td>Button</td>
+                                                    <td>
+                                                        @if ($user->pembayarans->isNotEmpty())
+                                                            {{ $user->pembayarans->first()->status_pembayaran }}
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         @endif
