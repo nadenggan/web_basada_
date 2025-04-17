@@ -4,7 +4,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DataSiswa;
-use App\Http\Controllers\LogAktivitas;
+use App\Http\Controllers\LogAktivitasController;
 use App\Http\Controllers\StatusPembayaranSiswa;
 use App\Http\Controllers\TambahJenisPembayaran;
 use App\Http\Controllers\JenisPembayaran;
@@ -45,7 +45,8 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::post('/deleteDataSiswaAdmin', [DataSiswa::class, 'deleteDataSiswaAdmin'])->name("deleteDataSiswaAdmin");
     Route::get('/dataSiswaAdmin/edit/{nis}', [DataSiswa::class, 'editDataSiswaAdmin'])->name("editDataSiswaAdmin");
     Route::post('/dataSiswaAdmin/update/{nis}', [DataSiswa::class, 'updateDataSiswa'])->name("updateDataSiswa");
-    Route::get('/logAktivitas', [LogAktivitas::class, 'logAktivitas'])->name("logAktivitas");
+    Route::get('/logAktivitas', [LogAktivitasController::class, 'logAktivitas'])->name("logAktivitas");
+    Route::post('/deleteAktivitas', [LogAktivitasController::class, 'deleteAktivitas'])->name("deleteAktivitas");
     Route::get('/tambahJenisPembayaran', [TambahJenisPembayaran::class, 'tambahJenisPembayaran'])->name("tambahJenisPembayaran");
     Route::post('/inputJenisPembayaran', [TambahJenisPembayaran::class, 'inputJenisPembayaran'])->name("inputJenisPembayaran");
     Route::get('/jenisPembayaranAdmin', [JenisPembayaran::class, 'jenisPembayaranAdmin'])->name("jenisPembayaranAdmin");

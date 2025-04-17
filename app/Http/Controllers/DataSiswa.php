@@ -13,11 +13,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use App\Exports\RekapExport;
 
+use App\Traits\LogAktivitas;
 
 use Illuminate\Http\Request;
 
 class DataSiswa extends Controller
 {
+    use LogAktivitas;
     public function dataSiswaAdmin(Request $request)
     {
         // Only get data Siswa
@@ -56,6 +58,9 @@ class DataSiswa extends Controller
             ->with(['jenisPembayaran', 'cicilans'])
             ->get();
         $namaSiswa = $siswa->name;
+
+        // Log Act
+        $this->logAktivitas('Export Data Pembayaran Siswa',  'Export data pembayaran siswa dengan NIS ' . $nis . ' atas nama ' . $namaSiswa . '.');
 
         return Excel::download(new RekapExport($pembayarans, $namaSiswa), (new RekapExport($pembayarans, $namaSiswa))->filename());
     }
