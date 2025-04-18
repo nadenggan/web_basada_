@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\JenisPembayaran;
+use App\Traits\LogAktivitas;
 
 class TambahJenisPembayaran extends Controller
 {
+    use LogAktivitas;
     public function tambahJenisPembayaran()
     {
         return view('admin/tambahJenisPembayaran');
@@ -34,6 +36,11 @@ class TambahJenisPembayaran extends Controller
         }
 
         JenisPembayaran::create($data);
+
+        $nama = $request->nama_jenis_pembayaran;
+
+        // Log Act
+        $this->logAktivitas('Tambah Jenis Pembayaran', 'Tambah jenis pembayaran ' . $nama );
 
         return redirect()->back()->with('success', 'Jenis pembayaran berhasil ditambahkan.');
     }

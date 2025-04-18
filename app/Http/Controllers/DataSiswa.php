@@ -60,7 +60,7 @@ class DataSiswa extends Controller
         $namaSiswa = $siswa->name;
 
         // Log Act
-        $this->logAktivitas('Export Data Pembayaran Siswa',  'Export data pembayaran siswa dengan NIS ' . $nis . ' atas nama ' . $namaSiswa . '.');
+        $this->logAktivitas('Export Data Pembayaran Siswa', 'Export data pembayaran siswa dengan NIS ' . $nis . ' atas nama ' . $namaSiswa . '.');
 
         return Excel::download(new RekapExport($pembayarans, $namaSiswa), (new RekapExport($pembayarans, $namaSiswa))->filename());
     }
@@ -83,6 +83,12 @@ class DataSiswa extends Controller
         $data['password'] = $request->nis;
 
         User::create($data);
+
+        $nis = $request->nis;
+        $namaSiswa = $request->name;
+
+        // Log Act
+        $this->logAktivitas('Tambah Data Siswa', 'Tambah data siswa dengan NIS ' . $nis . ' atas nama ' . $namaSiswa . '.');
 
         return redirect()->route('dataSiswaAdmin')->with('success', 'Data siswa berhasil ditambah.');
 
@@ -115,6 +121,12 @@ class DataSiswa extends Controller
 
         $data->save();
 
+        $nis = $request->nis;
+        $namaSiswa = $request->name;
+
+        // Log Act
+        $this->logAktivitas('Edit Data Siswa', 'Edit data siswa dengan NIS ' . $nis . ' atas nama ' . $namaSiswa . '.');
+
         return redirect()->route('dataSiswaAdmin')->with('success', 'Data siswa berhasil diupdate.');
     }
 
@@ -129,6 +141,9 @@ class DataSiswa extends Controller
 
         // Delete Data
         $user->delete();
+
+        // Log Act
+        $this->logAktivitas('Delete Data Siswa', 'Delete data siswa dengan NIS ' . $nis . '.');
 
         return redirect()->route('dataSiswaAdmin')->with('success', 'Data siswa berhasil dihapus.');
     }
@@ -147,6 +162,9 @@ class DataSiswa extends Controller
 
             // Delete Data
             $pembayaran->delete();
+
+            // Log Act
+            $this->logAktivitas('Delete Rekap Pembayaran', 'Delete rekap pembayaran siswa dengan NIS ' . $nis . ' id pembayaran ' . $idPembayaran . '.');
 
             return response()->json(['success' => 'Data rekap pembayaran berhasil dihapus.', 'nis' => $nis]);
         } else {
@@ -187,6 +205,9 @@ class DataSiswa extends Controller
         $cicilan->tanggal_bayar = $request->tanggal_bayar;
         $cicilan->save();
 
+        // Log Act
+        $this->logAktivitas('Edit Data Cicilan', 'Edit data cicilan dengan id cicilan ' . $cicilan . '.');
+
         return response()->json(['message' => 'Data cicilan berhasil diperbarui.']);
     }
     public function detailPembayaran($id): JsonResponse
@@ -203,6 +224,9 @@ class DataSiswa extends Controller
         $pembayaran->tanggal_lunas = $request->tanggal_lunas;
         $nis = $pembayaran->users->nis;
         $pembayaran->save();
+
+        // Log Act
+        $this->logAktivitas('Edit Data Rekap Siswa', 'Edit data rekap siswa dengan NIS ' . $nis . ' id pembayaran ' . $pembayaran . '.');
 
         return response()->json(['success' => 'Data rekap pembayaran berhasil diperbarui.', 'nis' => $nis]);
     }
@@ -248,6 +272,9 @@ class DataSiswa extends Controller
         $file->move("DataSiswaExcel", $namaFile);
 
         Excel::import(new SiswaImport, public_path("/DataSiswaExcel/" . $namaFile));
+
+        // Log Act
+        $this->logAktivitas('Import Data Siswa', 'Import data siswa bama file ' . $namaFile);
 
         return redirect("/dataSiswaAdmin");
     }
