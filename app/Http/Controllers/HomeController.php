@@ -7,11 +7,14 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Pembayaran;
 use App\Models\JenisPembayaran;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PrediksiController;
 
 class HomeController extends Controller
 {
     public function home(Request $request)
     {
+        //set_time_limit(60);
+
         // Only get data Siswa
         $users = User::with("kelas")->whereNotNull("nis");
 
@@ -38,6 +41,22 @@ class HomeController extends Controller
         // Paginate
         $users = $users->paginate(10);
 
+         // Initiate PrediksiController
+         $prediksiController = new PrediksiController();
+
+         // Call prediksiSemuaSiswa function from  PrediksiController
+         $prediksiSiswa = $prediksiController->prediksiSemuaSiswa()->getData()->data;
+         //dd($prediksiSiswa);
+
+         if (is_object($prediksiSiswa)) {
+            $prediksiSiswa = json_decode(json_encode($prediksiSiswa), true);
+        }
+
+        // Change format for blade
+        $prediksiMap = collect($prediksiSiswa)->keyBy('user_id');
+        //dd($prediksiMap);
+        //dd($prediksiMap->toArray());
+        
         // Total Siswa (All class)
         $total = DB::table("users")
             ->where("role", "siswa")
@@ -64,7 +83,7 @@ class HomeController extends Controller
         // Total Jenis Pembayaran
         $totalJenisPembayaran = DB::table("jenis_pembayaran")->count();
 
-        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request"));
+        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap"));
     }
 
     public function homeSiswa()

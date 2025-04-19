@@ -11,6 +11,7 @@ use App\Http\Controllers\JenisPembayaran;
 use App\Http\Controllers\Register;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\InputPembayaranSiswa;
+use App\Http\Controllers\PrediksiController;
 
 Route::get('/login', function () {
     return view("login");
@@ -71,7 +72,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
     Route::get('/inputPembayaran/{nis}', [inputPembayaranSiswa::class, 'showInputPembayaran']);
     Route::post('/storePembayaranSiswa/', [InputPembayaranSiswa::class, 'storePembayaranSiswa'])->name("storePembayaranSiswa");
     Route::get('/exportData/{nis}', [DataSiswa::class, 'exportData'])->name('exportData');
-
+    Route::get('/prediksi-siswa', [PrediksiController::class, 'prediksiSemuaSiswa'])->name('prediksiSemuaSiswa');
 
 });
 

@@ -123,7 +123,14 @@
                                                             data-nis="{{ $user->nis }}"><i class="fa-solid fa-square-plus"
                                                                 style="color: white;"></i></a></button>
                                                 </td>
-                                                <td>Tepat Waktu</td>
+                                                <td>
+                                                    {{-- {{ dd($user->id) --}}
+                                                    @if(isset($prediksiMap[$user->id]))
+                                                        {{ $prediksiMap[$user->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @endif
@@ -235,7 +242,7 @@
 
                     $('#viewCicilanModal').modal('hide');
                     $('#editCicilanModal').modal('show');
-                    
+
                 });
             }
 
@@ -264,20 +271,20 @@
                                         const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                         tbody.append(`
-                                                                                                                <tr 
-                                                                                                                data-id-cicilan="${cicilan.id}"
-                                                                                                                data-nominal="${cicilan.nominal}"
-                                                                                                                data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                                                                                                    <tr 
+                                                                                                                                    data-id-cicilan="${cicilan.id}"
+                                                                                                                                    data-nominal="${cicilan.nominal}"
+                                                                                                                                    data-tanggal-bayar="${cicilan.tanggal_bayar}">
 
-                                                                                                                    <td>${index + 1}</td>
-                                                                                                                    <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                                                                                    <td>${formattedTanggalBayar}</td>
-                                                                                                                    <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
-                                                        <i class="fa-solid fa-pen-to-square"></i> Edit
-                                                    </button></td>
+                                                                                                                                        <td>${index + 1}</td>
+                                                                                                                                        <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                                                                                                        <td>${formattedTanggalBayar}</td>
+                                                                                                                                        <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                                                                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                                        </button></td>
 
-                                                                                                                </tr>
-                                                                                                            `);
+                                                                                                                                    </tr>
+                                                                                                                                `);
                                     });
 
                                     cicilanListContainer.append(table);
