@@ -9,143 +9,180 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row justify-content-center">
+                    <!-- begin::Diagram Pie -->
                     <div class="col-lg-6">
                         <div class="card mb-4">
-                            <div class="card-header border-0">
-                                <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Presentase Status Pembayaran</h3>
+                            <div class="card-header border-0" style="padding-bottom: 0.5rem;">
+                                <div class="d-flex justify-content-between ">
+                                    <h3 class="card-title" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0;">
+                                        Presentase Status Pembayaran</h3>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <!--  isi diagram -->
+                            <hr class="mt-1 mb-2">
+                            <div class="card-body" style="padding-top: 0.5rem;">
+                                <form method="GET" action="{{ route('home') }}" class="mb-3">
+                                    <div class="row align-items-center mb-2">
+                                        <div class="col-md-4">
+                                            <select class="form-select" id="filter_jenis_pembayaran"
+                                                name="filter_jenis_pembayaran" onchange="this.form.submit()"
+                                                style="font-size: 0.9rem;">
+                                                <option value="">Semua Jenis Pembayaran</option>
+                                                @foreach($jenisPembayaranOptions as $option)
+                                                    <option value="{{ $option->id_jenis_pembayaran }}" {{ request('filter_jenis_pembayaran') == $option->id_jenis_pembayaran ? 'selected' : '' }}>
+                                                        {{ $option->nama_jenis_pembayaran }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-select" id="filter_kelas" name="filter_kelas"
+                                                onchange="this.form.submit()" style="font-size: 0.9rem;">
+                                                <option value="">Semua Kelas</option>
+                                                <option value="X" {{ request('filter_kelas') == 'X' ? 'selected' : '' }}>X
+                                                </option>
+                                                <option value="XI" {{ request('filter_kelas') == 'XI' ? 'selected' : '' }}>XI
+                                                </option>
+                                                <option value="XII" {{ request('filter_kelas') == 'XII' ? 'selected' : '' }}>
+                                                    XII</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div>
+                                    <canvas id="paymentStatusChart" width="150" height="150"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
+                     <!-- end::Diagram Pie -->
                     <!-- /.col-md-6 -->
                     <div class="col-lg-5">
-                        <div class="card mb-4">
-                            <div class="card-header border-0">
+                        <div class="card mb-4" style="height: auto;padding-bottom:3%;">
+                            <div class="card-header border-0" style="padding-bottom: 0.5rem;">
                                 <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Rangkuman Informasi</h3>
+                                    <h3 class="card-title" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0;">
+                                        Rangkuman Informasi</h3>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-5">Total Siswa</div>
-                                    <div class="col-7">: {{ $total }}</div>
+                            <hr class="mt-1 mb-2">
+                            <div class="card-body" style="padding-top: 0.5rem;">
+                                <div class="row mb-2">
+                                    <div class="col-6" style="font-size: 1.3rem;">Total Siswa</div>
+                                    <div class="col-6" style="font-size: 1.2rem;">: {{ $total }}</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6" style="font-size: 1.3rem;">Kelas X</div>
+                                    <div class="col-6" style="font-size: 1.3rem;">: {{$totalX }}</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6" style="font-size: 1.3rem;">Kelas XI</div>
+                                    <div class="col-6" style="font-size: 1.3rem;">: {{$totalXI}}</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6" style="font-size: 1.3rem;">Kelas XII</div>
+                                    <div class="col-6" style="font-size: 1.3rem;">: {{$totalXII}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5">Total Siswa Kelas X</div>
-                                    <div class="col-7">: {{$totalX }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-5">Total Siswa Kelas XI</div>
-                                    <div class="col-7">: {{$totalXI}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-5">Total Siswa Kelas XII</div>
-                                    <div class="col-7">: {{$totalXII}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">Total Jenis Pembayaran</div>
-                                    <div class="col-6">: {{  $totalJenisPembayaran }}</div>
+                                    <div class="col-6" style=" font-size: 1.3rem;">Jenis Pembayaran</div>
+                                    <div class="col-6" style="font-size: 1.3rem;">: {{ $totalJenisPembayaran }}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- /.col-md-6 -->
                 </div>
-                <!--end::Row-->
-                <!--begin::Row-->
-                <div class="row  align-items-center d-flex justify-content-center">
-                    <div class="col-sm-auto text-center" style="font-size: 28px;">
-                        <b>Data Siswa</b>
-                    </div>
-                    <div class="col-sm-6">
-                        <form class="d-flex" role="search" method="GET" action="{{ route('home') }}">
-                            <input class="form-control me-2" type="search" placeholder="Cari" aria-label="Search"
-                                name="search" value="{{ $request->get("search") }}">
-                            <button class="btn btn-primary " type="submit">Search</button>
-                        </form>
-                    </div>
-                    <div class="col-sm-auto text-center">
-                        <form action="{{ route("home") }}" method="get" class="d-flex">
-                            <!-- begin::Filter kelas-->
-                            <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
-                                <option value="">Kelas</option>
-                                <option value="X">X</option>
-                                <option value="XI">XI</option>
-                                <option value="XII">XII</option>
-                            </select>
-                            <!-- end::Filter kelas-->
-                            <button class="btn btn-primary " type="submit">Filter</button>
-                        </form>
-                    </div>
-                </div>
+                <!-- /.col-md-6 -->
             </div>
             <!--end::Row-->
             <!--begin::Row-->
-            <div class="row justify-content-center mt-2">
-                <div class="col-md-11">
-                    <div class="card mb-4">
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
+            <div class="row  align-items-center d-flex justify-content-center">
+                <div class="col-sm-auto text-center" style="font-size: 28px;">
+                    <b>Data Siswa</b>
+                </div>
+                <div class="col-sm-6">
+                    <form class="d-flex" role="search" method="GET" action="{{ route('home') }}">
+                        <input class="form-control me-2" type="search" placeholder="Cari" aria-label="Search" name="search"
+                            value="{{ $request->get("search") }}">
+                        <button class="btn btn-primary " type="submit">Search</button>
+                    </form>
+                </div>
+                <div class="col-sm-auto text-center">
+                    <form action="{{ route("home") }}" method="get" class="d-flex">
+                        <!-- begin::Filter kelas-->
+                        <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
+                            <option value="">Kelas</option>
+                            <option value="X">X</option>
+                            <option value="XI">XI</option>
+                            <option value="XII">XII</option>
+                        </select>
+                        <!-- end::Filter kelas-->
+                        <button class="btn btn-primary " type="submit">Filter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row justify-content-center mt-2">
+            <div class="col-md-11">
+                <div class="card mb-4">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">NIS</th>
+                                    <th>Nama</th>
+                                    <th>Kelas</th>
+                                    <th style="width: 40px">Jurusan</th>
+                                    <th>Alamat</th>
+                                    <th>Pembayaran</th>
+                                    <th>Prediksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if($users->isEmpty())
                                     <tr>
-                                        <th style="width: 10px">NIS</th>
-                                        <th>Nama</th>
-                                        <th>Kelas</th>
-                                        <th style="width: 40px">Jurusan</th>
-                                        <th>Alamat</th>
-                                        <th>Pembayaran</th>
-                                        <th>Prediksi</th>
+                                        <td colspan="7" style="text-align:center;">DATA TIDAK ADA</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @if($users->isEmpty())
-                                        <tr>
-                                            <td colspan="7" style="text-align:center;">DATA TIDAK ADA</td>
+                                @else
+                                    @foreach ($users as $user)
+                                        <tr class="align-middle">
+                                            <td>{{ $user->nis }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->kelas->tingkat_kelas }} </td>
+                                            <td>{{ $user->kelas->jurusan }}</td>
+                                            <td>{{ $user->alamat }}</td>
+                                            <td><button class="btn btn-warning"><a class="lihat-rekap" href=""
+                                                        data-nis="{{ $user->nis }}"> <i class="fa-solid fa-eye"
+                                                            style="color: white;"></i></a></button>
+
+                                                <button class="btn btn-success"><a class="input-bayar" href=""
+                                                        data-nis="{{ $user->nis }}"><i class="fa-solid fa-square-plus"
+                                                            style="color: white;"></i></a></button>
+                                            </td>
+                                            <td>
+                                                {{-- {{ dd($user->id) --}}
+                                                @if(isset($prediksiMap[$user->id]))
+                                                    {{ $prediksiMap[$user->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
                                         </tr>
-                                    @else
-                                        @foreach ($users as $user)
-                                            <tr class="align-middle">
-                                                <td>{{ $user->nis }}</td>
-                                                <td>{{ $user->name }}</td>
-                                                <td>{{ $user->kelas->tingkat_kelas }} </td>
-                                                <td>{{ $user->kelas->jurusan }}</td>
-                                                <td>{{ $user->alamat }}</td>
-                                                <td><button class="btn btn-warning"><a class="lihat-rekap" href=""
-                                                            data-nis="{{ $user->nis }}"> <i class="fa-solid fa-eye"
-                                                                style="color: white;"></i></a></button>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
 
-                                                    <button class="btn btn-success"><a class="input-bayar" href=""
-                                                            data-nis="{{ $user->nis }}"><i class="fa-solid fa-square-plus"
-                                                                style="color: white;"></i></a></button>
-                                                </td>
-                                                <td>
-                                                    {{-- {{ dd($user->id) --}}
-                                                    @if(isset($prediksiMap[$user->id]))
-                                                        {{ $prediksiMap[$user->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
-                                                    @else
-                                                        -
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-
-                        <div class="d-flex justify-content-center">
-                            {{ $users->links() }}
-                        </div>
+                    <div class="d-flex justify-content-center">
+                        {{ $users->links() }}
                     </div>
                 </div>
             </div>
-            <!--end::Row-->
+        </div>
+        <!--end::Row-->
         </div>
         <!--end::Container-->
         </div>
@@ -271,20 +308,20 @@
                                         const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                         tbody.append(`
-                                                                                                                                    <tr 
-                                                                                                                                    data-id-cicilan="${cicilan.id}"
-                                                                                                                                    data-nominal="${cicilan.nominal}"
-                                                                                                                                    data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                                                                                                                                        <tr 
+                                                                                                                                                                        data-id-cicilan="${cicilan.id}"
+                                                                                                                                                                        data-nominal="${cicilan.nominal}"
+                                                                                                                                                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
 
-                                                                                                                                        <td>${index + 1}</td>
-                                                                                                                                        <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                                                                                                        <td>${formattedTanggalBayar}</td>
-                                                                                                                                        <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
-                                                                            <i class="fa-solid fa-pen-to-square"></i> Edit
-                                                                        </button></td>
+                                                                                                                                                                            <td>${index + 1}</td>
+                                                                                                                                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                                                                                                                                            <td>${formattedTanggalBayar}</td>
+                                                                                                                                                                            <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                                                                                                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                                                                            </button></td>
 
-                                                                                                                                    </tr>
-                                                                                                                                `);
+                                                                                                                                                                        </tr>
+                                                                                                                                                                    `);
                                     });
 
                                     cicilanListContainer.append(table);
@@ -522,6 +559,48 @@
                     });
                 });
             });
+
+
+            const paymentStatusChartCanvas = document.getElementById('paymentStatusChart');
+            const persentaseLunas = {{ $persentaseLunas }};
+            const persentaseBelumLunas = {{ $persentaseBelumLunas }};
+
+            new Chart(paymentStatusChartCanvas, {
+                type: 'pie',
+                data: {
+                    labels: ['Lunas', 'Belum Lunas'],
+                    datasets: [{
+                        label: 'Status Pembayaran',
+                        data: [persentaseLunas, persentaseBelumLunas],
+                        backgroundColor: [
+                            'rgb(54, 162, 235)', // Blue for Lunas
+                            'rgb(255, 99, 132)'  // Red for Belum Lunas
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.label || '';
+                                    if (context.parsed !== null) {
+                                        label += ' (' + context.parsed.toFixed(2) + '%)';
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                    }
+                }
+            });
         </script>
+
     </main>
 @endsection

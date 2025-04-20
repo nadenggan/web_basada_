@@ -41,14 +41,14 @@ class HomeController extends Controller
         // Paginate
         $users = $users->paginate(10);
 
-         // Initiate PrediksiController
-         $prediksiController = new PrediksiController();
+        // Initiate PrediksiController
+        $prediksiController = new PrediksiController();
 
-         // Call prediksiSemuaSiswa function from  PrediksiController
-         $prediksiSiswa = $prediksiController->prediksiSemuaSiswa()->getData()->data;
-         //dd($prediksiSiswa);
+        // Call prediksiSemuaSiswa function from  PrediksiController
+        $prediksiSiswa = $prediksiController->prediksiSemuaSiswa()->getData()->data;
+        //dd($prediksiSiswa);
 
-         if (is_object($prediksiSiswa)) {
+        if (is_object($prediksiSiswa)) {
             $prediksiSiswa = json_decode(json_encode($prediksiSiswa), true);
         }
 
@@ -56,7 +56,7 @@ class HomeController extends Controller
         $prediksiMap = collect($prediksiSiswa)->keyBy('user_id');
         //dd($prediksiMap);
         //dd($prediksiMap->toArray());
-        
+
         // Total Siswa (All class)
         $total = DB::table("users")
             ->where("role", "siswa")
@@ -82,8 +82,34 @@ class HomeController extends Controller
 
         // Total Jenis Pembayaran
         $totalJenisPembayaran = DB::table("jenis_pembayaran")->count();
+        $jenisPembayaranOptions = JenisPembayaran::all();
 
-        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap"));
+        //  Diagram Pie
+        $lunasCount = 0;
+        $belumLunasCount = 0;
+        $totalPembayaranDiagram = 0;
+
+        $pembayaranQuery = DB::table('pembayaran');
+
+        if ($request->has('filter_jenis_pembayaran') && $request->filter_jenis_pembayaran != '') {
+            $pembayaranQuery->where('id_jenis_pembayaran', $request->filter_jenis_pembayaran);
+        }
+
+        if ($request->has('filter_kelas') && $request->filter_kelas != '') {
+            $pembayaranQuery->join('users', 'pembayaran.user_id', '=', 'users.id')
+                ->join('kelas', 'users.id_kelas', '=', 'kelas.id_kelas')
+                ->where('kelas.tingkat_kelas', $request->filter_kelas);
+        }
+
+        $pembayaransDiagram = $pembayaranQuery->get();
+        $totalPembayaranDiagram = $pembayaransDiagram->count();
+        $lunasCount = $pembayaransDiagram->where('status_pembayaran', 'lunas')->count();
+        $belumLunasCount = $totalPembayaranDiagram - $lunasCount;
+
+        $persentaseLunas = $totalPembayaranDiagram > 0 ? ($lunasCount / $totalPembayaranDiagram) * 100 : 0;
+        $persentaseBelumLunas = $totalPembayaranDiagram > 0 ? ($belumLunasCount / $totalPembayaranDiagram) * 100 : 0;
+
+        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap", "jenisPembayaranOptions", "persentaseLunas", "persentaseBelumLunas"));
     }
 
     public function homeSiswa()
