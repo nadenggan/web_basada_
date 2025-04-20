@@ -22,11 +22,11 @@
                             <div class="card-body" style="padding-top: 0.5rem;">
                                 <form method="GET" action="{{ route('home') }}" class="mb-3">
                                     <div class="row align-items-center mb-2">
-                                        <div class="col-md-4">
+                                        <div class="col-md-5">
                                             <select class="form-select" id="filter_jenis_pembayaran"
                                                 name="filter_jenis_pembayaran" onchange="this.form.submit()"
                                                 style="font-size: 0.9rem;">
-                                                <option value="">Semua Jenis Pembayaran</option>
+                                                <option value="">Jenis Pembayaran</option>
                                                 @foreach($jenisPembayaranOptions as $option)
                                                     <option value="{{ $option->id_jenis_pembayaran }}" {{ request('filter_jenis_pembayaran') == $option->id_jenis_pembayaran ? 'selected' : '' }}>
                                                         {{ $option->nama_jenis_pembayaran }}
@@ -34,10 +34,10 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <select class="form-select" id="filter_kelas" name="filter_kelas"
                                                 onchange="this.form.submit()" style="font-size: 0.9rem;">
-                                                <option value="">Semua Kelas</option>
+                                                <option value="">Kelas</option>
                                                 <option value="X" {{ request('filter_kelas') == 'X' ? 'selected' : '' }}>X
                                                 </option>
                                                 <option value="XI" {{ request('filter_kelas') == 'XI' ? 'selected' : '' }}>XI

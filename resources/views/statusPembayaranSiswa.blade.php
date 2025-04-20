@@ -29,11 +29,15 @@
                             <!-- begin::Filter Jenis Pembayaran-->
                             <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2"
                                 style="width: 220px;">
-                                @foreach ($jenisPembayaran as $jenis)
-                                    <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}" {{ $request->get('jenisPembayaran') == $jenis->id ? 'selected' : '' }}>
-                                        {{$jenis->nama_jenis_pembayaran}}
-                                    </option>
-                                @endforeach
+                                @if($jenisPembayaran->isEmpty())
+                                    <option value="">Tidak Ada Data</option>
+                                @else
+                                    @foreach ($jenisPembayaran as $jenis)
+                                        <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}" {{ $request->get('jenisPembayaran') == $jenis->id ? 'selected' : '' }}>
+                                            {{$jenis->nama_jenis_pembayaran}}
+                                        </option>
+                                    @endforeach
+                                @endif
                             </select>
                             <!-- end::Filter Jenis Pembayaran-->
 
@@ -62,7 +66,7 @@
                                                         Jenis Pembayaran Tidak Ditemukan
                                                     @endif
                             @else
-                                (Pilih Jenis Pembayaran untuk Melihat Deadline)
+                                -
                             @endif
                         </b>
                     </div>

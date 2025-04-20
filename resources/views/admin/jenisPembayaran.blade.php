@@ -83,22 +83,30 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($data as $item)
-                                            <tr class="align-middle">
-                                                <td>{{ $loop->iteration  }}</td>
-                                                <td>{{ $item->nama_jenis_pembayaran }}</td>
-                                                <td>{{ $item->deskripsi }}</td>
-                                                <td>{{ implode(', ', json_decode($item->tingkat_kelas, true)) }}</td>
-                                                <td>Rp.{{ $item->nominal }}</td>
-                                                <td>{{ $item->periode }}</td>
-                                                <td>{{ $item->periode === 'bulanan' ? $item->tanggal_bulanan : $item->tenggat_waktu }}
-                                                </td>
-                                                <td> <button class="btn btn-primary"><a href="" class="edit"
-                                                            value="{{ $item->id }}"
-                                                            style="color: white; text-decoration: none;"> <i class="fa-solid fa-pen-to-square"></i></a></button>
-                                                    <button class="btn btn-danger hapus" value="{{ $item->id }}"><i class="fa-solid fa-trash"></i></button>
-                                                </td>
-                                        @endforeach
+                                        @if($data->isEmpty())
+                                            <tr>
+                                                <td colspan="8" style="text-align: center;"> DATA TIDAK ADA</td>
+                                            </tr>
+                                        @else
+                                            @foreach($data as $item)
+                                                <tr class="align-middle">
+                                                    <td>{{ $loop->iteration  }}</td>
+                                                    <td>{{ $item->nama_jenis_pembayaran }}</td>
+                                                    <td>{{ $item->deskripsi }}</td>
+                                                    <td>{{ implode(', ', json_decode($item->tingkat_kelas, true)) }}</td>
+                                                    <td>Rp.{{ $item->nominal }}</td>
+                                                    <td>{{ $item->periode }}</td>
+                                                    <td>{{ $item->periode === 'bulanan' ? $item->tanggal_bulanan : $item->tenggat_waktu }}
+                                                    </td>
+                                                    <td> <button class="btn btn-primary"><a href="" class="edit"
+                                                                value="{{ $item->id }}"
+                                                                style="color: white; text-decoration: none;"> <i
+                                                                    class="fa-solid fa-pen-to-square"></i></a></button>
+                                                        <button class="btn btn-danger hapus" value="{{ $item->id }}"><i
+                                                                class="fa-solid fa-trash"></i></button>
+                                                    </td>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

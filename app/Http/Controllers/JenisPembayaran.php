@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\JenisPembayaran as Pembayaran;
+use App\Traits\LogAktivitas;
 
 class JenisPembayaran extends Controller
 {
+    use LogAktivitas;
     public function jenisPembayaranAdmin(Request $request)
     {
         $data = Pembayaran::query();
@@ -36,8 +38,13 @@ class JenisPembayaran extends Controller
             return redirect()->route('jenisPembayaranAdmin')->with('error', 'Id tidak ditemukan.');
         }
 
+        $nama = $jenisPembayaran->nama_jenis_pembayaran;
+        
         // Delete Data
         $jenisPembayaran->delete();
+
+        // Log Act
+        $this->logAktivitas('Delete Jenis Pembayaran', 'Delete jenis pembayaran ' . $nama . '.');
 
         return redirect()->route('jenisPembayaranAdmin')->with('success', 'Jenis Pembayaran  berhasil dihapus.');
     }
