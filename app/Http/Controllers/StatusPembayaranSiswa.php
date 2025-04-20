@@ -13,11 +13,26 @@ class StatusPembayaranSiswa extends Controller
         $users = User::with("kelas")->whereNotNull("nis");
         $jenisPembayaran = JenisPembayaran::all();
         $selectedJenisPembayaranId = $request->get('jenisPembayaran');
+        $selectedBulan = $request->get('bulan');
+        $showBulanFilter = false;
+        $bulanList = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+
 
          // Selected the top jenisPembayaran
          if (!$selectedJenisPembayaranId && $jenisPembayaran->isNotEmpty()) {
             $selectedJenisPembayaranId = $jenisPembayaran->first()->id;
             $request->merge(['jenisPembayaran' => $selectedJenisPembayaranId]);
+        }
+
+        // Filter bulan 
+        if ($selectedJenisPembayaranId) {
+            $filteredJenisPembayaran = JenisPembayaran::find($selectedJenisPembayaranId);
+            if ($filteredJenisPembayaran && $filteredJenisPembayaran->periode === 'bulanan') {
+                $showBulanFilter = true;
+            }
         }
 
         // Filter by Name, NIS, Jurusan, Status
@@ -46,14 +61,17 @@ class StatusPembayaranSiswa extends Controller
         $users = $users->paginate(10);
 
         // Load pembayaran for each user based on the selected jenis pembayaran
-        $users->each(function ($user) use ($selectedJenisPembayaranId) {
-            $user->load(['pembayarans' => function ($query) use ($selectedJenisPembayaranId) {
+        $users->each(function ($user) use ($selectedJenisPembayaranId, $selectedBulan) {
+            $user->load(['pembayarans' => function ($query) use ($selectedJenisPembayaranId, $selectedBulan) {
                 if ($selectedJenisPembayaranId) {
                     $query->where('id_jenis_pembayaran', $selectedJenisPembayaranId);
+                    if ($selectedBulan) {
+                        $query->where('bulan', $selectedBulan);
+                    }
                 }
             }]);
         });
 
-        return view('statusPembayaranSiswa', compact("users", "request","jenisPembayaran" ));
+        return view('statusPembayaranSiswa', compact("users", "request","jenisPembayaran", "showBulanFilter", "bulanList" ));
     }
 }
