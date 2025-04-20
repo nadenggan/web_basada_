@@ -97,8 +97,8 @@
                                                     <td>
                                                         <button class="btn btn-primary"><a href="" class="edit"
                                                                 value="{{ $user->nis }}"
-                                                                style="color: white; text-decoration: none;"><i class="fa-solid fa-pen-to-square"></i></a></button>
-                                                        <button class="btn btn-danger hapus" value="{{ $user->nis }}"><i class="fa-solid fa-trash"></i></button>
+                                                                style="color: white; text-decoration: none;">Edit</a></button>
+                                                        <button class="btn btn-danger hapus" value="{{ $user->nis }}">Hapus</button>
                                                     </td>
                                                 </tr>
                                             @endforeach

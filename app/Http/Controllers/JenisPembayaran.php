@@ -39,7 +39,7 @@ class JenisPembayaran extends Controller
         }
 
         $nama = $jenisPembayaran->nama_jenis_pembayaran;
-        
+
         // Delete Data
         $jenisPembayaran->delete();
 
@@ -63,12 +63,12 @@ class JenisPembayaran extends Controller
         $data->deskripsi = $request->deskripsi;
         $data->nominal = $request->nominal;
 
-          // Get tingkat_kelas value
-          $tingkatKelas = $request->tingkat_kelas;
+        // Get tingkat_kelas value
+        $tingkatKelas = $request->tingkat_kelas;
 
-          // Check tingkatKelas is array or no
-          $data->tingkat_kelas = json_encode($tingkatKelas); // Simpan sebagai JSON array
-  
+        // Check tingkatKelas is array or no
+        $data->tingkat_kelas = json_encode($tingkatKelas); // Simpan sebagai JSON array
+
 
         // Check periode
         if ($request->periode === 'bulanan') {
@@ -81,8 +81,12 @@ class JenisPembayaran extends Controller
             $data->tanggal_bulanan = null;
         }
 
+        $nama = $request->name;
 
         $data->save();
+
+        // Log Act
+        $this->logAktivitas('Edit Data Jenis Pembayaran', 'Edit data jenis pembayaran ' . $nama . '.');
 
         return redirect()->route('jenisPembayaranAdmin')->with('success', 'Jenis Pembayaran berhasil diupdate.');
     }

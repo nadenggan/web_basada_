@@ -12,12 +12,13 @@
                     </div>
                     <div class="col-sm-6">
                         <form class="d-flex" role="search" method="get" action="{{ route("jenisPembayaranGuru") }}">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ $request->get("search") }}">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                                name="search" value="{{ $request->get("search") }}">
                             <button class="btn btn-primary" type="submit">Search</button>
                         </form>
                     </div>
                     <div class="col-sm-2 text-center">
-                    <form action="{{ route("jenisPembayaranGuru") }}" method="get" class="d-flex">
+                        <form action="{{ route("jenisPembayaranGuru") }}" method="get" class="d-flex">
                             <!-- begin::Filter kelas-->
                             <select name="kelas" id="kelas" class="form-select me-2" style="width: 100px;">
                                 <option value="">Kelas</option>
@@ -28,7 +29,7 @@
                             <!-- end::Filter kelas-->
                             <button class="btn btn-primary " type="submit">Filter</button>
                         </form>
-                        
+
                     </div>
                 </div>
                 <!--end::Row-->
@@ -72,7 +73,8 @@
                                                 <td>{{ implode(', ', json_decode($item->tingkat_kelas, true)) }}</td>
                                                 <td>Rp.{{ $item->nominal }}</td>
                                                 <td>{{ $item->periode }}</td>
-                                                <td>{{ $item->periode === 'bulanan' ? $item->dynamicTenggatWaktu : $item->tenggat_waktu }}</td>
+                                                <td>{{ $item->periode === 'bulanan' ? $item->dynamicTenggatWaktu : $item->tenggat_waktu }}
+                                                </td>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -80,13 +82,7 @@
                             <!-- /.card-body -->
 
                             <div class="card-footer clearfix">
-                                <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                </ul>
+                                {{$data->links()}}
                             </div>
                         </div>
                     </div>

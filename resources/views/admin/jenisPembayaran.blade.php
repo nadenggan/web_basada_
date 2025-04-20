@@ -98,12 +98,10 @@
                                                     <td>{{ $item->periode }}</td>
                                                     <td>{{ $item->periode === 'bulanan' ? $item->tanggal_bulanan : $item->tenggat_waktu }}
                                                     </td>
-                                                    <td> <button class="btn btn-primary"><a href="" class="edit"
+                                                    <td> <button class="btn btn-primary "><a href="" class="edit"
                                                                 value="{{ $item->id }}"
-                                                                style="color: white; text-decoration: none;"> <i
-                                                                    class="fa-solid fa-pen-to-square"></i></a></button>
-                                                        <button class="btn btn-danger hapus" value="{{ $item->id }}"><i
-                                                                class="fa-solid fa-trash"></i></button>
+                                                                style="color: white; text-decoration: none;">Edit</a></button>
+                                                        <button class="btn btn-danger hapus" value="{{ $item->id }}">Hapus</button>
                                                     </td>
                                             @endforeach
                                         @endif
@@ -113,13 +111,7 @@
                             <!-- /.card-body -->
 
                             <div class="card-footer clearfix">
-                                <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                </ul>
+                                {{$data->links()}}
                             </div>
                         </div>
                     </div>

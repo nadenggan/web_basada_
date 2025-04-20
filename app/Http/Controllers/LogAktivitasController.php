@@ -8,9 +8,9 @@ use App\Models\Aktivitas;
 class LogAktivitasController extends Controller
 {
     public function logAktivitas(){
-        $aktivitas = Aktivitas::with('users')->orderByDesc('waktu_kegiatan')->paginate(15);
-        return view('admin/logAktivitas', compact('aktivitas'));
-    
+        $aktivitas = Aktivitas::with('users')->orderByDesc('waktu_kegiatan')->paginate(10);
+
+        return view('admin/logAktivitas', compact('aktivitas'));    
     }
 
     public function deleteAktivitas(Request $request)

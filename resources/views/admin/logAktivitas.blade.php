@@ -31,33 +31,33 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <!--  <div class="row align-items-center">
-                            <div class="col-sm-3 text-center">
-                                <h3 class="mb-0">Jenis Pembayaran</h3>
-                            </div>
-                            <div class="col-sm-6">
-                                <form class="d-flex" role="search">
-                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-primary" type="submit">Search</button>
-                                </form>
-                            </div>
-                            <div class="col-sm-3 text-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        Kelas
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider" />
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">Separated link</a></li>
-                                    </ul>
+                                <div class="col-sm-3 text-center">
+                                    <h3 class="mb-0">Jenis Pembayaran</h3>
                                 </div>
-                            </div>
-                        </div> -->
+                                <div class="col-sm-6">
+                                    <form class="d-flex" role="search">
+                                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                    </form>
+                                </div>
+                                <div class="col-sm-3 text-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            Kelas
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                            <li>
+                                                <hr class="dropdown-divider" />
+                                            </li>
+                                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div> -->
                 <!--end::Row-->
             </div>
             <!--end::Container-->
@@ -106,13 +106,7 @@
                             <!-- /.card-body -->
 
                             <div class="card-footer clearfix">
-                                <ul class="pagination pagination-sm m-0 float-end">
-                                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                </ul>
+                                {{$aktivitas->links()}}
                             </div>
                         </div>
                     </div>
@@ -131,7 +125,7 @@
                 e.preventDefault();
                 // Get id from button
                 var id_act = $(this).val();
-                $("#delete_id").val(id_act); 
+                $("#delete_id").val(id_act);
                 // Show modal
                 $("#deleteModal").modal("show");
             });

@@ -176,7 +176,7 @@
                     </div>
                     <!-- /.card-body -->
 
-                    <div class="d-flex justify-content-center">
+                    <div class="card-footer clearfix">
                         {{ $users->links() }}
                     </div>
                 </div>

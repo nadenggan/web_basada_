@@ -101,7 +101,7 @@ class DataSiswa extends Controller
         $jenisPembayaran = JenisPembayaran::all();
         $pembayarans = Pembayaran::where('user_id', $data->id)
             ->with('jenisPembayaran')
-            ->get();
+            ->paginate(10);
 
          // Initiate PrediksiController
          $prediksiController = new PrediksiController();
