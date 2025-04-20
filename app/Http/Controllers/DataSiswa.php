@@ -12,6 +12,7 @@ use App\Models\Cicilan;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use App\Exports\RekapExport;
+use App\Http\Controllers\PrediksiController;
 
 use App\Traits\LogAktivitas;
 
@@ -102,7 +103,21 @@ class DataSiswa extends Controller
             ->with('jenisPembayaran')
             ->get();
 
-        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans'));
+         // Initiate PrediksiController
+         $prediksiController = new PrediksiController();
+
+         // Call prediksiSemuaSiswa function from  PrediksiController
+         $prediksiSiswa = $prediksiController->prediksiSemuaSiswa()->getData()->data;
+         //dd($prediksiSiswa);
+
+         if (is_object($prediksiSiswa)) {
+            $prediksiSiswa = json_decode(json_encode($prediksiSiswa), true);
+        }
+
+        // Change format for blade
+        $prediksiMap = collect($prediksiSiswa)->keyBy('user_id');
+
+        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans','prediksiMap'));
     }
     public function editDataSiswaAdmin($nis)
     {
