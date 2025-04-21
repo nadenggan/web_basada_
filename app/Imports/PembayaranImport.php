@@ -43,19 +43,55 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
             }
 
             $pembayaran = new Pembayaran($pembayaranData);
+            $pembayaran->save();
+
 
             // Cicilan
-            if ($pembayaran->status_pembayaran == 'belum lunas' && !empty($row['nominal_cicilan']) && !empty($row['tanggal_bayar'])) {
-                $pembayaran->save();
-                Cicilan::create([
-                    'id_pembayaran' => $pembayaran->id,
-                    'nominal' => $row['nominal_cicilan'],
-                    'tanggal_bayar' => $row['tanggal_bayar'],
-                ]);
-            } else {
-                $pembayaran->save();
+            foreach ($row as $key => $value) {
+                if (strpos(strtolower($key), 'nominal_cicilan_') === 0 && !empty($value)) {
+
+                    // Get the index
+                    $cicilanIndex = str_replace('nominal_cicilan_', '', strtolower($key));
+                    $tanggalBayarKey = 'tanggal_bayar_' . $cicilanIndex;
+
+                    if (isset($row[$tanggalBayarKey]) && !empty($row[$tanggalBayarKey])) {
+                        Cicilan::create([
+                            'id_pembayaran' => $pembayaran->id,
+                            'nominal' => $value,
+                            'tanggal_bayar' => $row[$tanggalBayarKey],
+                        ]);
+
+                        // Cicilan tunggal
+                    } elseif (strpos(strtolower($key), 'nominal_cicilan') === 0 && !strpos(strtolower($key), '_')) {
+                        if (!empty($row['tanggal_bayar'])) {
+                            Cicilan::create([
+                                'id_pembayaran' => $pembayaran->id,
+                                'nominal' => $value,
+                                'tanggal_bayar' => $row['tanggal_bayar'],
+                            ]);
+                        }
+                    }
+                }
             }
 
+            // Cicilan tunggal outside loop
+            if (
+                isset($row['nominal_cicilan']) && !empty($row['nominal_cicilan']) && !strpos(strtolower(key($row)), 'nominal_cicilan_') === 0 &&
+                isset($row['tanggal_bayar']) && !empty($row['tanggal_bayar'])
+            ) {
+                $cicilanSudahDibuat = Cicilan::where('id_pembayaran', $pembayaran->id)
+                    ->where('nominal', $row['nominal_cicilan'])
+                    ->where('tanggal_bayar', $row['tanggal_bayar'])
+                    ->exists();
+
+                if (!$cicilanSudahDibuat) {
+                    Cicilan::create([
+                        'id_pembayaran' => $pembayaran->id,
+                        'nominal' => $row['nominal_cicilan'],
+                        'tanggal_bayar' => $row['tanggal_bayar'],
+                    ]);
+                }
+            }
             return $pembayaran;
         }
         return null;
@@ -73,9 +109,17 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
             'jenis_pembayaran' => 'required_with:nis,status_lunas',
             'status_lunas' => 'required_with:nis,jenis_pembayaran',
             'tanggal_lunas' => 'nullable|date_format:Y-m-d',
-            'nominal_cicilan' => 'nullable|numeric',
-            'tanggal_bayar' => 'nullable|date_format:Y-m-d',
         ];
+
+        // Validation nominal_cicilan & tanggal_bayar
+        foreach (request()->all() as $key => $value) {
+            if (strpos(strtolower($key), 'nominal_cicilan') === 0) {
+                $rules[$key] = 'nullable|numeric';
+            }
+            if (strpos(strtolower($key), 'tanggal_bayar') === 0) {
+                $rules[$key] = 'nullable|date_format:Y-m-d';
+            }
+        }
 
         // column 'bulan' validation
         if (request()->hasFile('file')) {
@@ -96,9 +140,17 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
             'jenis_pembayaran.required_with' => 'Kolom Jenis Pembayaran wajib diisi jika kolom NIS atau Status Lunas diisi.',
             'status_lunas.required_with' => 'Kolom Status Lunas wajib diisi jika kolom NIS atau Jenis Pembayaran diisi.',
             'tanggal_lunas.date_format' => 'Format Tanggal Lunas tidak valid (YYYY-MM-DD).',
-            'nominal_cicilan.numeric' => 'Kolom Nominal Cicilan harus berupa angka.',
-            'tanggal_bayar.date_format' => 'Format Tanggal Bayar tidak valid (YYYY-MM-DD).',
         ];
+
+        // Message validation nominal_cicilan dan tanggal_bayar
+        foreach (request()->all() as $key => $value) {
+            if (strpos(strtolower($key), 'nominal_cicilan') === 0) {
+                $messages[$key . '.numeric'] = 'Kolom ' . $key . ' harus berupa angka.';
+            }
+            if (strpos(strtolower($key), 'tanggal_bayar') === 0) {
+                $messages[$key . '.date_format'] = 'Format Kolom ' . $key . ' tidak valid (YYYY-MM-DD).';
+            }
+        }
 
         if (request()->hasFile('file')) {
             $import = new static();

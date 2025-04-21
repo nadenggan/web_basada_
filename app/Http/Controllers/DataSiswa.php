@@ -103,21 +103,21 @@ class DataSiswa extends Controller
             ->with('jenisPembayaran')
             ->paginate(10);
 
-         // Initiate PrediksiController
-         $prediksiController = new PrediksiController();
+        // Initiate PrediksiController
+        $prediksiController = new PrediksiController();
 
-         // Call prediksiSemuaSiswa function from  PrediksiController
-         $prediksiSiswa = $prediksiController->prediksiSemuaSiswa()->getData()->data;
-         //dd($prediksiSiswa);
+        // Call prediksiSemuaSiswa function from  PrediksiController
+        $prediksiSiswa = $prediksiController->prediksiSemuaSiswa()->getData()->data;
+        //dd($prediksiSiswa);
 
-         if (is_object($prediksiSiswa)) {
+        if (is_object($prediksiSiswa)) {
             $prediksiSiswa = json_decode(json_encode($prediksiSiswa), true);
         }
 
         // Change format for blade
         $prediksiMap = collect($prediksiSiswa)->keyBy('user_id');
 
-        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans','prediksiMap'));
+        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans', 'prediksiMap'));
     }
     public function editDataSiswaAdmin($nis)
     {
@@ -198,6 +198,23 @@ class DataSiswa extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Terjadi kesalahan server saat mengambil data cicilan.'], 500);
         }
+    }
+
+    public function tambahCicilan(Request $request)
+    {
+        $request->validate([
+            'id_pembayaran' => 'required|exists:pembayaran,id',
+            'nominal' => 'required|numeric|min:1',
+            'tanggal_bayar' => 'required|date',
+        ]);
+
+        Cicilan::create([
+            'id_pembayaran' => $request->id_pembayaran,
+            'nominal' => $request->nominal,
+            'tanggal_bayar' => $request->tanggal_bayar,
+        ]);
+
+        return redirect()->back()->with('success', 'Cicilan berhasil ditambahkan.');
     }
 
     public function detailCicilanSiswa($id_pembayaran): JsonResponse

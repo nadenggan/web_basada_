@@ -133,9 +133,12 @@ class HomeController extends Controller
             'file' => 'required|mimes:xlsx,xls',
         ]);
 
+       // dd($request->file('file'));
+
         //dd('Validasi file berhasil');
         $file = $request->file('file');
 
+        
         try {
             Excel::import(new PembayaranImport, $file);
             $this->logAktivitas('Import Pembayaran', 'Berhasil mengimpor data pembayaran dari file: ' . $file->getClientOriginalName());

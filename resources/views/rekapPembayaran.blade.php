@@ -230,6 +230,9 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
+                                        <button type="button" class="btn btn-success  ms-2" data-bs-toggle="modal"
+                                            data-bs-target="#tambahCicilanModal"> Tambah
+                                        </button>
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
                                     </div>
@@ -237,9 +240,46 @@
                             </div>
                         </div>
 
+                        <!-- Modal Tambah Cicilan -->
+                        <div class="modal fade" id="tambahCicilanModal" tabindex="-1"
+                            aria-labelledby="tambahCicilanModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <form id="tambahCicilanForm" action="{{ route('tambahCicilan') }}" method="post">
+                                        @csrf
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="tambahCicilanModalLabel">Tambah Cicilan
+                                            </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="id_pembayaran" id="tambah_id_pembayaran">
+                                            <div class="mb-3">
+                                                <label for="tambah_nominal_cicilan" class="form-label">Nominal
+                                                    Cicilan</label>
+                                                <input type="number" class="form-control" id="tambah_nominal_cicilan"
+                                                    name="nominal" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tambah_tanggal_bayar_cicilan" class="form-label">Tanggal
+                                                    Bayar</label>
+                                                <input type="date" class="form-control"
+                                                    id="tambah_tanggal_bayar_cicilan" name="tanggal_bayar" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-primary">Simpan Cicilan</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Card Footer-->
                         <div class="card-footer clearfix">
-                        {{ $pembayarans->links() }}
+                            {{ $pembayarans->links() }}
                         </div>
                     </div>
                 </div>

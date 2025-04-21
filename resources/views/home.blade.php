@@ -334,13 +334,17 @@
             // Show Cicilan Modal
             function showCicilanModal() {
                 $(document).ready(function () {
-                    $(".showCicilan").click(function (e) {
+                    $(document).off('click', '.showCicilan').on('click', '.showCicilan', function (e) {
+                        e.preventDefault();
                         e.preventDefault();
                         // Get id from button
                         var id_pembayaran = $(this).val();
                         // Table body
                         var cicilanListContainer = $('#cicilan-list');
                         cicilanListContainer.empty();
+
+                        // Set id_pembayaran at modal Tambah Cicilan
+                        $('#tambah_id_pembayaran').val(id_pembayaran);
 
                         fetch(`/rekap-pembayaran/cicilan/${id_pembayaran}`)
                             .then(response => response.json()) // get data
@@ -356,20 +360,20 @@
                                         const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                         tbody.append(`
-                                                                                                                                                                                                        <tr 
-                                                                                                                                                                                                        data-id-cicilan="${cicilan.id}"
-                                                                                                                                                                                                        data-nominal="${cicilan.nominal}"
-                                                                                                                                                                                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                                                                                                                                                                                <tr 
+                                                                                                                                                                                                                data-id-cicilan="${cicilan.id}"
+                                                                                                                                                                                                                data-nominal="${cicilan.nominal}"
+                                                                                                                                                                                                                data-tanggal-bayar="${cicilan.tanggal_bayar}">
 
-                                                                                                                                                                                                            <td>${index + 1}</td>
-                                                                                                                                                                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                                                                                                                                                                            <td>${formattedTanggalBayar}</td>
-                                                                                                                                                                                                            <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
-                                                                                                                                                <i class="fa-solid fa-pen-to-square"></i> Edit
-                                                                                                                                            </button></td>
+                                                                                                                                                                                                                    <td>${index + 1}</td>
+                                                                                                                                                                                                                    <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                                                                                                                                                                                    <td>${formattedTanggalBayar}</td>
+                                                                                                                                                                                                                    <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                                                                                                                                                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                                                                                                                    </button></td>
 
-                                                                                                                                                                                                        </tr>
-                                                                                                                                                                                                    `);
+                                                                                                                                                                                                                </tr>
+                                                                                                                                                                                                            `);
                                     });
 
                                     cicilanListContainer.append(table);
