@@ -106,7 +106,7 @@
           <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
             @if(auth()->user()->role == "admin" || auth()->user()->role == "guru")
         <li class="nav-item">
-          <a href="{{route("home")}}" class="nav-link active">
+          <a href="{{route("home")}}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
           <i class="bi bi-house-door"></i>
           <p>Dashboard</p>
           </a>
@@ -114,7 +114,7 @@
       @endif
             @if(auth()->user()->role == "siswa")
         <li class="nav-item">
-          <a href="{{route("homeSiswa")}}" class="nav-link active">
+          <a href="{{route("homeSiswa")}}" class="nav-link {{ request()->routeIs('homeSiswa') ? 'active' : '' }}">
           <i class="bi bi-house-door"></i>
           <p>Dashboard</p>
           </a>
@@ -122,7 +122,7 @@
       @endif
             @if(auth()->user()->role == "guru")
         <li class="nav-item">
-          <a href="{{ route("dataSiswaGuru") }}" class="nav-link">
+          <a href="{{ route("dataSiswaGuru") }}" class="nav-link {{ request()->routeIs('dataSiswaGuru') ? 'active' : '' }}">
           <i class="bi bi-file-earmark-person"></i>
           <p>Data Siswa</p>
           </a>
@@ -130,13 +130,13 @@
       @endif
             @if(auth()->user()->role == "admin")
         <li class="nav-item">
-          <a href="{{ route("dataSiswaAdmin") }}" class="nav-link">
+          <a href="{{ route("dataSiswaAdmin") }}" class="nav-link {{ request()->routeIs('dataSiswaAdmin') ? 'active' : '' }}">
           <i class="bi bi-file-earmark-person"></i>
           <p>Data Siswa</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route("logAktivitas") }}" class="nav-link">
+          <a href="{{ route("logAktivitas") }}" class="nav-link {{ request()->routeIs('logAktivitas') ? 'active' : '' }}">
           <i class="bi bi-journal-text"></i>
           <p>Log Aktivitas</p>
           </a>
@@ -155,7 +155,7 @@
               <ul class="nav nav-treeview">
                 @if(auth()->user()->role == "guru")
           <li class="nav-item">
-            <a href="{{route("jenisPembayaranGuru")}}" class="nav-link">
+            <a href="{{route("jenisPembayaranGuru")}}" class="nav-link {{ request()->routeIs('jenisPembayaranGuru') ? 'active' : '' }}">
             <i class="nav-icon bi bi-circle"></i>
             <p>Jenis Pembayaran Siswa</p>
             </a>
@@ -163,13 +163,13 @@
         @endif
                 @if(auth()->user()->role == "admin")
           <li class="nav-item">
-            <a href="{{route("jenisPembayaranAdmin")}}" class="nav-link">
+            <a href="{{route("jenisPembayaranAdmin")}}" class="nav-link {{ request()->routeIs('jenisPembayaranAdmin') ? 'active' : '' }}">
             <i class="nav-icon bi bi-circle"></i>
             <p>Jenis Pembayaran Siswa</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route("tambahJenisPembayaran") }}" class="nav-link">
+            <a href="{{ route("tambahJenisPembayaran") }}" class="nav-link {{ request()->routeIs('tambahJenisPembayaran') ? 'active' : '' }}">
             <i class="nav-icon bi bi-circle"></i>
             <p>Tambah Jenis Pembayaran</p>
             </a>
@@ -177,7 +177,7 @@
         @endif
                 @if(auth()->user()->role == "admin" || auth()->user()->role == "guru")
           <li class="nav-item">
-            <a href="{{ route("statusPembayaranSiswa") }}" class="nav-link">
+            <a href="{{ route("statusPembayaranSiswa") }}" class="nav-link {{ request()->routeIs('statusPembayaranSiswa') ? 'active' : '' }}">
             <i class="nav-icon bi bi-circle"></i>
             <p>Status Pembayaran Siswa</p>
             </a>
