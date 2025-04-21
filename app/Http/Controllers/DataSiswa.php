@@ -238,7 +238,7 @@ class DataSiswa extends Controller
         $cicilan->save();
 
         // Log Act
-        $this->logAktivitas('Edit Data Cicilan', 'Edit data cicilan dengan id cicilan ' . $cicilan . '.');
+        $this->logAktivitas('Edit Data Cicilan', 'Edit data cicilan dengan id cicilan ' . $cicilan->id. '.');
 
         return response()->json(['message' => 'Data cicilan berhasil diperbarui.']);
     }
@@ -258,7 +258,7 @@ class DataSiswa extends Controller
         $pembayaran->save();
 
         // Log Act
-        $this->logAktivitas('Edit Data Rekap Siswa', 'Edit data rekap siswa dengan NIS ' . $nis . ' id pembayaran ' . $pembayaran . '.');
+        $this->logAktivitas('Edit Data Rekap Siswa', 'Edit data rekap siswa dengan NIS ' . $nis . ' id pembayaran ' . $pembayaran->id . '.');
 
         return response()->json(['success' => 'Data rekap pembayaran berhasil diperbarui.', 'nis' => $nis]);
     }

@@ -306,6 +306,8 @@
 
                                 editCicilanModal();
 
+                                updateCicilan();
+
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
                             })
@@ -360,20 +362,20 @@
                                         const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                         tbody.append(`
-                                                                                                                                                                                                                <tr 
-                                                                                                                                                                                                                data-id-cicilan="${cicilan.id}"
-                                                                                                                                                                                                                data-nominal="${cicilan.nominal}"
-                                                                                                                                                                                                                data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                                                                                                                                                                                        <tr 
+                                                                                                                                                                                                                        data-id-cicilan="${cicilan.id}"
+                                                                                                                                                                                                                        data-nominal="${cicilan.nominal}"
+                                                                                                                                                                                                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
 
-                                                                                                                                                                                                                    <td>${index + 1}</td>
-                                                                                                                                                                                                                    <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                                                                                                                                                                                    <td>${formattedTanggalBayar}</td>
-                                                                                                                                                                                                                    <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
-                                                                                                                                                        <i class="fa-solid fa-pen-to-square"></i> Edit
-                                                                                                                                                    </button></td>
+                                                                                                                                                                                                                            <td>${index + 1}</td>
+                                                                                                                                                                                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                                                                                                                                                                                            <td>${formattedTanggalBayar}</td>
+                                                                                                                                                                                                                            <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                                                                                                                                                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                                                                                                                            </button></td>
 
-                                                                                                                                                                                                                </tr>
-                                                                                                                                                                                                            `);
+                                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                                    `);
                                     });
 
                                     cicilanListContainer.append(table);
@@ -391,6 +393,41 @@
                                 console.error("Error fetching data cicilan:", error);
                             });
 
+                    });
+                });
+            }
+
+            // UpdateCicilan
+            function updateCicilan() {
+                $(document).ready(function () {
+                    $(document).off('submit', '#editCicilanForm').on('submit', '#editCicilanForm', function (e) {
+                        e.preventDefault();
+                        const url = $(this).attr('action');
+                        const formData = $(this).serialize();
+                        const idCicilan = $('#id_cicilan_edit').val(); 
+
+                        $.ajax({
+                            type: 'PUT',
+                            url: url,
+                            data: formData,
+                            dataType: 'json', 
+                            success: function (response) {
+                                $('#editCicilanModal').modal('hide');
+                                const nis = $('.app-main').data('nis'); 
+                                if (nis) {
+                                    window.location.href = `/rekap-pembayaran/${nis}`;
+                                } else {
+                                    console.error('NIS tidak ditemukan untuk redirect.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error updating cicilan:', error);
+                                alert('Terjadi kesalahan saat memperbarui cicilan.');
+                                if (error.responseJSON && error.responseJSON.message) {
+                                    alert(error.responseJSON.message);
+                                }
+                            }
+                        });
                     });
                 });
             }
@@ -451,6 +488,7 @@
                 });
             }
 
+
             // Delete Rekap Pembayaran
             function initializeDeleteModal() {
                 $(document).ready(function () {
@@ -497,6 +535,7 @@
                     });
                 });
             }
+
 
             // Filter Jenis Pembayaran 
             function initializeRekapPembayaranFilter() {
@@ -551,6 +590,7 @@
                 });
             }
 
+            
             // Input Pembayaran Siswa
             document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll(".input-bayar").forEach(item => {
