@@ -57,7 +57,7 @@
                                                             Setiap tanggal {{ $filteredJenisPembayaran->tanggal_bulanan }}
                                                         @else
                                                             @if ($filteredJenisPembayaran->tenggat_waktu)
-                                                                {{ \Carbon\Carbon::parse($filteredJenisPembayaran->tenggat_waktu)->locale('id')->isoFormat('D MMMM<ctrl98>') }}
+                                                                {{ \Carbon\Carbon::parse($filteredJenisPembayaran->tenggat_waktu)->locale('id')->isoFormat('D MMMM YYYY') }}
                                                             @else
                                                                 Tidak Ada Tenggat Waktu
                                                             @endif

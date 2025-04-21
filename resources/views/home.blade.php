@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                     <!-- end::Diagram Pie -->
+                    <!-- end::Diagram Pie -->
                     <!-- /.col-md-6 -->
                     <div class="col-lg-5">
                         <div class="card mb-4" style="height: auto;padding-bottom:3%;">
@@ -95,6 +95,13 @@
             <!--end::Row-->
             <!--begin::Row-->
             <div class="row  align-items-center d-flex justify-content-center">
+                <div>
+                    @if (session('error'))
+                        <div class="alert alert-danger mb-3">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                </div>
                 <div class="col-sm-auto text-center" style="font-size: 28px;">
                     <b>Data Siswa</b>
                 </div>
@@ -177,7 +184,48 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer clearfix">
-                        {{ $users->links() }}
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Import
+                            Pembayaran</button>
+
+                        <!-- Upload Excel Modal -->
+                        <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="uploadModalLabel">Upload Excel File</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <a href="template_pembayaran.xlsx" download class="text-primary"
+                                                style="text-decoration:none;">*Download template
+                                                Excel</a>
+                                        </div>
+
+
+                                        <form id="uploadForm" method="POST" enctype="multipart/form-data"
+                                            action="{{ route('importExcelPembayaran') }}">
+                                            @csrf
+                                            <div class="mb-3">
+                                                <label for="excelFile" class="form-label">Pilih File Excel</label>
+                                                <input type="file" class="form-control" id="excelFile" accept=".xlsx, .xls"
+                                                    name="file" required>
+                                            </div>
+                                            <div class="modal-footer d-flex justify-content-center">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-primary">Upload</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pagination float-end">
+                            {{$users->links()}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -308,20 +356,20 @@
                                         const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                         tbody.append(`
-                                                                                                                                                                        <tr 
-                                                                                                                                                                        data-id-cicilan="${cicilan.id}"
-                                                                                                                                                                        data-nominal="${cicilan.nominal}"
-                                                                                                                                                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                                                                                                                                                                        <tr 
+                                                                                                                                                                                                        data-id-cicilan="${cicilan.id}"
+                                                                                                                                                                                                        data-nominal="${cicilan.nominal}"
+                                                                                                                                                                                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
 
-                                                                                                                                                                            <td>${index + 1}</td>
-                                                                                                                                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                                                                                                                                            <td>${formattedTanggalBayar}</td>
-                                                                                                                                                                            <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
-                                                                                                                <i class="fa-solid fa-pen-to-square"></i> Edit
-                                                                                                            </button></td>
+                                                                                                                                                                                                            <td>${index + 1}</td>
+                                                                                                                                                                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                                                                                                                                                                            <td>${formattedTanggalBayar}</td>
+                                                                                                                                                                                                            <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                                                                                                                                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                                                                                                            </button></td>
 
-                                                                                                                                                                        </tr>
-                                                                                                                                                                    `);
+                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                    `);
                                     });
 
                                     cicilanListContainer.append(table);

@@ -123,7 +123,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="mb-3">
-                                                    <a href="template.xlsx" download class="text-primary"
+                                                    <a href="template_data_siswa.xlsx" download class="text-primary"
                                                         style="text-decoration:none;">*Download template
                                                         Excel</a>
                                                 </div>

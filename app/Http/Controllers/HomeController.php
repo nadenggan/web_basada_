@@ -8,9 +8,13 @@ use App\Models\Pembayaran;
 use App\Models\JenisPembayaran;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PrediksiController;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\PembayaranImport;
+use App\Traits\LogAktivitas;
 
 class HomeController extends Controller
 {
+    use logAktivitas;
     public function home(Request $request)
     {
         //set_time_limit(60);
@@ -123,4 +127,32 @@ class HomeController extends Controller
         return view('siswa/home', compact('siswa', 'pembayarans', 'jenisPembayaran'));
     }
 
+    public function importExcelPembayaran(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        //dd('Validasi file berhasil');
+        $file = $request->file('file');
+
+        try {
+            Excel::import(new PembayaranImport, $file);
+            $this->logAktivitas('Import Pembayaran', 'Berhasil mengimpor data pembayaran dari file: ' . $file->getClientOriginalName());
+            return redirect('/home')->with('success', 'Data pembayaran  berhasil diimpor.');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            $errorString = "Terjadi kesalahan validasi saat impor:\n";
+            foreach ($failures as $failure) {
+                $errorString .= sprintf("- Baris %s, Kolom %s: %s\n",
+                    $failure->row(),
+                    $failure->attribute(),
+                    implode(', ', $failure->errors())
+                );
+            }
+            return redirect()->back()->with('error', $errorString);
+        } catch (\Exception $e) { 
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data pembayaran: ' . $e->getMessage());
+        }
+    }
 }

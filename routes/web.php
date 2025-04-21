@@ -57,7 +57,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::get('/tambah-data/', [DataSiswa::class, 'tambahDataSiswa'])->name("tambahDataSiswa");
     Route::post('/store-data/', [DataSiswa::class, 'storeDataSiswa'])->name("storeDataSiswa");
     Route::post('/importExcel', [DataSiswa::class, 'importExcel'])->name("importExcel");
-
+    Route::post('/importExcelPembayaran', [HomeController::class, 'importExcelPembayaran'])->name('importExcelPembayaran');
 });
 
 Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
@@ -68,7 +68,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
     Route::get('/rekap-pembayaran/detail/{id}', [DataSiswa::class, 'detailPembayaran'])->name('detailPembayaran');
     Route::put('/rekap-pembayaran/update', [DataSiswa::class, 'updateDataRekapSiswa'])->name('updateDataRekapSiswa');
     Route::get('/rekap-pembayaran/cicilan/{id_pembayaran}', [DataSiswa::class, 'detailCicilan'])->name('detailCicilan');
-    Route::put('/rekap-pembayaran/updateCicilan',[DataSiswa::class, 'updateCicilan'])->name('updateCicilan');
+    Route::put('/rekap-pembayaran/updateCicilan', [DataSiswa::class, 'updateCicilan'])->name('updateCicilan');
     Route::get('/inputPembayaran/{nis}', [inputPembayaranSiswa::class, 'showInputPembayaran']);
     Route::post('/storePembayaranSiswa/', [InputPembayaranSiswa::class, 'storePembayaranSiswa'])->name("storePembayaranSiswa");
     Route::get('/exportData/{nis}', [DataSiswa::class, 'exportData'])->name('exportData');
@@ -78,7 +78,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
 
 Route::group(["middleware" => ["auth", "checkrole:siswa"]], function () {
     Route::get('/homeSiswa', [HomeController::class, 'homeSiswa'])->name("homeSiswa");
-    
+
     Route::get('/rekap-pembayaran/cicilanSiswaPage/{id_pembayaran}', [DataSiswa::class, 'detailCicilanSiswa'])->name('detailCicilanSiswa');
 });
 
