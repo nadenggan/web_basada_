@@ -147,11 +147,13 @@
                             <div class="row">
                                 <div class="col-3 fw-bold">Prediksi</div>
                                 <div class="col-9">:
-                                    @if(isset($prediksiMap[$data->id]))
-                                        {{ $prediksiMap[$data->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
-                                    @else
-                                        -
-                                    @endif
+                                @if(isset($prediksiMap[$data->id]))
+                                                    <span style="background-color: {{ $prediksiMap[$data->id]->prediksi == 1 ? 'rgba(255, 0, 0, 0.4)' : 'rgba(0, 255, 0, 0.3)' }}; color: black; padding: 1px 5px; border-radius: 5px; ">
+                                                        {{ $prediksiMap[$data->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
+                                                    </span>
+                                                @else
+                                                    -
+                                                @endif
                                 </div>
                             </div>
                         </div>

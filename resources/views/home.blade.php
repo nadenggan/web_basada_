@@ -143,7 +143,7 @@
                                     <th style="width: 40px">Jurusan</th>
                                     <th>Alamat</th>
                                     <th>Pembayaran</th>
-                                    <th>Prediksi</th>
+                                    <th style="text-align: center;">Prediksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,10 +167,12 @@
                                                         data-nis="{{ $user->nis }}"><i class="fa-solid fa-square-plus"
                                                             style="color: white;"></i></a></button>
                                             </td>
-                                            <td>
+                                            <td style="text-align: center;">
                                                 {{-- {{ dd($user->id) --}}
                                                 @if(isset($prediksiMap[$user->id]))
-                                                    {{ $prediksiMap[$user->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
+                                                    <span style="background-color: {{ $prediksiMap[$user->id]->prediksi == 1 ? 'rgba(255, 0, 0, 0.4)' : 'rgba(0, 255, 0, 0.3)' }}; color: black; padding: 5px 10px; border-radius: 5px; ">
+                                                        {{ $prediksiMap[$user->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
+                                                    </span>
                                                 @else
                                                     -
                                                 @endif
