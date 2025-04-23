@@ -204,15 +204,7 @@
     <!--begin::App Main-->
     @yield("content")
     <!--end::App Main-->
-    <!--begin::Footer-->
-    <footer class="app-footer" style="text-align: center;">
-      <!--begin::Copyright-->
-      <strong>
-        Copyright &copy; 2025&nbsp;
-      </strong>
-      <!--end::Copyright-->
-    </footer>
-    <!--end::Footer-->
+   
   </div>
   <!--end::App Wrapper-->
   <!--begin::Script-->
