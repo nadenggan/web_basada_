@@ -319,6 +319,9 @@
 
                                 updateCicilan();
 
+                                tambahCicilan();
+                               
+
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
                             })
@@ -410,6 +413,56 @@
 
                     });
                 });
+            }
+
+
+            function tambahCicilan(){
+                $(document).ready(function () {
+                     // Tambahkan event listener untuk form tambah cicilan di sini
+                     $('#tambahCicilanForm').on('submit', function(e) {
+                                e.preventDefault();
+
+                                let formData = $(this).serialize();
+                                let url = $(this).attr('action');
+
+                                fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded',
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: formData
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        $('#tambahCicilanModal').modal('hide');
+                                        // Reload konten rekap pembayaran setelah berhasil menambah cicilan
+                                        fetch(`/rekap-pembayaran/${data.nis}`)
+                                            .then(response => response.text())
+                                            .then(newHtml => {
+                                                document.querySelector(".app-main").innerHTML = newHtml;
+                                                initializeRekapPembayaranFilter();
+                                                initializeDeleteModal();
+                                                editRekapModal();
+                                                showCicilanModal();
+                                                editCicilanModal();
+                                                updateCicilan();
+                                                tambahCicilan();
+                                            })
+                                            .catch(error => console.error("Error reloading rekap:", error));
+                                    } else {
+                                        alert(data.message);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('Terjadi kesalahan saat menyimpan cicilan.');
+                                });
+                            });
+
+                })
+
             }
 
             // UpdateCicilan

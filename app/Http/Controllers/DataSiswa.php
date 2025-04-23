@@ -214,7 +214,14 @@ class DataSiswa extends Controller
             'tanggal_bayar' => $request->tanggal_bayar,
         ]);
 
-        return redirect()->back()->with('success', 'Cicilan berhasil ditambahkan.');
+        $pembayaran = Pembayaran::findOrFail($request->id_pembayaran);
+
+        if ($pembayaran->users) {
+            $nis = $pembayaran->users->nis;
+            return response()->json(['success' => true, 'nis' => $nis]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Gagal mendapatkan informasi siswa terkait pembayaran.']);
+        }
     }
 
     public function detailCicilanSiswa($id_pembayaran): JsonResponse
@@ -238,7 +245,7 @@ class DataSiswa extends Controller
         $cicilan->save();
 
         // Log Act
-        $this->logAktivitas('Edit Data Cicilan', 'Edit data cicilan dengan id cicilan ' . $cicilan->id. '.');
+        $this->logAktivitas('Edit Data Cicilan', 'Edit data cicilan dengan id cicilan ' . $cicilan->id . '.');
 
         return response()->json(['message' => 'Data cicilan berhasil diperbarui.']);
     }
