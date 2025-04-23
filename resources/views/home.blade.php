@@ -15,7 +15,7 @@
                             <div class="card-header border-0" style="padding-bottom: 0.5rem;">
                                 <div class="d-flex justify-content-between ">
                                     <h3 class="card-title" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0;">
-                                        Presentase Status Pembayaran</h3>
+                                        Persentase Status Pembayaran</h3>
                                 </div>
                             </div>
                             <hr class="mt-1 mb-2">
@@ -26,9 +26,9 @@
                                             <select class="form-select" id="filter_jenis_pembayaran"
                                                 name="filter_jenis_pembayaran" onchange="this.form.submit()"
                                                 style="font-size: 0.9rem;">
-                                                <option value="">Jenis Pembayaran</option>
                                                 @foreach($jenisPembayaranOptions as $option)
-                                                    <option value="{{ $option->id_jenis_pembayaran }}" {{ request('filter_jenis_pembayaran') == $option->id_jenis_pembayaran ? 'selected' : '' }}>
+                                                
+                                                    <option value="{{ $option->id }}" {{ request('filter_jenis_pembayaran') == $option->id ? 'selected' : '' }}>
                                                         {{ $option->nama_jenis_pembayaran }}
                                                     </option>
                                                 @endforeach
@@ -49,7 +49,15 @@
                                     </div>
                                 </form>
                                 <div>
+                                @if ($hasDiagramData)
                                     <canvas id="paymentStatusChart" width="150" height="150"></canvas>
+                                @else
+                                <div style="height: 150px; display: flex; justify-content: center; align-items: center; font-size:larger;">
+                                   <b> TIDAK ADA DATA</b>
+                                </div>
+                                    
+                                @endif
+
                                 </div>
                             </div>
                         </div>
@@ -170,7 +178,8 @@
                                             <td style="text-align: center;">
                                                 {{-- {{ dd($user->id) --}}
                                                 @if(isset($prediksiMap[$user->id]))
-                                                    <span style="background-color: {{ $prediksiMap[$user->id]->prediksi == 1 ? 'rgba(255, 0, 0, 0.4)' : 'rgba(0, 255, 0, 0.3)' }}; color: black; padding: 5px 10px; border-radius: 5px; ">
+                                                    <span
+                                                        style="background-color: {{ $prediksiMap[$user->id]->prediksi == 1 ? 'rgba(255, 0, 0, 0.4)' : 'rgba(0, 255, 0, 0.3)' }}; color: black; padding: 5px 10px; border-radius: 5px; ">
                                                         {{ $prediksiMap[$user->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
                                                     </span>
                                                 @else
@@ -335,6 +344,8 @@
                 });
             }
 
+
+
             // Show Cicilan Modal
             function showCicilanModal() {
                 $(document).ready(function () {
@@ -350,6 +361,8 @@
                         // Set id_pembayaran at modal Tambah Cicilan
                         $('#tambah_id_pembayaran').val(id_pembayaran);
 
+
+
                         fetch(`/rekap-pembayaran/cicilan/${id_pembayaran}`)
                             .then(response => response.json()) // get data
                             .then(data => {
@@ -364,20 +377,20 @@
                                         const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                         tbody.append(`
-                                                                                                                                                                                                                        <tr 
-                                                                                                                                                                                                                        data-id-cicilan="${cicilan.id}"
-                                                                                                                                                                                                                        data-nominal="${cicilan.nominal}"
-                                                                                                                                                                                                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                                                                                                                                                                                                        <tr 
+                                                                                                                                                                                                                                        data-id-cicilan="${cicilan.id}"
+                                                                                                                                                                                                                                        data-nominal="${cicilan.nominal}"
+                                                                                                                                                                                                                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
 
-                                                                                                                                                                                                                            <td>${index + 1}</td>
-                                                                                                                                                                                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                                                                                                                                                                                            <td>${formattedTanggalBayar}</td>
-                                                                                                                                                                                                                            <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
-                                                                                                                                                                <i class="fa-solid fa-pen-to-square"></i> Edit
-                                                                                                                                                            </button></td>
+                                                                                                                                                                                                                                            <td>${index + 1}</td>
+                                                                                                                                                                                                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                                                                                                                                                                                                            <td>${formattedTanggalBayar}</td>
+                                                                                                                                                                                                                                            <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                                                                                                                                                                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                                                                                                                                            </button></td>
 
-                                                                                                                                                                                                                        </tr>
-                                                                                                                                                                                                                    `);
+                                                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                                                    `);
                                     });
 
                                     cicilanListContainer.append(table);
@@ -406,16 +419,16 @@
                         e.preventDefault();
                         const url = $(this).attr('action');
                         const formData = $(this).serialize();
-                        const idCicilan = $('#id_cicilan_edit').val(); 
+                        const idCicilan = $('#id_cicilan_edit').val();
 
                         $.ajax({
                             type: 'PUT',
                             url: url,
                             data: formData,
-                            dataType: 'json', 
+                            dataType: 'json',
                             success: function (response) {
                                 $('#editCicilanModal').modal('hide');
-                                const nis = $('.app-main').data('nis'); 
+                                const nis = $('.app-main').data('nis');
                                 if (nis) {
                                     window.location.href = `/rekap-pembayaran/${nis}`;
                                 } else {
@@ -592,7 +605,7 @@
                 });
             }
 
-            
+
             // Input Pembayaran Siswa
             document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll(".input-bayar").forEach(item => {
@@ -694,6 +707,7 @@
                     }
                 }
             });
+
         </script>
 
     </main>

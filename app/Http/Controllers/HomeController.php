@@ -17,6 +17,7 @@ class HomeController extends Controller
     use logAktivitas;
     public function home(Request $request)
     {
+       
         //set_time_limit(60);
 
         // Only get data Siswa
@@ -92,6 +93,7 @@ class HomeController extends Controller
         $lunasCount = 0;
         $belumLunasCount = 0;
         $totalPembayaranDiagram = 0;
+        $hasDiagramData = false; 
 
         $pembayaranQuery = DB::table('pembayaran');
 
@@ -113,9 +115,14 @@ class HomeController extends Controller
         $persentaseLunas = $totalPembayaranDiagram > 0 ? ($lunasCount / $totalPembayaranDiagram) * 100 : 0;
         $persentaseBelumLunas = $totalPembayaranDiagram > 0 ? ($belumLunasCount / $totalPembayaranDiagram) * 100 : 0;
 
-        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap", "jenisPembayaranOptions", "persentaseLunas", "persentaseBelumLunas"));
+        if ($totalPembayaranDiagram > 0) {
+            $hasDiagramData = true;
+        }
+
+        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap", "jenisPembayaranOptions", "persentaseLunas", "persentaseBelumLunas","hasDiagramData"));
     }
 
+    
     public function homeSiswa()
     {
         $user = Auth::user();
