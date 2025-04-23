@@ -13,7 +13,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\InputPembayaranSiswa;
 use App\Http\Controllers\PrediksiController;
 
-Route::get('/login', function () {
+Route::get('/', function () {
     return view("login");
 })->name("login");
 
