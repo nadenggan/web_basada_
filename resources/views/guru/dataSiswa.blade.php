@@ -58,28 +58,34 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($users as $user)
-                                            <tr class="align-middle">
-                                                <td>{{ $user->nis }}</td>
-                                                <td>{{ $user->name }}</td>
-                                                <td> 
-                                                @if ($user->id_kelas)
-                                                    {{ $user->kelas->tingkat_kelas }}
-                                                @else
-                                                    <span class="text-muted">-</span> 
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($user->id_kelas)
-                                                    {{ $user->kelas->jurusan }}
-                                                @else
-                                                    <span class="text-muted">-</span>
-                                                @endif
-                                            </td>
-                                                <td>{{ $user->alamat }}</td>
-                                                <td>{{ $user->status_siswa }}</td>
+                                        @if($users->isEmpty())
+                                            <tr>
+                                                <td colspan="7" style="text-align: center;"> DATA TIDAK ADA</td>
                                             </tr>
-                                        @endforeach
+                                        @else
+                                            @foreach ($users as $user)
+                                                <tr class="align-middle">
+                                                    <td>{{ $user->nis }}</td>
+                                                    <td>{{ $user->name }}</td>
+                                                    <td>
+                                                        @if ($user->id_kelas)
+                                                            {{ $user->kelas->tingkat_kelas }}
+                                                        @else
+                                                            <span class="text-muted">-</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($user->id_kelas)
+                                                            {{ $user->kelas->jurusan }}
+                                                        @else
+                                                            <span class="text-muted">-</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $user->alamat }}</td>
+                                                    <td>{{ $user->status_siswa }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

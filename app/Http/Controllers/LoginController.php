@@ -23,7 +23,7 @@ class LoginController extends Controller
             }
         }
 
-        return redirect("/login");
+        return redirect("/");
     }
 
     public function logout(Request $request)

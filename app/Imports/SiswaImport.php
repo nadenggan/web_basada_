@@ -29,6 +29,7 @@ class SiswaImport implements ToModel, WithHeadingRow
         $tingkat_kelas = $row["tingkat_kelas"] ?? null;
         $jurusan = $row["jurusan"] ?? null;
         $alamat = $row["alamat"] ?? null;
+        $status_siswa = $row["status_siswa"] ?? null;
 
 
         //dd($nis, $name, $alamat);
@@ -38,20 +39,24 @@ class SiswaImport implements ToModel, WithHeadingRow
             return null; 
         }
 
-        $kelas = Kelas::where("tingkat_kelas", $tingkat_kelas)->where("jurusan", $jurusan)->first();
+        $id_kelas = null; // Default value for id_kelas
 
-        // If there is new class
-        if(!$kelas){
-            $id_kelas_baru = strtoupper($tingkat_kelas."-".str_replace("","",$jurusan));
+        // Only process kelas if status siswa is not 'lulus'
+        if (strtolower($status_siswa) !== 'lulus') {
+            $kelas = Kelas::where("tingkat_kelas", $tingkat_kelas)->where("jurusan", $jurusan)->first();
 
-            $kelas = Kelas::create([
-                "id_kelas" => $id_kelas_baru,
-                "tingkat_kelas" => $tingkat_kelas,
-                "jurusan" => $jurusan
-            ]);
+            // If there is new class
+            if (!$kelas) {
+                $id_kelas_baru = strtoupper($tingkat_kelas . "-" . str_replace(" ", "", $jurusan));
+
+                $kelas = Kelas::create([
+                    "id_kelas" => $id_kelas_baru,
+                    "tingkat_kelas" => $tingkat_kelas,
+                    "jurusan" => $jurusan
+                ]);
+            }
+            $id_kelas = $kelas->id_kelas;
         }
-
-        $id_kelas = $kelas->id_kelas ;
 
         return new User([
             'nis' => $nis,
@@ -61,6 +66,7 @@ class SiswaImport implements ToModel, WithHeadingRow
             'alamat' => $alamat,
             'password' => $nis,
             'id_kelas' => $id_kelas,
+            'status_siswa' => $status_siswa,
         ]);
     }
 }

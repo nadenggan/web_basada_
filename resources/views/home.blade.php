@@ -147,11 +147,10 @@
                                 <tr>
                                     <th style="width: 10px">NIS</th>
                                     <th>Nama</th>
-                                    <th>Kelas</th>
-                                    <th style="width: 40px">Jurusan</th>
-                                    <th>Alamat</th>
-                                    <th>Status Siswa</th>
-                                    <th>Pembayaran</th>
+                                    <th style="text-align: center;">Kelas</th>
+                                    <th style="text-align: center;">Jurusan</th>
+                                    <th style="text-align: center;"> Status Siswa</th>
+                                    <th style="text-align: center;">Pembayaran</th>
                                     <th style="text-align: center;">Prediksi</th>
                                 </tr>
                             </thead>
@@ -162,26 +161,25 @@
                                     </tr>
                                 @else
                                     @foreach ($users as $user)
-                                        <tr class="align-middle">
+                                        <tr class="align-middle" >
                                             <td>{{ $user->nis }}</td>
                                             <td>{{ $user->name }}</td>
-                                            <td> 
+                                            <td style="text-align: center;"> 
                                                 @if ($user->id_kelas)
                                                     {{ $user->kelas->tingkat_kelas }}
                                                 @else
                                                     <span class="text-muted">-</span> 
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td style="text-align: center;">
                                                 @if ($user->id_kelas)
                                                     {{ $user->kelas->jurusan }}
                                                 @else
                                                     <span class="text-muted">-</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $user->alamat }}</td>
-                                            <td>{{ $user->status_siswa }}</td>
-                                            <td><button class="btn btn-warning"><a class="lihat-rekap" href=""
+                                            <td style="text-align: center;">{{ $user->status_siswa }}</td>
+                                            <td style="text-align: center;"><button class="btn btn-warning"><a class="lihat-rekap" href=""
                                                         data-nis="{{ $user->nis }}"> <i class="fa-solid fa-eye"
                                                             style="color: white;"></i></a></button>
 

@@ -46,10 +46,6 @@
                 <div class="row justify-content-center">
                     <div class="col-md-11">
                         <div class="card mb-4">
-                            <div class="card-header">
-                                <h3 class="card-title">Bordered Table</h3>
-                            </div>
-                            <!-- /.card-header -->
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
@@ -65,6 +61,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    @if($data->isEmpty())
+                                            <tr>
+                                                <td colspan="7" style="text-align: center;"> DATA TIDAK ADA</td>
+                                            </tr>
+                                        @else
                                         @foreach($data as $item)
                                             <tr class="align-middle">
                                                 <td>1</td>
@@ -76,6 +77,7 @@
                                                 <td>{{ $item->periode === 'bulanan' ? $item->dynamicTenggatWaktu : $item->tenggat_waktu }}
                                                 </td>
                                         @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

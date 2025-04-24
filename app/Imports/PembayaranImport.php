@@ -35,6 +35,7 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
                 'id_jenis_pembayaran' => $jenisPembayaran->id,
                 'status_pembayaran' => $row['status_lunas'] == 'L' ? 'lunas' : 'belum lunas', // Sesuaikan
                 'tanggal_lunas' => $row['tanggal_lunas'] ?? null,
+                'tahun_ajaran' => $row['tahun_ajaran'],
             ];
 
             // If column 'bulan' available

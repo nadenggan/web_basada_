@@ -86,7 +86,7 @@
                                     <tbody>
                                         @if($users->isEmpty())
                                             <tr>
-                                                <td colspan="6" style="text-align: center;"> DATA TIDAK ADA</td>
+                                                <td colspan="7" style="text-align: center;"> DATA TIDAK ADA</td>
                                             </tr>
                                         @else
                                             @foreach($users as $user)
@@ -110,10 +110,11 @@
                                                     <td>{{$user->alamat}}</td>
                                                     <td>{{$user->status_siswa}}</td>
                                                     <td>
-                                                        <button class="btn btn-primary"><a href="" class="edit"
+                                                        <button class="btn btn-primary" style="font-size: 15px; padding: 0.1rem 0.2rem;"><a href="" class="edit"
                                                                 value="{{ $user->nis }}"
                                                                 style="color: white; text-decoration: none;">Edit</a></button>
-                                                        <button class="btn btn-danger hapus" value="{{ $user->nis }}">Hapus</button>
+
+                                                        <button class="btn btn-danger hapus" value="{{ $user->nis }}"  style="color: white; text-decoration: none; font-size: 15px; padding: 0.1rem 0.2rem;">Hapus</button>
                                                     </td>
                                                 </tr>
                                             @endforeach

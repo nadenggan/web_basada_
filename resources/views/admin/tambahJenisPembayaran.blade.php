@@ -62,7 +62,6 @@
                                         <select name="periode" id="periode" class="form-select">
                                             <option selected>Pilih Periode</option>
                                             <option value="bulanan">Bulanan</option>
-                                            <option value="sekali">Sekali</option>
                                             <option value="tahunan">Tahunan</option>
 
                                         </select>

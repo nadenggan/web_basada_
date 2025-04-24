@@ -30,6 +30,7 @@ class HomeController extends Controller
             $users->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', '%' . $search . '%')
                     ->orWhere('nis', 'LIKE', '%' . $search . '%')
+                    ->orWhere('status_siswa', 'LIKE', '%' . $search . '%')
                     ->orWhereHas('kelas', function ($kelasQuery) use ($search) {
                         $kelasQuery->where('jurusan', 'LIKE', '%' . $search . '%');
                     });
