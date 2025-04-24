@@ -82,7 +82,8 @@ class DataSiswa extends Controller
         $data['role'] = "siswa";
         $data['email'] = $request->nis . '@example.com';
         $data['password'] = $request->nis;
-
+        $data['status_siswa'] = $request->status_siswa;
+        
         User::create($data);
 
         $nis = $request->nis;

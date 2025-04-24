@@ -27,6 +27,7 @@ class User extends Authenticatable
         'alamat',
         'password',
         'id_kelas',
+        'status_siswa',
     ];
 
     

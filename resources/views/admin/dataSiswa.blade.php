@@ -78,7 +78,9 @@
                                             <th>KELAS</th>
                                             <th style="width: 40px">JURUSAN</th>
                                             <th>ALAMAT</th>
+                                            <th>STATUS SISWA</th>
                                             <th>AKSI</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -91,9 +93,22 @@
                                                 <tr class="align-middle">
                                                     <td>{{$user->nis}}</td>
                                                     <td>{{$user->name}}</td>
-                                                    <td>{{$user->kelas->tingkat_kelas}}</td>
-                                                    <td>{{$user->kelas->jurusan}}</td>
+                                                    <td> 
+                                                @if ($user->id_kelas)
+                                                    {{ $user->kelas->tingkat_kelas }}
+                                                @else
+                                                    <span class="text-muted">-</span> 
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($user->id_kelas)
+                                                    {{ $user->kelas->jurusan }}
+                                                @else
+                                                    <span class="text-muted">-</span>
+                                                @endif
+                                            </td>
                                                     <td>{{$user->alamat}}</td>
+                                                    <td>{{$user->status_siswa}}</td>
                                                     <td>
                                                         <button class="btn btn-primary"><a href="" class="edit"
                                                                 value="{{ $user->nis }}"

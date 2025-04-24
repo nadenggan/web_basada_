@@ -31,34 +31,53 @@
                                         <input type="text" class="form-control" name='name'" />
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <label for="inputPassword3" class="col-sm-2 col-form-label required">Alamat</label>
-                                    <div class="col-sm-10">
-                                        <textarea type="password" class="form-control" name="alamat"></textarea>
+                                <div class=" row mb-3">
+                                        <label for="inputPassword3"
+                                            class="col-sm-2 col-form-label required">Alamat</label>
+                                        <div class="col-sm-10">
+                                            <textarea type="password" class="form-control" name="alamat"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="inputPassword3" class="col-sm-2 col-form-label required">Kelas</label>
-                                    <div class="col-sm-10">
-                                        <select name="id_kelas" id="kelas" class="form-select" style="width: 150px;">
-                                            <option selected>Pilih Kelas</option>
-                                            @foreach($kelas as $k)
-                                                <option value="{{ $k->tingkat_kelas }}-{{ $k->jurusan}}">{{ $k->tingkat_kelas }}-{{ $k->jurusan}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="row mb-3">
+                                        <label for="inputPassword3"
+                                            class="col-sm-2 col-form-label required">Kelas</label>
+                                        <div class="col-sm-10">
+                                            <select name="id_kelas" id="kelas" class="form-select"
+                                                style="width: 150px;">
+                                                <option selected>Pilih Kelas</option>
+                                                @foreach($kelas as $k)
+                                                    <option value="{{ $k->tingkat_kelas }}-{{ $k->jurusan}}">
+                                                        {{ $k->tingkat_kelas }}-{{ $k->jurusan}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </div>
-                            <!--end::Body-->
-                            <!--begin::Footer-->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="{{ route('dataSiswaAdmin') }}" class="btn btn-secondary">
-                                    Batal
-                                </a>
-                            </div>
-                            <!--end::Footer-->
+                                    <div class="row mb-3">
+                                        <label for="statusSiswa" class="col-sm-2 col-form-label required">Status
+                                            Siswa</label>
+                                        <div class="col-sm-10">
+                                            <select name="status_siswa" id="statusSiswa" class="form-select"
+                                                style="width: 150px;">
+                                                <option selected>Pilih Status</option>
+                                                <option value="Aktif">Aktif</option>
+                                                <option value="Lulus">Lulus</option>
+                                                <option value="Pindah">Pindah</option>
+                                                <option value="Keluar">Keluar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--end::Body-->
+                                <!--begin::Footer-->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <a href="{{ route('dataSiswaAdmin') }}" class="btn btn-secondary">
+                                        Batal
+                                    </a>
+                                </div>
+                                <!--end::Footer-->
                         </form>
                         <!--end::Form-->
                     </div>

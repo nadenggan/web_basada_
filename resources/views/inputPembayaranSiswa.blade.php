@@ -30,6 +30,12 @@
                                     <label class="form-label">Nama Siswa</label>
                                     <input type="text" class="form-control" name="name" value="{{ $data->name }}" />
                                 </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Tahun Ajaran</label>
+                                    <input type="text" class="form-control" name="tahun_ajaran" value="{{ env('TAHUN_AJARAN') }}">
+                                </div>
+
                                 <div class="mb-3">
                                     <label class="form-label">Jenis Pembayaran</label>
                                     <select id="id_jenis_pembayaran" class="form-select" name="id_jenis_pembayaran">

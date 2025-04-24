@@ -150,6 +150,7 @@
                                     <th>Kelas</th>
                                     <th style="width: 40px">Jurusan</th>
                                     <th>Alamat</th>
+                                    <th>Status Siswa</th>
                                     <th>Pembayaran</th>
                                     <th style="text-align: center;">Prediksi</th>
                                 </tr>
@@ -157,16 +158,29 @@
                             <tbody>
                                 @if($users->isEmpty())
                                     <tr>
-                                        <td colspan="7" style="text-align:center;">DATA TIDAK ADA</td>
+                                        <td colspan="8" style="text-align:center;">DATA TIDAK ADA</td>
                                     </tr>
                                 @else
                                     @foreach ($users as $user)
                                         <tr class="align-middle">
                                             <td>{{ $user->nis }}</td>
                                             <td>{{ $user->name }}</td>
-                                            <td>{{ $user->kelas->tingkat_kelas }} </td>
-                                            <td>{{ $user->kelas->jurusan }}</td>
+                                            <td> 
+                                                @if ($user->id_kelas)
+                                                    {{ $user->kelas->tingkat_kelas }}
+                                                @else
+                                                    <span class="text-muted">-</span> 
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($user->id_kelas)
+                                                    {{ $user->kelas->jurusan }}
+                                                @else
+                                                    <span class="text-muted">-</span>
+                                                @endif
+                                            </td>
                                             <td>{{ $user->alamat }}</td>
+                                            <td>{{ $user->status_siswa }}</td>
                                             <td><button class="btn btn-warning"><a class="lihat-rekap" href=""
                                                         data-nis="{{ $user->nis }}"> <i class="fa-solid fa-eye"
                                                             style="color: white;"></i></a></button>
@@ -418,7 +432,6 @@
 
             function tambahCicilan(){
                 $(document).ready(function () {
-                     // Tambahkan event listener untuk form tambah cicilan di sini
                      $('#tambahCicilanForm').on('submit', function(e) {
                                 e.preventDefault();
 
@@ -437,7 +450,7 @@
                                 .then(data => {
                                     if (data.success) {
                                         $('#tambahCicilanModal').modal('hide');
-                                        // Reload konten rekap pembayaran setelah berhasil menambah cicilan
+                                        
                                         fetch(`/rekap-pembayaran/${data.nis}`)
                                             .then(response => response.text())
                                             .then(newHtml => {

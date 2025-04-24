@@ -14,6 +14,7 @@ class InputPembayaranSiswa extends Controller
    {
       $data = User::where('nis', $nis)->first();
       $jenis_pembayaran = JenisPembayaran::all();
+
       return view('inputPembayaranSiswa', compact('data', 'jenis_pembayaran'));
    }
 
@@ -26,6 +27,7 @@ class InputPembayaranSiswa extends Controller
          'user_id' => $user->id,
          'id_jenis_pembayaran' => $request->id_jenis_pembayaran,
          'status_pembayaran' => $request->status_pembayaran,
+         'tahun_ajaran' => $request->tahun_ajaran,
       ];
 
       // Store bulan if jenis pembayaran is bulanan
