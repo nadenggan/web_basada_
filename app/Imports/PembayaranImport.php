@@ -47,39 +47,8 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
             $pembayaran->save();
 
 
-            // Cicilan
-            foreach ($row as $key => $value) {
-                if (strpos(strtolower($key), 'nominal_cicilan_') === 0 && !empty($value)) {
-
-                    // Get the index
-                    $cicilanIndex = str_replace('nominal_cicilan_', '', strtolower($key));
-                    $tanggalBayarKey = 'tanggal_bayar_' . $cicilanIndex;
-
-                    if (isset($row[$tanggalBayarKey]) && !empty($row[$tanggalBayarKey])) {
-                        Cicilan::create([
-                            'id_pembayaran' => $pembayaran->id,
-                            'nominal' => $value,
-                            'tanggal_bayar' => $row[$tanggalBayarKey],
-                        ]);
-
-                        // Cicilan tunggal
-                    } elseif (strpos(strtolower($key), 'nominal_cicilan') === 0 && !strpos(strtolower($key), '_')) {
-                        if (!empty($row['tanggal_bayar'])) {
-                            Cicilan::create([
-                                'id_pembayaran' => $pembayaran->id,
-                                'nominal' => $value,
-                                'tanggal_bayar' => $row['tanggal_bayar'],
-                            ]);
-                        }
-                    }
-                }
-            }
-
-            // Cicilan tunggal outside loop
-            if (
-                isset($row['nominal_cicilan']) && !empty($row['nominal_cicilan']) && !strpos(strtolower(key($row)), 'nominal_cicilan_') === 0 &&
-                isset($row['tanggal_bayar']) && !empty($row['tanggal_bayar'])
-            ) {
+            // Cicilan just 1
+            if (isset($row['nominal_cicilan']) && !empty($row['nominal_cicilan']) && isset($row['tanggal_bayar']) && !empty($row['tanggal_bayar'])) {
                 $cicilanSudahDibuat = Cicilan::where('id_pembayaran', $pembayaran->id)
                     ->where('nominal', $row['nominal_cicilan'])
                     ->where('tanggal_bayar', $row['tanggal_bayar'])
@@ -93,6 +62,23 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
                     ]);
                 }
             }
+
+            // Cicilan more than 1 
+            foreach ($row as $key => $value) {
+                if (strpos(strtolower($key), 'nominal_cicilan_') === 0 && !empty($value)) {
+                    $cicilanIndex = str_replace('nominal_cicilan_', '', strtolower($key));
+                    $tanggalBayarKey = 'tanggal_bayar_' . $cicilanIndex;
+
+                    if (isset($row[$tanggalBayarKey]) && !empty($row[$tanggalBayarKey])) {
+                        Cicilan::create([
+                            'id_pembayaran' => $pembayaran->id,
+                            'nominal' => $value,
+                            'tanggal_bayar' => $row[$tanggalBayarKey],
+                        ]);
+                    }
+                }
+            }
+
             return $pembayaran;
         }
         return null;
