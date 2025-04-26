@@ -14,20 +14,30 @@ class StatusPembayaranSiswa extends Controller
         $jenisPembayaran = JenisPembayaran::all();
         $selectedJenisPembayaranId = $request->get('jenisPembayaran');
         $selectedBulan = $request->get('bulan');
+        $selectedTahunAjaran = $request->get('tahunAjaran');
         $showBulanFilter = false;
         $bulanList = [
             'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
             'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
         ];
+        $tahunAjaranList = \App\Models\Pembayaran::distinct('tahun_ajaran')->orderByDesc('tahun_ajaran')->pluck('tahun_ajaran')->toArray();
+
+        if (!$selectedTahunAjaran) {
+            $activeTahunAjaran = config('app.tahun_ajaran_aktif');
+            if ($activeTahunAjaran) {
+                $selectedTahunAjaran = $activeTahunAjaran;
+                $request->merge(['tahunAjaran' => $selectedTahunAjaran]);
+            }
+        }
 
 
-         // Selected the top jenisPembayaran
-         if (!$selectedJenisPembayaranId && $jenisPembayaran->isNotEmpty()) {
+
+        // Selected the top jenisPembayaran
+        if (!$selectedJenisPembayaranId && $jenisPembayaran->isNotEmpty()) {
             $selectedJenisPembayaranId = $jenisPembayaran->first()->id;
             $request->merge(['jenisPembayaran' => $selectedJenisPembayaranId]);
         }
 
-        // Filter bulan 
         if ($selectedJenisPembayaranId) {
             $filteredJenisPembayaran = JenisPembayaran::find($selectedJenisPembayaranId);
             if ($filteredJenisPembayaran && $filteredJenisPembayaran->periode === 'bulanan') {
@@ -38,7 +48,7 @@ class StatusPembayaranSiswa extends Controller
         // Filter by Name, NIS, Jurusan, Status
         if ($request->get('search')) {
             $search = $request->get('search');
-        
+
             $users->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', '%' . $search . '%')
                     ->orWhere('nis', 'LIKE', '%' . $search . '%')
@@ -58,20 +68,25 @@ class StatusPembayaranSiswa extends Controller
             });
         }
 
-        $users = $users->paginate(10);
+        $users = $users->paginate(10)->appends($request->query());
 
-        // Load pembayaran for each user based on the selected jenis pembayaran
-        $users->each(function ($user) use ($selectedJenisPembayaranId, $selectedBulan) {
-            $user->load(['pembayarans' => function ($query) use ($selectedJenisPembayaranId, $selectedBulan) {
+        // Load pembayaran for each user based on the selected jenis pembayaran, bulan, dan tahun ajaran
+        $users->each(function ($user) use ($selectedJenisPembayaranId, $selectedBulan, $selectedTahunAjaran) {
+            $user->load(['pembayarans' => function ($query) use ($selectedJenisPembayaranId, $selectedBulan, $selectedTahunAjaran) {
                 if ($selectedJenisPembayaranId) {
                     $query->where('id_jenis_pembayaran', $selectedJenisPembayaranId);
                     if ($selectedBulan) {
                         $query->where('bulan', $selectedBulan);
                     }
+                    if ($selectedTahunAjaran) {
+                        $query->where('tahun_ajaran', $selectedTahunAjaran);
+                    }
                 }
             }]);
         });
 
-        return view('statusPembayaranSiswa', compact("users", "request","jenisPembayaran", "showBulanFilter", "bulanList" ));
+        
+
+        return view('statusPembayaranSiswa', compact("users", "request","jenisPembayaran", "showBulanFilter", "bulanList", "tahunAjaranList" ));
     }
 }

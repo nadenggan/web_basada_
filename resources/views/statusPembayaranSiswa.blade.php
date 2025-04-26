@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row align-items-center d-flex justify-content-around">
-                    <div class="col-6">
+                    <div class="col-5">
                         <form class="d-flex" role="search" method="get" action="{{ route("statusPembayaranSiswa") }}">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                                 name="search" value="{{ $request->get("search") }}">
@@ -28,7 +28,7 @@
 
                             <!-- begin::Filter Jenis Pembayaran-->
                             <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2"
-                                style="width: 220px;">
+                            style="width: 150px;" >
                                 @if($jenisPembayaran->isEmpty())
                                     <option value="">Tidak Ada Data</option>
                                 @else
@@ -41,6 +41,15 @@
                             </select>
                             <!-- end::Filter Jenis Pembayaran-->
 
+                            <!-- start::Filter Tahun Ajaran-->
+                            <select name="tahunAjaran" id="tahunAjaran" class="form-select me-2" style="width: 120px;">
+                                <option value="">Tahun Ajaran</option>
+                                @foreach ($tahunAjaranList as $tahun)
+                                    <option value="{{ $tahun }}" {{ $request->get('tahunAjaran') == $tahun ? 'selected' : '' }}>
+                                        {{ $tahun }}</option>
+                                @endforeach
+                            </select>
+                            <!-- end::Filter Tahun Ajaran-->
                             <button class="btn btn-primary " type="submit">Filter</button>
                         </form>
                     </div>
@@ -70,29 +79,29 @@
                             @endif
                         </b>
                     </div>
-                    
+
                     <!-- Bulan Filter -->
                     @if ($showBulanFilter)
-                            <div class="row mt-1 mb-2">
-                                <div class="col-sm-3" style=" padding-left:5%">
-                                    <form action="{{ route("statusPembayaranSiswa") }}" method="get" class="d-flex">
-                                        <select name="bulan" id="bulan" class="form-select me-2">
-                                            <option value="">Bulan</option>
-                                            @foreach ($bulanList as $bulan)
-                                                <option value="{{ $bulan }}" {{ $request->get('bulan') == $bulan ? 'selected' : '' }}>
-                                                    {{ $bulan }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <input type="hidden" name="kelas" value="{{ $request->get('kelas') }}">
-                                        <input type="hidden" name="jenisPembayaran"
-                                            value="{{ $request->get('jenisPembayaran') }}">
-                                        <input type="hidden" name="search" value="{{ $request->get('search') }}">
-                                        <button class="btn btn-primary" type="submit">Filter</button>
-                                    </form>
-                                </div>
+                        <div class="row mt-1 mb-2">
+                            <div class="col-sm-3" style=" padding-left:5%">
+                                <form action="{{ route("statusPembayaranSiswa") }}" method="get" class="d-flex">
+                                    <select name="bulan" id="bulan" class="form-select me-2">
+                                        <option value="">Bulan</option>
+                                        @foreach ($bulanList as $bulan)
+                                            <option value="{{ $bulan }}" {{ $request->get('bulan') == $bulan ? 'selected' : '' }}>
+                                                {{ $bulan }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="kelas" value="{{ $request->get('kelas') }}">
+                                    <input type="hidden" name="jenisPembayaran" value="{{ $request->get('jenisPembayaran') }}">
+                                    <input type="hidden" name="search" value="{{ $request->get('search') }}">
+                                    <input type="hidden" name="tahunAjaran" value="{{ $request->get('tahunAjaran') }}">
+                                    <button class="btn btn-primary" type="submit">Filter</button>
+                                </form>
                             </div>
-                        @endif
+                        </div>
+                    @endif
                 </div>
                 <!--end::Row-->
             </div>
@@ -116,7 +125,6 @@
                                             <th>Nama</th>
                                             <th>Kelas</th>
                                             <th style="width: 40px">Jurusan</th>
-                                            <th>Alamat</th>
                                             <th>Status Siswa</th>
                                             <th>Status Pembayaran</th>
                                         </tr>
@@ -131,21 +139,21 @@
                                                                                                 <tr class="align-middle">
                                                                                                     <td>{{ $user->nis }}</td>
                                                                                                     <td>{{ $user->name }}</td>
-                                                                                                    <td> 
-                                                @if ($user->id_kelas)
-                                                    {{ $user->kelas->tingkat_kelas }}
-                                                @else
-                                                    <span class="text-muted">-</span> 
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($user->id_kelas)
-                                                    {{ $user->kelas->jurusan }}
-                                                @else
-                                                    <span class="text-muted">-</span>
-                                                @endif
-                                            </td>
-                                                                                                    <td>{{ $user->alamat }}</td>
+                                                                                                    <td>
+                                                                                                        @if ($user->id_kelas)
+                                                                                                            {{ $user->kelas->tingkat_kelas }}
+                                                                                                        @else
+                                                                                                            <span class="text-muted">-</span>
+                                                                                                        @endif
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @if ($user->id_kelas)
+                                                                                                            {{ $user->kelas->jurusan }}
+                                                                                                        @else
+                                                                                                            <span class="text-muted">-</span>
+                                                                                                        @endif
+                                                                                                    </td>
+
                                                                                                     <td>{{ $user->status_siswa }}</td>
                                                                                                     <td>
                                                                                                         @if ($request->get('jenisPembayaran'))
