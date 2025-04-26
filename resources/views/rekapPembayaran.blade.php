@@ -100,10 +100,10 @@
                         <h4><b>Rekap Pembayaran Siswa</b></h4>
                     </div>
                 </div>
-                <div class="col-sm-7">
+                <div class="col-sm-7" style="display: flex;">
                     <!-- begin::Filter Jenis Pembayaran-->
-                    <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 220px;">
-                        <option value="">Semua Jenis Pembayaran</option>
+                    <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 170px;">
+                        <option value="">Jenis Pembayaran</option>
                         @foreach ($jenisPembayaran as $jenis)
                             <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}">
                                 {{$jenis->nama_jenis_pembayaran}}
@@ -111,6 +111,18 @@
                         @endforeach
                     </select>
                     <!-- end::Filter Jenis Pembayaran-->
+                     
+                    <!-- start::Filter Tahun Ajaran-->
+                    <select name="tahunAjaran" id="tahunAjaran" class="form-select" style="width: 140px;">
+                        <option value="">Tahun Ajaran</option>
+                        @php
+                            $tahunAjaranUnik = $pembayarans->pluck('tahun_ajaran')->unique()->sortDesc();
+                        @endphp
+                        @foreach ($tahunAjaranUnik as $tahun)
+                            <option value="{{ $tahun }}">{{ $tahun }}</option>
+                        @endforeach
+                    </select>
+                    <!-- end::Filter Tahun Ajaran-->
                 </div>
             </div>
         </div>
@@ -147,13 +159,14 @@
                             <div class="row">
                                 <div class="col-3 fw-bold">Prediksi</div>
                                 <div class="col-9">:
-                                @if(isset($prediksiMap[$data->id]))
-                                                    <span style="background-color: {{ $prediksiMap[$data->id]->prediksi == 1 ? 'rgba(255, 0, 0, 0.4)' : 'rgba(0, 255, 0, 0.3)' }}; color: black; padding: 1px 5px; border-radius: 5px; ">
-                                                        {{ $prediksiMap[$data->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
-                                                    </span>
-                                                @else
-                                                    -
-                                                @endif
+                                    @if(isset($prediksiMap[$data->id]))
+                                        <span
+                                            style="background-color: {{ $prediksiMap[$data->id]->prediksi == 1 ? 'rgba(255, 0, 0, 0.4)' : 'rgba(0, 255, 0, 0.3)' }}; color: black; padding: 1px 5px; border-radius: 5px; ">
+                                            {{ $prediksiMap[$data->id]->prediksi == 1 ? 'Telat Bayar' : 'Tepat Waktu' }}
+                                        </span>
+                                    @else
+                                        -
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -183,6 +196,7 @@
                                         <tr class="align-middle"
                                             data-jenis-pembayaran-id="{{ $pembayaran->id_jenis_pembayaran }}">
                                             <td class="bulan-cell" style="display: none;">{{ $pembayaran->bulan }}</td>
+                                            <td class="tahun-ajaran-cell" style="display: none;">{{ $pembayaran->tahun_ajaran }}</td> 
                                             <td>Rp {{ number_format($pembayaran->jenisPembayaran->nominal, 0, ',', '.') }}
                                             </td>
                                             <td>{{ $pembayaran->status_pembayaran }}</td>

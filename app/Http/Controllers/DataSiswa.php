@@ -84,7 +84,7 @@ class DataSiswa extends Controller
         $data['email'] = $request->nis . '@example.com';
         $data['password'] = $request->nis;
         $data['status_siswa'] = $request->status_siswa;
-        
+
         User::create($data);
 
         $nis = $request->nis;
@@ -96,14 +96,21 @@ class DataSiswa extends Controller
         return redirect()->route('dataSiswaAdmin')->with('success', 'Data siswa berhasil ditambah.');
 
     }
-    public function rekapDataSiswa($nis)
+    public function rekapDataSiswa(Request $request, $nis)
     {
         $data = User::where('nis', $nis)->firstOrFail();
         $kelas = Kelas::all();
         $jenisPembayaran = JenisPembayaran::all();
+
         $pembayarans = Pembayaran::where('user_id', $data->id)
-            ->with('jenisPembayaran')
-            ->paginate(10);
+            ->with('jenisPembayaran');
+
+        // Filter berdasarkan tahun ajaran jika ada
+        if ($request->has('tahunAjaran') && $request->tahunAjaran != '') {
+            $pembayarans->where('tahun_ajaran', $request->tahunAjaran);
+        }
+
+        $pembayarans = $pembayarans->paginate(10)->appends($request->query());
 
         // Initiate PrediksiController
         $prediksiController = new PrediksiController();
