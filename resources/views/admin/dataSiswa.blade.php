@@ -77,7 +77,7 @@
                                             <th>NAMA</th>
                                             <th>KELAS</th>
                                             <th style="width: 40px">JURUSAN</th>
-                                            <th>ALAMAT</th>
+                                            <th style="width: 200px">ALAMAT</th>
                                             <th>STATUS SISWA</th>
                                             <th>AKSI</th>
                                             
@@ -107,7 +107,7 @@
                                                     <span class="text-muted">-</span>
                                                 @endif
                                             </td>
-                                                    <td>{{$user->alamat}}</td>
+                                                    <td style="width: 200px" >{{$user->alamat}}</td>
                                                     <td>{{$user->status_siswa}}</td>
                                                     <td>
                                                         <button class="btn btn-primary" style="font-size: 15px; padding: 0.1rem 0.2rem;"><a href="" class="edit"
@@ -161,7 +161,7 @@
                                     </div>
                                 </div>
 
-                                <div class="pagination float-end">
+                                <div class="clearfix">
                                     {{$users->links()}}
                                 </div>
                             </div>

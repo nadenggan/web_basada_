@@ -105,7 +105,7 @@ class DataSiswa extends Controller
         $pembayarans = Pembayaran::where('user_id', $data->id)
             ->with('jenisPembayaran');
 
-        // Filter berdasarkan tahun ajaran jika ada
+        // Filter Tahun_Ajaran
         if ($request->has('tahunAjaran') && $request->tahunAjaran != '') {
             $pembayarans->where('tahun_ajaran', $request->tahunAjaran);
         }
@@ -314,6 +314,8 @@ class DataSiswa extends Controller
     public function importExcel(request $request)
     {
 
+        ini_set('max_execution_time', 300);
+        
         $file = $request->file("file");
         $namaFile = rand() . $file->getClientOriginalName();
 

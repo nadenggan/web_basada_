@@ -183,9 +183,11 @@
                                                         data-nis="{{ $user->nis }}"> <i class="fa-solid fa-eye"
                                                             style="color: white;"></i></a></button>
 
+                                                            @if(auth()->user()->role == "admin")
                                                 <button class="btn btn-success"><a class="input-bayar" href=""
                                                         data-nis="{{ $user->nis }}"><i class="fa-solid fa-square-plus"
                                                             style="color: white;"></i></a></button>
+                                                            @endif
                                             </td>
                                             <td style="text-align: center;">
                                                 {{-- {{ dd($user->id) --}}
@@ -206,9 +208,11 @@
                     </div>
                     <!-- /.card-body -->
 
-                    <div class="card-footer clearfix">
+                    <div class="card-footer">
+                    @if(auth()->user()->role == "admin")
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Import
                             Pembayaran</button>
+                            @endif
 
                         <!-- Upload Excel Modal -->
                         <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel"
@@ -246,8 +250,8 @@
                             </div>
                         </div>
 
-                        <div class="pagination float-end">
-                            {{$users->links()}}
+                        <div class="clearfix">
+                        {{ $users->links() }}
                         </div>
                     </div>
                 </div>
