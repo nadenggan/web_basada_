@@ -142,6 +142,7 @@ class DataSiswa extends Controller
         $data->nis = $request->nis;
         $data->name = $request->name;
         $data->alamat = $request->alamat;
+        $data->status_siswa = $request->status_siswa;
 
         $data->save();
 

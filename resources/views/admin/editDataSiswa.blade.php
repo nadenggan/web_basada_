@@ -49,10 +49,10 @@
                                     <label for="statusSiswa" class="form-label">Status Siswa</label>
                                     <select name="status_siswa" id="statusSiswa" class="form-select" style="width: 150px;">
                                         <option value="">Pilih Status</option>
-                                        <option value="aktif" {{ $data->status_siswa == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                        <option value="lulus" {{ $data->status_siswa == 'Lulus' ? 'selected' : '' }}>Lulus</option>
-                                        <option value="pindah" {{ $data->status_siswa == 'Pindah' ? 'selected' : '' }}>Pindah</option>
-                                        <option value="keluar" {{ $data->status_siswa == 'Keluar' ? 'selected' : '' }}>Keluar</option>
+                                        <option value="Aktif" {{ $data->status_siswa == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                        <option value="Lulus" {{ $data->status_siswa == 'Lulus' ? 'selected' : '' }}>Lulus</option>
+                                        <option value="Pindah" {{ $data->status_siswa == 'Pindah' ? 'selected' : '' }}>Pindah</option>
+                                        <option value="Keluar" {{ $data->status_siswa == 'Keluar' ? 'selected' : '' }}>Keluar</option>
                                     </select>
                                 </div>
 
