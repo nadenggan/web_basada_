@@ -44,8 +44,9 @@ class HomeController extends Controller
             });
         }
 
-        // Paginate
-        $users = $users->paginate(10);
+        // Paginate (all query string before, stay at URL )
+        $users = $users->paginate(10)->appends($request->all());
+
 
         // Initiate PrediksiController
         $prediksiController = new PrediksiController();
