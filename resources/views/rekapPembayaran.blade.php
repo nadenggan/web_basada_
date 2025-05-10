@@ -1,4 +1,28 @@
-<!-- begin::Delete Modal -->
+<!-- begin::Delete Cicilan Modal -->
+<div class="modal fade" id="hapusCicilanModal" tabindex="-1" aria-labelledby="hapusCicilanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="hapusCicilanForm" action="{{ route('hapusCicilan') }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="modal-header">
+                    <h5 class="modal-title">Hapus Cicilan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_cicilan" id="hapus_id_cicilan">
+                    <p>Apakah kamu yakin ingin menghapus cicilan ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Ya</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- begin::Delete Rekap Data Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

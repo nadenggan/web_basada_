@@ -333,6 +333,8 @@
                                 // Show Cicilan Modal
                                 showCicilanModal();
 
+                                deleteCicilanModal();
+
                                 editCicilanModal();
 
                                 updateCicilan();
@@ -388,6 +390,7 @@
                             showCicilanModal();
                             editCicilanModal();
                             updateCicilan();
+                            deleteCicilanModal();
 
                             // Update URL di address bar
                             window.history.pushState({}, '', url);
@@ -415,6 +418,52 @@
                 });
             }
 
+            function deleteCicilanModal() {
+                $(document).on('click', '.delete-cicilan-btn', function () {
+                    const idCicilan = $(this).data('id');
+                    $('#hapus_id_cicilan').val(idCicilan);
+                    
+                    // Modal confirmation
+                    var deleteCicilanModal = new bootstrap.Modal(document.getElementById('hapusCicilanModal'));
+                    deleteCicilanModal.show();
+                });
+
+                // Handling delete cicilan
+                $('#hapusCicilanForm').off('submit').on('submit', function (e) {
+                    e.preventDefault();
+                    let formData = $(this).serialize(); 
+                    let url = $(this).attr('action'); 
+
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: formData,
+                        success: function (response) {
+                            $('#hapusCicilanModal').modal('hide'); // Close modal
+
+                            // Get rekap page
+                            fetch(`/rekap-pembayaran/${nis}`)
+                                .then(response => response.text())
+                                .then(html => {
+                                    $('.app-main').html(html); 
+                                    initializeRekapPembayaranFilter();
+                                    initializeDeleteModal();
+                                    showCicilanModal();
+                                    deleteCicilanModal();
+                                    editCicilanModal();
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching full rekap:', error);
+                                });
+                        },
+                        error: function (error) {
+                            console.error('Error deleting cicilan:', error);
+                        }
+                    });
+                });
+            }
+
+
 
 
             // Show Cicilan Modal
@@ -438,7 +487,7 @@
                             .then(response => response.json()) // get data
                             .then(data => {
                                 if (data.length > 0) {
-                                    var table = $('<table class="table table-bordered"><thead><tr><th>No</th><th>Nominal</th><th>Tanggal Bayar</th>  @if(auth()->user()->role == "admin") <th>Edit</th> @endif </tr></thead><tbody></tbody></table>');
+                                    var table = $('<table class="table table-bordered"><thead><tr><th>No</th><th>Nominal</th><th>Tanggal Bayar</th>  @if(auth()->user()->role == "admin") <th>Aksi</th> @endif </tr></thead><tbody></tbody></table>');
                                     var tbody = table.find('tbody');
                                     $.each(data, function (index, cicilan) {
 
@@ -457,8 +506,10 @@
                                                                                                                                                                                                                                             <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
                                                                                                                                                                                                                                             <td>${formattedTanggalBayar}</td>
                                                                                             @if(auth()->user()->role == "admin")                                                                                                                                                  <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
-                                                                                                                                                                                <i class="fa-solid fa-pen-to-square"></i> Edit
-                                                                                                                                                                            </button></td> @endif
+                                                                                                                                                                                <i class="fa-solid fa-pen-to-square"></i> 
+                                                                                                                                                                            </button> <button class="btn btn-danger btn-sm delete-cicilan-btn" data-id="${cicilan.id}">
+    <i class="fa-solid fa-trash"></i>
+</button></td> @endif
 
                                                                                                                                                                                                                                         </tr>
                                                                                                                                                                                                                                     `);
@@ -513,6 +564,7 @@
                                                 initializeDeleteModal();
                                                 editRekapModal();
                                                 showCicilanModal();
+                                                deleteCicilanModal();
                                                 editCicilanModal();
                                                 updateCicilan();
                                                 tambahCicilan();
@@ -606,6 +658,7 @@
                                                     initializeDeleteModal();
                                                     editRekapModal();
                                                     showCicilanModal();
+                                                    deleteCicilanModal();
                                                     editCicilanModal();
                                                 })
                                                 .catch(error => {
@@ -657,6 +710,7 @@
                                         initializeDeleteModal();
                                         editRekapModal();
                                         showCicilanModal();
+                                        deleteCicilanModal();
                                         editCicilanModal();
                                     })
                                     .catch(error => {

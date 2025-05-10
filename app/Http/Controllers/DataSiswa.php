@@ -196,6 +196,14 @@ class DataSiswa extends Controller
         }
     }
 
+    public function destroy(Request $request)
+    {
+        $cicilan = Cicilan::findOrFail($request->id_cicilan);
+        $cicilan->delete();
+
+        return back()->with('success', 'Cicilan berhasil dihapus.');
+    }
+
     public function detailCicilan($id_pembayaran): JsonResponse
     {
         try {
@@ -315,7 +323,7 @@ class DataSiswa extends Controller
     {
 
         ini_set('max_execution_time', 300);
-        
+
         $file = $request->file("file");
         $namaFile = rand() . $file->getClientOriginalName();
 
