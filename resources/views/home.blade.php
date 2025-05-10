@@ -339,6 +339,7 @@
 
                                 tambahCicilan();
                                
+                                setupPaginationHandler();
 
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
@@ -347,6 +348,55 @@
                     });
                 });
             });
+
+            function setupPaginationHandler() {
+                const paginationContainer = document.querySelector('.clearfix');
+                if (!paginationContainer) return;
+
+                paginationContainer.addEventListener('click', function(event) {
+                    const target = event.target.closest('a');
+                    if (target && target.tagName === 'A') {
+                        event.preventDefault();
+                        const url = target.getAttribute('href');
+                        fetchRekapPage(url);
+                    }
+                });
+            }
+
+
+            function fetchRekapPage(url) {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parsedHTML = new DOMParser().parseFromString(html, 'text/html');
+
+                        // Change inside table
+                        const newPembayaranTable = parsedHTML.querySelector('#pembayaran-table tbody');
+                        if (newPembayaranTable) {
+                            const oldPembayaranTableBody = document.querySelector('#pembayaran-table tbody');
+                            oldPembayaranTableBody.innerHTML = newPembayaranTable.innerHTML;
+
+                            // Change pagination
+                            const newPagination = parsedHTML.querySelector('.clearfix');
+                            const oldPagination = document.querySelector('.clearfix');
+                            if (newPagination && oldPagination) {
+                                oldPagination.innerHTML = newPagination.innerHTML;
+                            }
+                            initializeRekapPembayaranFilter();
+                            initializeDeleteModal();
+                            editRekapModal();
+                            showCicilanModal();
+                            editCicilanModal();
+                            updateCicilan();
+
+                            // Update URL di address bar
+                            window.history.pushState({}, '', url);
+                        } else {
+                            console.error('Tabel pembayaran tidak ditemukan di respons paginasi.');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching page:', error));
+            }
 
             // Edit Cicilan Modal
             function editCicilanModal() {
@@ -388,7 +438,7 @@
                             .then(response => response.json()) // get data
                             .then(data => {
                                 if (data.length > 0) {
-                                    var table = $('<table class="table table-bordered"><thead><tr><th>No</th><th>Nominal</th><th>Tanggal Bayar</th><th>Edit</th></tr></thead><tbody></tbody></table>');
+                                    var table = $('<table class="table table-bordered"><thead><tr><th>No</th><th>Nominal</th><th>Tanggal Bayar</th>  @if(auth()->user()->role == "admin") <th>Edit</th> @endif </tr></thead><tbody></tbody></table>');
                                     var tbody = table.find('tbody');
                                     $.each(data, function (index, cicilan) {
 
@@ -406,9 +456,9 @@
                                                                                                                                                                                                                                             <td>${index + 1}</td>
                                                                                                                                                                                                                                             <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
                                                                                                                                                                                                                                             <td>${formattedTanggalBayar}</td>
-                                                                                                                                                                                                                                            <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
+                                                                                            @if(auth()->user()->role == "admin")                                                                                                                                                  <td><button class="btn btn-primary btn-sm edit_cicilan_modal">
                                                                                                                                                                                 <i class="fa-solid fa-pen-to-square"></i> Edit
-                                                                                                                                                                            </button></td>
+                                                                                                                                                                            </button></td> @endif
 
                                                                                                                                                                                                                                         </tr>
                                                                                                                                                                                                                                     `);

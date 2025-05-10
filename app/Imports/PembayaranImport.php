@@ -113,7 +113,7 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
             $import = new static();
             $headings = array_map('strtolower', $import->headingRow() ? Excel::toArray($import, request()->file('file'))[0][0] : []);
             if (in_array('bulan', $headings)) {
-                $rules['bulan'] = 'nullable|string|in:Januari,Februari,Maret,April,Mei,Juni,Juli,Agustus,SeptEmber,Oktober,November,Desember';
+                $rules['bulan'] = 'nullable|string|in:Januari,Februari,Maret,April,Mei,Juni,Juli,Agustus,September,Oktober,November,Desember';
             }
         }
 

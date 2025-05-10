@@ -61,22 +61,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @if($data->isEmpty())
+                                        @if($data->isEmpty())
                                             <tr>
                                                 <td colspan="7" style="text-align: center;"> DATA TIDAK ADA</td>
                                             </tr>
                                         @else
-                                        @foreach($data as $item)
-                                            <tr class="align-middle">
-                                                <td>1</td>
-                                                <td>{{ $item->nama_jenis_pembayaran }}</td>
-                                                <td>{{ $item->deskripsi }}</td>
-                                                <td>{{ implode(', ', json_decode($item->tingkat_kelas, true)) }}</td>
-                                                <td>Rp.{{ $item->nominal }}</td>
-                                                <td>{{ $item->periode }}</td>
-                                                <td>{{ $item->periode === 'bulanan' ? $item->dynamicTenggatWaktu : $item->tenggat_waktu }}
-                                                </td>
-                                        @endforeach
+                                            @foreach($data as $item)
+                                                <tr class="align-middle">
+                                                    <td>{{ $loop->iteration  }}</td>
+                                                    <td>{{ $item->nama_jenis_pembayaran }}</td>
+                                                    <td>{{ $item->deskripsi }}</td>
+                                                    <td>{{ implode(', ', json_decode($item->tingkat_kelas, true)) }}</td>
+                                                    <td>Rp.{{ $item->nominal }}</td>
+                                                    <td>{{ $item->periode }}</td>
+                                                    <td>{{ $item->periode === 'bulanan' ? $item->dynamicTenggatWaktu : $item->tenggat_waktu }}
+                                                    </td>
+                                            @endforeach
                                         @endif
                                     </tbody>
                                 </table>

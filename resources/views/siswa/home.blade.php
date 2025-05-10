@@ -59,6 +59,7 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 10px; display: none;" class="bulan-column">Bulan</th>
+                                            <th>Nama</th>
                                             <th>Nominal</th>
                                             <th>Status</th>
                                             <th>Tanggal Lunas</th>
@@ -70,6 +71,7 @@
                                         <tr class="align-middle"
                                             data-jenis-pembayaran-id="{{ $pembayaran->id_jenis_pembayaran }}">
                                             <td class="bulan-cell" style="display: none;">{{ $pembayaran->bulan }}</td>
+                                            <td>{{ $pembayaran->jenisPembayaran->nama_jenis_pembayaran }}</td>
                                             <td>Rp {{ number_format($pembayaran->jenisPembayaran->nominal, 0, ',', '.') }}
                                             </td>
                                             <td>{{ $pembayaran->status_pembayaran }}</td>

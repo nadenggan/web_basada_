@@ -111,7 +111,7 @@
                         @endforeach
                     </select>
                     <!-- end::Filter Jenis Pembayaran-->
-                     
+
                     <!-- start::Filter Tahun Ajaran-->
                     <select name="tahunAjaran" id="tahunAjaran" class="form-select" style="width: 140px;">
                         <option value="">Tahun Ajaran</option>
@@ -182,13 +182,15 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10px; display: none;" class="bulan-column">Bulan</th>
+                                        <th>Nama</th>
                                         <th>Nominal</th>
                                         <th>Status</th>
                                         <th>Tanggal Lunas</th>
                                         @if(auth()->user()->role == "admin")
                                             <th>Aksi</th>
-                                            <th>Cicilan</th>
                                         @endif
+                                        <th>Cicilan</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -196,7 +198,10 @@
                                         <tr class="align-middle"
                                             data-jenis-pembayaran-id="{{ $pembayaran->id_jenis_pembayaran }}">
                                             <td class="bulan-cell" style="display: none;">{{ $pembayaran->bulan }}</td>
-                                            <td class="tahun-ajaran-cell" style="display: none;">{{ $pembayaran->tahun_ajaran }}</td> 
+                                            <td class="tahun-ajaran-cell" style="display: none;">
+                                                {{ $pembayaran->tahun_ajaran }}
+                                            </td>
+                                            <td>{{ $pembayaran->jenisPembayaran->nama_jenis_pembayaran }}</td>
                                             <td>Rp {{ number_format($pembayaran->jenisPembayaran->nominal, 0, ',', '.') }}
                                             </td>
                                             <td>{{ $pembayaran->status_pembayaran }}</td>
@@ -212,18 +217,19 @@
                                                         style="padding: 0.2rem 0.3rem; font-size: 0.6rem;"><i
                                                             class="fa-solid fa-trash"></i></button>
                                                 </th>
-                                                <th>
-                                                    <button type="button" class="btn btn-warning showCicilan"
-                                                        value="{{ $pembayaran->id }}" data-bs-toggle="modal"
-                                                        style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
-                                                        <i class="fa-solid fa-eye" style="color: white;"></i>
-                                                    </button>
-                                                </th>
                                             @endif
+                                            <th>
+                                                <button type="button" class="btn btn-warning showCicilan"
+                                                    value="{{ $pembayaran->id }}" data-bs-toggle="modal"
+                                                    style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
+                                                    <i class="fa-solid fa-eye" style="color: white;"></i>
+                                                </button>
+                                            </th>
+
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="{{ auth()->user()->role == 'admin' ? 5 : 4 }}" class="text-center">
+                                            <td colspan="{{ auth()->user()->role == 'admin' ? 6 : 5 }}" class="text-center">
                                                 Tidak ada data pembayaran.
                                             </td>
                                         </tr>
@@ -245,6 +251,7 @@
                                         <div id="cicilan-list">
                                         </div>
                                     </div>
+                                    @if(auth()->user()->role == "admin")
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-success  ms-2" data-bs-toggle="modal"
                                             data-bs-target="#tambahCicilanModal"> Tambah
@@ -252,6 +259,7 @@
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -294,7 +302,7 @@
                             </div>
                         </div>
                         <!-- Card Footer-->
-                        <div class="card-footer clearfix">
+                        <div class="card-footer clearfix ">
                             {{ $pembayarans->links() }}
                         </div>
                     </div>

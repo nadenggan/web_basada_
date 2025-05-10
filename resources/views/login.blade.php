@@ -53,19 +53,8 @@
                         <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
                     </div>
                     <!--begin::Row-->
-                    <div class="row d-flex" style="align-items: center;">
-                        <div class="col-8">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label class="form-check-label" for="flexCheckDefault"> Remember Me </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Masuk</button>
-                            </div>
-                        </div>
+                    <div class="col- d-flex mb-2" style="align-items: center;">
+                        <button type="submit" class="btn btn-primary">Masuk</button>
                         <!-- /.col -->
                     </div>
                     <!--end::Row-->
