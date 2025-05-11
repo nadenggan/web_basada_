@@ -17,7 +17,7 @@ class HomeController extends Controller
     use logAktivitas;
     public function home(Request $request)
     {
-       
+
         //set_time_limit(60);
 
         // Only get data Siswa
@@ -95,7 +95,7 @@ class HomeController extends Controller
         $lunasCount = 0;
         $belumLunasCount = 0;
         $totalPembayaranDiagram = 0;
-        $hasDiagramData = false; 
+        $hasDiagramData = false;
 
         $pembayaranQuery = DB::table('pembayaran');
 
@@ -121,19 +121,32 @@ class HomeController extends Controller
             $hasDiagramData = true;
         }
 
-        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap", "jenisPembayaranOptions", "persentaseLunas", "persentaseBelumLunas","hasDiagramData"));
+        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap", "jenisPembayaranOptions", "persentaseLunas", "persentaseBelumLunas", "hasDiagramData"));
     }
 
-    
-    public function homeSiswa()
+
+    public function homeSiswa(Request $request)
     {
         $user = Auth::user();
         $siswa = User::find($user->id);
+
+        $tahunAjaranList = Pembayaran::where('user_id', $siswa->id)
+            ->select('tahun_ajaran')
+            ->distinct()
+            ->pluck('tahun_ajaran');
+
+        // Default: tahun ajaran aktif
+        $tahunAjaranAktif = $request->get('tahun_ajaran', config('app.tahun_ajaran_aktif'));
+
         $pembayarans = Pembayaran::where('user_id', $siswa->id)
+            ->where('tahun_ajaran', $tahunAjaranAktif)
             ->with('jenisPembayaran')
-            ->get();
+            ->paginate(10)
+            ->appends($request->query());
+
         $jenisPembayaran = JenisPembayaran::all();
-        return view('siswa/home', compact('siswa', 'pembayarans', 'jenisPembayaran'));
+
+        return view('siswa/home', compact('siswa', 'pembayarans', 'jenisPembayaran', 'tahunAjaranList', 'tahunAjaranAktif'));
     }
 
     public function importExcelPembayaran(Request $request)
@@ -142,12 +155,12 @@ class HomeController extends Controller
             'file' => 'required|mimes:xlsx,xls',
         ]);
 
-       // dd($request->file('file'));
+        // dd($request->file('file'));
 
         //dd('Validasi file berhasil');
         $file = $request->file('file');
 
-        
+
         try {
             Excel::import(new PembayaranImport, $file);
             $this->logAktivitas('Import Pembayaran', 'Berhasil mengimpor data pembayaran dari file: ' . $file->getClientOriginalName());
@@ -156,14 +169,15 @@ class HomeController extends Controller
             $failures = $e->failures();
             $errorString = "Terjadi kesalahan validasi saat impor:\n";
             foreach ($failures as $failure) {
-                $errorString .= sprintf("- Baris %s, Kolom %s: %s\n",
+                $errorString .= sprintf(
+                    "- Baris %s, Kolom %s: %s\n",
                     $failure->row(),
                     $failure->attribute(),
                     implode(', ', $failure->errors())
                 );
             }
             return redirect()->back()->with('error', $errorString);
-        } catch (\Exception $e) { 
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data pembayaran: ' . $e->getMessage());
         }
     }

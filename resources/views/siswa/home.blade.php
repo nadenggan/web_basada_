@@ -9,12 +9,22 @@
                             <h4><b>Informasi Siswa</b></h4>
                         </div>
                     </div>
-                    <div class="col-sm-7">
-                        <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 220px;">
-                            <option value="">Semua Jenis Pembayaran</option>
+                    <div class="col-sm-7" style="display: flex;">
+                        <!-- begin::Filter Jenis Pembayaran-->
+                        <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 170px;">
+                            <option value="">Jenis Pembayaran</option>
                             @foreach ($jenisPembayaran as $jenis)
                                 <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}">
                                     {{$jenis->nama_jenis_pembayaran}}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <!-- begin::Filter Tahun Ajaran-->
+                        <select name="tahunAjaran" id="tahunAjaran" class="form-select me-2" style="width: 140px;">
+                            @foreach ($tahunAjaranList as $tahun)
+                                <option value="{{ $tahun }}" {{ $tahun == $tahunAjaranAktif ? 'selected' : '' }}>
+                                    {{ $tahun }}
                                 </option>
                             @endforeach
                         </select>
@@ -68,27 +78,27 @@
                                     </thead>
                                     <tbody>
                                         @forelse($pembayarans as $pembayaran)
-                                        <tr class="align-middle"
-                                            data-jenis-pembayaran-id="{{ $pembayaran->id_jenis_pembayaran }}">
-                                            <td class="bulan-cell" style="display: none;">{{ $pembayaran->bulan }}</td>
-                                            <td>{{ $pembayaran->jenisPembayaran->nama_jenis_pembayaran }}</td>
-                                            <td>Rp {{ number_format($pembayaran->jenisPembayaran->nominal, 0, ',', '.') }}
-                                            </td>
-                                            <td>{{ $pembayaran->status_pembayaran }}</td>
-                                            <td>{{ $pembayaran->tanggal_lunas ? \Carbon\Carbon::parse($pembayaran->tanggal_lunas)->format('d F Y') : '-' }}
-                                            </td>
-                                            <th>
-                                                <button type="button" class="btn btn-warning showCicilan"
-                                                    value="{{ $pembayaran->id }}" data-bs-toggle="modal"
-                                                    style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
-                                                    <i class="fa-solid fa-eye" style="color: white;"></i>
-                                                </button>
-                                            </th>
-                                        </tr>
+                                            <tr class="align-middle"
+                                                data-jenis-pembayaran-id="{{ $pembayaran->id_jenis_pembayaran }}">
+                                                <td class="bulan-cell" style="display: none;">{{ $pembayaran->bulan }}</td>
+                                                <td>{{ $pembayaran->jenisPembayaran->nama_jenis_pembayaran }}</td>
+                                                <td>Rp {{ number_format($pembayaran->jenisPembayaran->nominal, 0, ',', '.') }}
+                                                </td>
+                                                <td>{{ $pembayaran->status_pembayaran }}</td>
+                                                <td>{{ $pembayaran->tanggal_lunas ? \Carbon\Carbon::parse($pembayaran->tanggal_lunas)->format('d F Y') : '-' }}
+                                                </td>
+                                                <th>
+                                                    <button type="button" class="btn btn-warning showCicilan"
+                                                        value="{{ $pembayaran->id }}" data-bs-toggle="modal"
+                                                        style="padding: 0.2rem 0.3rem; font-size: 0.6rem;">
+                                                        <i class="fa-solid fa-eye" style="color: white;"></i>
+                                                    </button>
+                                                </th>
+                                            </tr>
                                         @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center">Tidak ada data pembayaran.</td>
-                                        </tr>
+                                            <tr>
+                                                <td colspan="5" class="text-center">Tidak ada data pembayaran.</td>
+                                            </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -113,6 +123,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="card-footer clearfix">
+                                {{ $pembayarans->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,6 +134,17 @@
     </main>
 
     <script>
+
+        // Filter Tahun Ajaran
+        const tahunAjaranSelect = document.getElementById('tahunAjaran');
+
+        tahunAjaranSelect.addEventListener('change', function () {
+            const selectedTahun = this.value;
+            const urlParams = new URLSearchParams(window.location.search);
+
+            urlParams.set('tahun_ajaran', selectedTahun);
+            window.location.search = urlParams.toString();
+        });
 
         // Filter Jenis Pembayaran
         const jenisPembayaranSelect = document.getElementById('jenisPembayaran');
@@ -151,7 +175,7 @@
                 const newRow = pembayaranTable.insertRow();
                 newRow.classList.add('no-data');
                 const cell = newRow.insertCell();
-                cell.colSpan = document.querySelector('#pembayaran-table thead tr').cells.length; 
+                cell.colSpan = document.querySelector('#pembayaran-table thead tr').cells.length;
                 cell.style.textAlign = 'center';
                 cell.textContent = 'TIDAK ADA RIWAYAT PEMBAYARAN';
             }
@@ -172,7 +196,6 @@
 
             filterPembayaranTable(selectedJenisPembayaranId);
         });
-
 
         // Show Modal Cicilan
         $(document).ready(function () {
@@ -198,15 +221,15 @@
                                 const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                 tbody.append(`
-                                    <tr
-                                        data-id-cicilan="${cicilan.id}"
-                                        data-nominal="${cicilan.nominal}"
-                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
-                                        <td>${index + 1}</td>
-                                        <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                        <td>${formattedTanggalBayar}</td>
-                                    </tr>
-                                `);
+                                                    <tr
+                                                        data-id-cicilan="${cicilan.id}"
+                                                        data-nominal="${cicilan.nominal}"
+                                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                        <td>${index + 1}</td>
+                                                        <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                        <td>${formattedTanggalBayar}</td>
+                                                    </tr>
+                                                `);
                             });
 
                             cicilanListContainer.append(table);
