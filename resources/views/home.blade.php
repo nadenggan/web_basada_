@@ -725,81 +725,38 @@
                 });
             }
 
+            function applyServerFilter() {
+                const jenisPembayaran = document.getElementById('jenisPembayaran').value;
+                const tahunAjaran = document.getElementById('tahunAjaran').value;
+                const nis = document.getElementById('jenisPembayaran').dataset.nis; 
+
+                fetch(`/rekap-pembayaran/${nis}?jenisPembayaran=${jenisPembayaran}&tahunAjaran=${tahunAjaran}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector(".app-main").innerHTML = html;
+
+                        initializeRekapPembayaranFilter();
+                        initializeTahunAjaranFilter();
+                        initializeDeleteModal();
+                        editRekapModal();
+                        showCicilanModal();
+                        deleteCicilanModal();
+                        editCicilanModal();
+                    })
+                    .catch(error => console.error("Error applying filter:", error));
+            }
+
 
             // Initialize Rekap Pembayaran Filter
             function initializeRekapPembayaranFilter() {
-                const jenisPembayaranSelect = document.getElementById('jenisPembayaran');
-                const pembayaranTable = document.getElementById('pembayaran-table').getElementsByTagName('tbody')[0];
-                const bulanColumnHeader = document.querySelector('#pembayaran-table thead .bulan-column');
-                const bulanCells = document.querySelectorAll('#pembayaran-table tbody .bulan-cell');
-
-                function filterPembayaranTable(selectedJenisPembayaranId, selectedTahunAjaran) {
-                    let rowCount = 0;
-                    Array.from(pembayaranTable.rows).forEach(row => {
-                        const jenisPembayaranId = row.dataset.jenisPembayaranId;
-                        const tahunAjaranCell = row.querySelector('.tahun-ajaran-cell');
-                        const tahunAjaran = tahunAjaranCell ? tahunAjaranCell.textContent : null;
-
-                        const jenisPembayaranMatch = selectedJenisPembayaranId === '' || jenisPembayaranId === selectedJenisPembayaranId;
-                        const tahunAjaranMatch = selectedTahunAjaran === '' || tahunAjaran === selectedTahunAjaran;
-
-                        if (jenisPembayaranMatch && tahunAjaranMatch) {
-                            row.style.display = '';
-                            rowCount++;
-                        } else {
-                            row.style.display = 'none';
-                        }
-                    });
-
-                    // "TIDAK ADA RIWAYAT PEMBAYARAN"
-                    const noDataRow = pembayaranTable.querySelector('.no-data');
-                    if (noDataRow) {
-                        pembayaranTable.removeChild(noDataRow);
-                    }
-                    if (rowCount === 0) {
-                        const newRow = pembayaranTable.insertRow();
-                        newRow.classList.add('no-data');
-                        const cell = newRow.insertCell();
-                        cell.colSpan = document.querySelector('#pembayaran-table thead tr').cells.length;
-                        cell.style.textAlign = 'center';
-                        cell.textContent = 'TIDAK ADA RIWAYAT PEMBAYARAN';
-                    }
-                }
-
-                jenisPembayaranSelect.addEventListener('change', function() {
-                    const selectedOption = this.options[this.selectedIndex];
-                    const selectedJenisPembayaranId = this.value;
-                    const periode = selectedOption.dataset.periode;
-                    const tahunAjaranSelect = document.getElementById('tahunAjaran');
-                    const selectedTahunAjaran = tahunAjaranSelect.value;
-
-                    if (periode === 'bulanan') {
-                        bulanColumnHeader.style.display = '';
-                        bulanCells.forEach(cell => cell.style.display = '');
-                    } else {
-                        bulanColumnHeader.style.display = 'none';
-                        bulanCells.forEach(cell => cell.style.display = 'none');
-                    }
-
-                    filterPembayaranTable(selectedJenisPembayaranId, selectedTahunAjaran);
-                });
-
-                
-                const tahunAjaranSelect = document.getElementById('tahunAjaran');
-                filterPembayaranTable(jenisPembayaranSelect.value, tahunAjaranSelect.value);
+                const jenisPembayaranSelect = document.getElementById('jenisPembayaran');   
+                 jenisPembayaranSelect.addEventListener('change', applyServerFilter);
             }
 
             //Initialize Tahun Ajaran Filter
             function initializeTahunAjaranFilter() {
                 const tahunAjaranSelect = document.getElementById('tahunAjaran');
-                const jenisPembayaranSelect = document.getElementById('jenisPembayaran');
-
-                tahunAjaranSelect.addEventListener('change', function() {
-                    const selectedTahunAjaran = this.value;
-                    const selectedJenisPembayaranId = jenisPembayaranSelect.value;
-                    const event = new Event('change'); 
-                    jenisPembayaranSelect.dispatchEvent(event);
-                });
+                 tahunAjaranSelect.addEventListener('change', applyServerFilter);
             }
 
             document.addEventListener('DOMContentLoaded', function() {

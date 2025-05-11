@@ -1,5 +1,6 @@
 <!-- begin::Delete Cicilan Modal -->
-<div class="modal fade" id="hapusCicilanModal" tabindex="-1" aria-labelledby="hapusCicilanModalLabel" aria-hidden="true">
+<div class="modal fade" id="hapusCicilanModal" tabindex="-1" aria-labelledby="hapusCicilanModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="hapusCicilanForm" action="{{ route('hapusCicilan') }}" method="POST">
@@ -126,10 +127,11 @@
                 </div>
                 <div class="col-sm-7" style="display: flex;">
                     <!-- begin::Filter Jenis Pembayaran-->
-                    <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 170px;">
+                    <select name="jenisPembayaran" id="jenisPembayaran" data-nis="{{ $data->nis }}"
+                        class="form-select me-2" style="width: 170px;">
                         <option value="">Jenis Pembayaran</option>
                         @foreach ($jenisPembayaran as $jenis)
-                            <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}">
+                            <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}" {{ request('jenisPembayaran') == $jenis->id ? 'selected' : '' }}>
                                 {{$jenis->nama_jenis_pembayaran}}
                             </option>
                         @endforeach
@@ -138,12 +140,11 @@
 
                     <!-- start::Filter Tahun Ajaran-->
                     <select name="tahunAjaran" id="tahunAjaran" class="form-select" style="width: 140px;">
-                        <option value="">Tahun Ajaran</option>
                         @php
-                            $tahunAjaranUnik = $pembayarans->pluck('tahun_ajaran')->unique()->sortDesc();
-                        @endphp
-                        @foreach ($tahunAjaranUnik as $tahun)
-                            <option value="{{ $tahun }}">{{ $tahun }}</option>
+                        @foreach($tahunAjaranList as $tahun)
+                            <option value="{{ $tahun }}" {{ request('tahunAjaran') == $tahun ? 'selected' : '' }}>
+                                {{ $tahun }}
+                            </option>
                         @endforeach
                     </select>
                     <!-- end::Filter Tahun Ajaran-->
@@ -276,13 +277,13 @@
                                         </div>
                                     </div>
                                     @if(auth()->user()->role == "admin")
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-success  ms-2" data-bs-toggle="modal"
-                                            data-bs-target="#tambahCicilanModal"> Tambah
-                                        </button>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                    </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success  ms-2" data-bs-toggle="modal"
+                                                data-bs-target="#tambahCicilanModal"> Tambah
+                                            </button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
                                     @endif
                                 </div>
                             </div>

@@ -102,12 +102,29 @@ class DataSiswa extends Controller
         $kelas = Kelas::all();
         $jenisPembayaran = JenisPembayaran::all();
 
+        $tahunAjaranList = Pembayaran::where('user_id', $data->id)
+            ->select('tahun_ajaran')
+            ->distinct()
+            ->pluck('tahun_ajaran');
+
+        $tahunAjaranAktif = config('app.tahun_ajaran_aktif');
+
         $pembayarans = Pembayaran::where('user_id', $data->id)
             ->with('jenisPembayaran');
+
+        // Filter Jenis Pembayaran
+        if ($request->has('jenisPembayaran') && $request->jenisPembayaran != '') {
+            $pembayarans->where('id_jenis_pembayaran', $request->jenisPembayaran);
+        }
+
 
         // Filter Tahun_Ajaran
         if ($request->has('tahunAjaran') && $request->tahunAjaran != '') {
             $pembayarans->where('tahun_ajaran', $request->tahunAjaran);
+        } else {
+            // Default: gunakan tahun ajaran aktif
+            $pembayarans->where('tahun_ajaran', $tahunAjaranAktif);
+            $request->merge(['tahunAjaran' => $tahunAjaranAktif]); // supaya tetap terselected di Blade
         }
 
         $pembayarans = $pembayarans->paginate(10)->appends($request->query());
@@ -126,7 +143,7 @@ class DataSiswa extends Controller
         // Change format for blade
         $prediksiMap = collect($prediksiSiswa)->keyBy('user_id');
 
-        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans', 'prediksiMap'));
+        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans', 'prediksiMap','tahunAjaranList'));
     }
     public function editDataSiswaAdmin($nis)
     {
