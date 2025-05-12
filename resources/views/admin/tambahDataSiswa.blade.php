@@ -46,7 +46,7 @@
                                                 style="width: 150px;">
                                                 <option selected>Pilih Kelas</option>
                                                 @foreach($kelas as $k)
-                                                    <option value="{{ $k->tingkat_kelas }}-{{ $k->jurusan}}">
+                                                    <option value="{{ $k->id_kelas }}">
                                                         {{ $k->tingkat_kelas }}-{{ $k->jurusan}}</option>
                                                 @endforeach
                                             </select>
