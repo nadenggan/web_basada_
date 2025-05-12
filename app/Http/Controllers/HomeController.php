@@ -138,9 +138,14 @@ class HomeController extends Controller
         // Default: tahun ajaran aktif
         $tahunAjaranAktif = $request->get('tahun_ajaran', config('app.tahun_ajaran_aktif'));
 
-        $pembayarans = Pembayaran::where('user_id', $siswa->id)
-            ->where('tahun_ajaran', $tahunAjaranAktif)
-            ->with('jenisPembayaran')
+        $query = Pembayaran::where('user_id', $siswa->id)
+            ->where('tahun_ajaran', $tahunAjaranAktif);
+
+        if ($request->filled('jenis_pembayaran')) {
+            $query->where('id_jenis_pembayaran', $request->jenis_pembayaran);
+        }
+
+        $pembayarans = $query->with('jenisPembayaran')
             ->paginate(10)
             ->appends($request->query());
 

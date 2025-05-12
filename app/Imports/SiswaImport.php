@@ -62,7 +62,7 @@ class SiswaImport implements ToModel, WithHeadingRow
             'nis' => $nis,
             'name' => $name,
             'role' => 'siswa',
-            'email' => strtolower(str_replace(' ', '', $nis)) . '@example.com',
+            'email' => strtolower(str_replace(' ', '', $nis)) . '@gmail.com',
             'alamat' => $alamat,
             'password' => $nis,
             'id_kelas' => $id_kelas,

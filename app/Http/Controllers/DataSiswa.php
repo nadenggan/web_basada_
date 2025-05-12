@@ -81,7 +81,7 @@ class DataSiswa extends Controller
         $data['alamat'] = $request->alamat;
         $data['id_kelas'] = $request->id_kelas;
         $data['role'] = "siswa";
-        $data['email'] = $request->nis . '@example.com';
+        $data['email'] = $request->nis . '@gmail.com';
         $data['password'] = $request->nis;
         $data['status_siswa'] = $request->status_siswa;
 

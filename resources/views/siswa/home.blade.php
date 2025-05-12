@@ -14,7 +14,7 @@
                         <select name="jenisPembayaran" id="jenisPembayaran" class="form-select me-2" style="width: 170px;">
                             <option value="">Jenis Pembayaran</option>
                             @foreach ($jenisPembayaran as $jenis)
-                                <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}">
+                                <option value="{{ $jenis->id }}" data-periode="{{ $jenis->periode }}" {{ request('jenis_pembayaran') == $jenis->id ? 'selected' : '' }}>
                                     {{$jenis->nama_jenis_pembayaran}}
                                 </option>
                             @endforeach
@@ -182,20 +182,15 @@
         }
 
         jenisPembayaranSelect.addEventListener('change', function () {
-            const selectedOption = this.options[this.selectedIndex];
             const selectedJenisPembayaranId = this.value;
+            const selectedOption = this.options[this.selectedIndex];
             const periode = selectedOption.dataset.periode;
 
-            if (periode === 'bulanan') {
-                bulanColumnHeader.style.display = '';
-                bulanCells.forEach(cell => cell.style.display = '');
-            } else {
-                bulanColumnHeader.style.display = 'none';
-                bulanCells.forEach(cell => cell.style.display = 'none');
-            }
-
-            filterPembayaranTable(selectedJenisPembayaranId);
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('jenis_pembayaran', selectedJenisPembayaranId);
+            window.location.search = urlParams.toString(); // reload page with new param
         });
+
 
         // Show Modal Cicilan
         $(document).ready(function () {
@@ -221,15 +216,15 @@
                                 const formattedTanggalBayar = tanggalBayar.toLocaleDateString('id-ID', options);
 
                                 tbody.append(`
-                                                    <tr
-                                                        data-id-cicilan="${cicilan.id}"
-                                                        data-nominal="${cicilan.nominal}"
-                                                        data-tanggal-bayar="${cicilan.tanggal_bayar}">
-                                                        <td>${index + 1}</td>
-                                                        <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
-                                                        <td>${formattedTanggalBayar}</td>
-                                                    </tr>
-                                                `);
+                                                        <tr
+                                                            data-id-cicilan="${cicilan.id}"
+                                                            data-nominal="${cicilan.nominal}"
+                                                            data-tanggal-bayar="${cicilan.tanggal_bayar}">
+                                                            <td>${index + 1}</td>
+                                                            <td>Rp ${new Intl.NumberFormat('id-ID').format(cicilan.nominal)}</td>
+                                                            <td>${formattedTanggalBayar}</td>
+                                                        </tr>
+                                                    `);
                             });
 
                             cicilanListContainer.append(table);
