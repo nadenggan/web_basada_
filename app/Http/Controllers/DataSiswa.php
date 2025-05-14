@@ -48,7 +48,8 @@ class DataSiswa extends Controller
         }
 
         // Paginate
-        $users = $users->paginate(10);
+        $users = $users->paginate(10)->appends($request->all());
+;
 
         return view('admin/dataSiswa', compact("users", "request"));
     }
@@ -332,7 +333,8 @@ class DataSiswa extends Controller
         }
 
         // Paginate
-        $users = $users->paginate(10);
+        $users = $users->paginate(10)->appends($request->all());
+;
 
         return view('guru/dataSiswa', compact("users", "request"));
     }
