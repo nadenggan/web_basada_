@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Illuminate\Support\Collection;
 
 class RekapExport implements WithMultipleSheets
 {
@@ -17,11 +18,14 @@ class RekapExport implements WithMultipleSheets
 
     protected $pembayarans;
     protected $namaSiswa;
+    protected $totalKekurangan;
+    
 
-    public function __construct($pembayarans, $namaSiswa)
+    public function __construct($pembayarans, $namaSiswa, $totalKekurangan = 0)
     {
         $this->pembayarans = $pembayarans;
         $this->namaSiswa = $namaSiswa;
+         $this->totalKekurangan = $totalKekurangan;
     }
 
     /**
@@ -30,7 +34,7 @@ class RekapExport implements WithMultipleSheets
     public function sheets(): array
     {
         $sheets = [
-            new RekapPembayaranSheet($this->pembayarans, $this->namaSiswa),
+            new RekapPembayaranSheet($this->pembayarans, $this->namaSiswa,$this->totalKekurangan),
         ];
 
         // Add sheet cicilan
@@ -41,6 +45,9 @@ class RekapExport implements WithMultipleSheets
         if ($hasCicilan) {
             $sheets[] = new CicilanSheet($this->pembayarans, $this->namaSiswa);
         }
+
+        // Tambahkan sheet total kekurangan, dengan nilai sudah dihitung di controller
+        $sheets[] = new TotalKekuranganSheet($this->totalKekurangan);
 
         return $sheets;
     }
@@ -58,11 +65,13 @@ class RekapPembayaranSheet implements FromCollection, WithHeadings, ShouldAutoSi
 {
     protected $pembayarans;
     protected $namaSiswa;
+    protected $totalKekurangan;
 
-    public function __construct($pembayarans, $namaSiswa)
+    public function __construct($pembayarans, $namaSiswa, $totalKekurangan = 0)
     {
         $this->pembayarans = $pembayarans;
         $this->namaSiswa = $namaSiswa;
+         $this->totalKekurangan = $totalKekurangan;
     }
 
     /**
@@ -112,7 +121,9 @@ class RekapPembayaranSheet implements FromCollection, WithHeadings, ShouldAutoSi
     {
         return 'Rekap Pembayaran'; //sheet name
     }
+
 }
+
 
 class CicilanSheet implements FromCollection, WithHeadings, ShouldAutoSize, WithMapping, WithTitle
 {
@@ -190,5 +201,28 @@ class CicilanSheet implements FromCollection, WithHeadings, ShouldAutoSize, With
     public function title(): string
     {
         return 'Detail Cicilan'; //sheet name
+    }
+}
+
+class TotalKekuranganSheet implements FromCollection, WithTitle
+{
+    protected $totalKekurangan;
+
+    public function __construct($totalKekurangan)
+    {
+        $this->totalKekurangan = $totalKekurangan;
+    }
+
+    public function collection()
+    {
+
+        return collect([
+            ['Total Kekurangan', $this->totalKekurangan],
+        ]);
+    }
+
+    public function title(): string
+    {
+        return 'Total Kekurangan';
     }
 }

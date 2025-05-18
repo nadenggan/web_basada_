@@ -194,6 +194,12 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="fw-bold">Total Kekurangan</div>
+                                <div class="fw-bold" style="font-size: 20px; color:red;"> Rp
+                                    {{ number_format($totalKekurangan, 0, ',', '.') }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <form action="{{ route('exportData', ['nis' => $data->nis]) }}" method="GET">

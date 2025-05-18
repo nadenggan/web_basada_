@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Exports\RekapExport;
 use App\Http\Controllers\PrediksiController;
 
+
 use App\Traits\LogAktivitas;
 
 use Illuminate\Http\Request;
@@ -66,10 +67,23 @@ class DataSiswa extends Controller
             ->get();
         $namaSiswa = $siswa->name;
 
+        $totalKekurangan = 0;
+        foreach ($pembayarans as $pembayaran) {
+            if ($pembayaran->status_pembayaran === 'Belum Lunas') {
+                $totalCicilan = $pembayaran->cicilans->sum('nominal');
+                $selisih = $pembayaran->jenisPembayaran->nominal - $totalCicilan;
+                $totalKekurangan += max($selisih, 0);
+            }
+        }
+
+        //dd($totalKekurangan);
+
         // Log Act
         $this->logAktivitas('Export Data Pembayaran Siswa', 'Export data pembayaran siswa dengan NIS ' . $nis . ' atas nama ' . $namaSiswa . '.');
 
-        return Excel::download(new RekapExport($pembayarans, $namaSiswa), (new RekapExport($pembayarans, $namaSiswa))->filename());
+        $export = new RekapExport($pembayarans, $namaSiswa, $totalKekurangan);
+
+        return Excel::download($export, $export->filename());
     }
 
     public function tambahDataSiswa()
@@ -114,25 +128,40 @@ class DataSiswa extends Controller
 
         $tahunAjaranAktif = config('app.tahun_ajaran_aktif');
 
-        $pembayarans = Pembayaran::where('user_id', $data->id)
-            ->with('jenisPembayaran');
+        // For total kekurangan (collection format)
+        $pembayaranSemua = Pembayaran::where('user_id', $data->id)
+            ->with('jenisPembayaran', 'cicilans')
+            ->get();
+
+        $totalKekurangan = 0;
+        foreach ($pembayaranSemua as $pembayaran) {
+            if ($pembayaran->status_pembayaran === 'Belum Lunas') {
+                $totalCicilan = $pembayaran->cicilans->sum('nominal');
+                $selisih = $pembayaran->jenisPembayaran->nominal - $totalCicilan;
+                $totalKekurangan += max($selisih, 0); // Hindari hasil negatif
+            }
+        }
+
+        // For page rekap 
+        $pembayaranQuery = Pembayaran::where('user_id', $data->id)
+            ->with('jenisPembayaran', 'cicilans');
 
         // Filter Jenis Pembayaran
         if ($request->has('jenisPembayaran') && $request->jenisPembayaran != '') {
-            $pembayarans->where('id_jenis_pembayaran', $request->jenisPembayaran);
+            $pembayaranQuery->where('id_jenis_pembayaran', $request->jenisPembayaran);
         }
 
 
         // Filter Tahun_Ajaran
         if ($request->has('tahunAjaran') && $request->tahunAjaran != '') {
-            $pembayarans->where('tahun_ajaran', $request->tahunAjaran);
+            $pembayaranQuery->where('tahun_ajaran', $request->tahunAjaran);
         } else {
             // Default:tahun ajaran aktif
-            $pembayarans->where('tahun_ajaran', $tahunAjaranAktif);
+            $pembayaranQuery->where('tahun_ajaran', $tahunAjaranAktif);
             $request->merge(['tahunAjaran' => $tahunAjaranAktif]); // selected at Blade
         }
 
-        $pembayarans = $pembayarans->paginate(10)->appends($request->query());
+        $pembayarans = $pembayaranQuery->paginate(10)->appends($request->query());
 
         // Initiate PrediksiController
         $prediksiController = new PrediksiController();
@@ -148,7 +177,7 @@ class DataSiswa extends Controller
         // Change format for blade
         $prediksiMap = collect($prediksiSiswa)->keyBy('user_id');
 
-        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans', 'prediksiMap', 'tahunAjaranList'));
+        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans', 'prediksiMap', 'tahunAjaranList', 'totalKekurangan'));
     }
     public function editDataSiswaAdmin($nis)
     {
