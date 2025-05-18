@@ -47,7 +47,8 @@
                                                 <option selected>Pilih Kelas</option>
                                                 @foreach($kelas as $k)
                                                     <option value="{{ $k->id_kelas }}">
-                                                        {{ $k->tingkat_kelas }}-{{ $k->jurusan}}</option>
+                                                        {{ $k->tingkat_kelas }}-{{ $k->jurusan}}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -62,7 +63,6 @@
                                                 <option selected>Pilih Status</option>
                                                 <option value="Aktif">Aktif</option>
                                                 <option value="Lulus">Lulus</option>
-                                                <option value="Pindah">Pindah</option>
                                                 <option value="Keluar">Keluar</option>
                                             </select>
                                         </div>

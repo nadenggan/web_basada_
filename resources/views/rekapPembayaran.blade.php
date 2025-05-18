@@ -62,8 +62,8 @@
                     <div class="mb-3">
                         <label for="edit_status_pembayaran" class="form-label">Status Pembayaran</label>
                         <select class="form-select" id="edit_status_pembayaran" name="status_pembayaran">
-                            <option value="belum lunas">Belum Lunas</option>
-                            <option value="lunas">Lunas</option>
+                            <option value="Belum Lunas">Belum Lunas</option>
+                            <option value="Lunas">Lunas</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -206,7 +206,7 @@
                             <table class="table table-bordered" id="pembayaran-table">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px; display: none;" class="bulan-column">Bulan</th>
+                                        <th style=" display: none;" class="bulan-column">Bulan</th>
                                         <th>Nama</th>
                                         <th>Nominal</th>
                                         <th>Status</th>

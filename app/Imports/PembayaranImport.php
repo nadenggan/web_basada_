@@ -33,7 +33,7 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
             $pembayaranData = [
                 'user_id' => $user->id,
                 'id_jenis_pembayaran' => $jenisPembayaran->id,
-                'status_pembayaran' => $row['status_lunas'] == 'L' ? 'lunas' : 'belum lunas', // Sesuaikan
+                'status_pembayaran' => $row['status_lunas'] == 'L' ? 'Lunas' : 'Belum Lunas', 
                 'tanggal_lunas' => $row['tanggal_lunas'] ?? null,
                 'tahun_ajaran' => $row['tahun_ajaran'],
             ];
@@ -64,9 +64,9 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
             }
 
             // Cicilan more than 1 
-            foreach ($row as $key => $value) {
-                if (strpos(strtolower($key), 'nominal_cicilan_') === 0 && !empty($value)) {
-                    $cicilanIndex = str_replace('nominal_cicilan_', '', strtolower($key));
+            foreach ($row as $key => $value) { //key is the column
+                if (strpos(strtolower($key), 'nominal_cicilan_') === 0 && !empty($value)) { //column start with
+                    $cicilanIndex = str_replace('nominal_cicilan_', '', strtolower($key)); //get the index
                     $tanggalBayarKey = 'tanggal_bayar_' . $cicilanIndex;
 
                     if (isset($row[$tanggalBayarKey]) && !empty($row[$tanggalBayarKey])) {
@@ -84,7 +84,7 @@ class PembayaranImport implements ToModel, WithHeadingRow, WithValidation
         return null;
     }
 
-    public function headingRow(): int
+    public function headingRow(): int // header 
     {
         return 1;
     }

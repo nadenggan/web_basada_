@@ -11,48 +11,56 @@ use Illuminate\Support\Facades\Log;
 
 class PrediksiController extends Controller
 {
-    private function hitungFitur(Pembayaran $pembayaran)
+    private function hitungFitur($user)
     {
-        $userId = $pembayaran->user_id;
-
-        // Gett all pembayaran
-        $riwayatPembayaran = Pembayaran::where('user_id', $userId)
-            ->with('jenisPembayaran')
-            ->get();
+        // Get all pembayaran each user
+        $riwayatPembayaran = $user->pembayarans()->with('jenisPembayaran')->get();
 
         // a. Jumlah Status Pembayaran Lunas
-        $jumlahLunas = $riwayatPembayaran->where('status_pembayaran', 'lunas')->count();
+        $jumlahLunas = $riwayatPembayaran->where('status_pembayaran', 'Lunas')->count();
 
-        // b. Jumlah Pembayaran Tepat Waktu
+        // b. Jumlah Pembayaran Lunas & Tepat Waktu
         $jumlahTepatWaktu = $riwayatPembayaran->filter(function ($pembayaran) {
-            return $pembayaran->status_pembayaran == 'lunas' &&
+            return $pembayaran->status_pembayaran == 'Lunas' &&
                 $pembayaran->tanggal_lunas <= $pembayaran->jenisPembayaran->tenggat_waktu;
         })->count();
 
         // c. Frekuensi Terlambat bayar
-        $jumlahTelat = $riwayatPembayaran->where('status_pembayaran', 'lunas')
-            ->filter(function ($pembayaran) {
-                return $pembayaran->tanggal_lunas > $pembayaran->jenisPembayaran->tenggat_waktu;
-            })->count();
-        $frekuensiTelat = $jumlahTelat;
+        $frekuensiTelat = 0;
+        foreach ($riwayatPembayaran->where('status_pembayaran', 'Lunas') as $pembayaran) {
+            $tanggalLunas = \Carbon\Carbon::parse($pembayaran->tanggal_lunas);
 
-        // d. Frekuensi Cicilan
-        $frekuensiCicilan = \App\Models\Cicilan::whereHas('pembayaran', function ($query) use ($pembayaran) {
-            $query->where('id', $pembayaran->id);
-        })->count();
+            if ($pembayaran->jenisPembayaran->periode === 'bulanan') {
+                $tanggalDeadline = $tanggalLunas->copy()->day($pembayaran->jenisPembayaran->tanggal_bulanan);
+                if ($tanggalLunas->gt($tanggalDeadline)) {
+                    $frekuensiTelat++;
+                }
+            } else {
+                if ($tanggalLunas->gt(\Carbon\Carbon::parse($pembayaran->jenisPembayaran->tenggat_waktu))) {
+                    $frekuensiTelat++;
+                }
+            }
+        }
 
-        // e. Nominal Tunggakan
+
+
+        // d. Frekuensi Cicilan 
+        $frekuensiCicilan = \App\Models\Cicilan::whereIn('id_pembayaran', $riwayatPembayaran->pluck('id'))->count();
+
+        // e. Nominal Tunggakan 
         $nominalTunggakan = 0;
-        if ($pembayaran->status_pembayaran == 'belum lunas') {
+        $pembayaranBelumLunasSemua = $riwayatPembayaran->where('status_pembayaran', 'Belum Lunas');
+
+        foreach ($pembayaranBelumLunasSemua as $pembayaran) {
             $totalDibayar = \App\Models\Cicilan::where('id_pembayaran', $pembayaran->id)->sum('nominal');
-            $nominalTunggakan = $pembayaran->jenisPembayaran->nominal - $totalDibayar;
-            $nominalTunggakan = max(0, $nominalTunggakan); // Not negative
+            $sisa = $pembayaran->jenisPembayaran->nominal - $totalDibayar;
+            $nominalTunggakan += max(0, $sisa);
         }
 
         // f. Rata-rata hari dari pembayaran yang terlambat
         $totalHariTelat = 0;
         $jumlahPembayaranTelat = 0;
-        foreach ($riwayatPembayaran->where('status_pembayaran', 'lunas') as $pembayaran) {
+        foreach ($riwayatPembayaran->where('status_pembayaran', 'Lunas') as $pembayaran) {
             if ($pembayaran->tanggal_lunas > $pembayaran->jenisPembayaran->tenggat_waktu) {
                 $tenggatWaktu = \Carbon\Carbon::parse($pembayaran->jenisPembayaran->tenggat_waktu);
                 $tanggalLunas = \Carbon\Carbon::parse($pembayaran->tanggal_lunas);
@@ -64,11 +72,11 @@ class PrediksiController extends Controller
         $rataRataHariTelat = ($jumlahPembayaranTelat > 0) ? $totalHariTelat / $jumlahPembayaranTelat : 0;
 
         // g. Proporsi Pembayaran Tepat Waktu
-        $totalPembayaranLunas = $riwayatPembayaran->where('status_pembayaran', 'lunas')->count();
+        $totalPembayaranLunas = $riwayatPembayaran->where('status_pembayaran', 'Lunas')->count();
         $proporsiTepatWaktu = ($totalPembayaranLunas > 0) ? $jumlahTepatWaktu / $totalPembayaranLunas : 0;
 
         // h. Rasio Pembayaran Terlambat
-        $rasioTelat = ($totalPembayaranLunas > 0) ? $jumlahTelat / $totalPembayaranLunas : 0;
+        $rasioTelat = ($totalPembayaranLunas > 0) ? $frekuensiTelat / $totalPembayaranLunas : 0;
 
         return [
             'status_lunas' => $jumlahLunas,
@@ -87,30 +95,30 @@ class PrediksiController extends Controller
         try {
             $response = Http::post('http://127.0.0.1:8001/predict_batch', ['data' => $fiturBatch]);
             Log::info('Respons dari API: ' . $response->body());
-            return $response->json();
+            //return $response->json();
 
             if ($response->successful()) {
                 return $response->json();
             } else {
                 Log::error("Gagal memprediksi batch siswa: " . $response->body());
-                return null; 
+                return null;
             }
         } catch (\Exception $e) {
-            Log::error("Error saat menghubungi API untuk prediksi batch: " . $e->getMessage());
-            return null; 
+            Log::error("Error saat menghubungi API untuk prediksi batch: " . $e->getMessage()); // trouble connection
+            return null;
         }
     }
 
     public function prediksiSemuaSiswa()
     {
-        // Get all pembayaran
-        $pembayarans = Pembayaran::with(['jenisPembayaran', 'users'])->get();
+        // Get user has relation with pembayaran
+        $users = User::has('pembayarans')->get();
 
         $fiturBatch = [];
         $prediksiMap = [];
 
-        foreach ($pembayarans as $pembayaran) {
-            $fiturBatch[$pembayaran->id] = $this->hitungFitur($pembayaran);
+        foreach ($users as $user) {
+            $fiturBatch[$user->id] = $this->hitungFitur($user);
         }
         //dd($fiturBatch);
 
@@ -118,16 +126,15 @@ class PrediksiController extends Controller
         //dd($hasilBatch);
 
         if ($hasilBatch && isset($hasilBatch['predictions'])) {
-            $i = 0;
-            foreach ($pembayarans as $pembayaran) {
-                  $prediksiMap[$pembayaran->user_id] = [
-                    'id_pembayaran' => $pembayaran->id,
-                    'prediksi' => $hasilBatch['predictions'][$i]['prediksi'],
-                    'probabilitas' => $hasilBatch['predictions'][$i]['probabilitas'],
-                    'user_id' => $pembayaran->user_id,
+            //$i = 0;
+            foreach ($users as $index => $user) {
+                $prediksiMap[$user->id] = [
+                    'user_id' => $user->id,
+                    'prediksi' => $hasilBatch['predictions'][$index]['prediksi'],
+                    'probabilitas' => $hasilBatch['predictions'][$index]['probabilitas'],
                 ];
-                $i++;
             }
+
         }
 
         return response()->json(['status' => 'success', 'data' => array_values($prediksiMap)]);

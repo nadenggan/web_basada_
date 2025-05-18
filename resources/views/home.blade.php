@@ -103,13 +103,6 @@
             <!--end::Row-->
             <!--begin::Row-->
             <div class="row  align-items-center d-flex justify-content-center">
-                <div>
-                    @if (session('error'))
-                        <div class="alert alert-danger mb-3">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                </div>
                 <div class="col-sm-auto text-center" style="font-size: 28px;">
                     <b>Data Siswa</b>
                 </div>
@@ -142,6 +135,19 @@
                 <div class="card mb-4">
                     <!-- /.card-header -->
                     <div class="card-body">
+                        {{-- Sukses --}}
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        {{-- Gagal --}}
+                        @if (session('error'))
+                            <div class="alert alert-danger" style="white-space: pre-line;">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -725,6 +731,25 @@
                 });
             }
 
+         function toggleBulanColumnByPeriode() {
+    const jenisPembayaranSelect = document.getElementById('jenisPembayaran');
+    const selectedOption = jenisPembayaranSelect.options[jenisPembayaranSelect.selectedIndex];
+    const periode = selectedOption.dataset.periode;
+
+    const bulanColumnHeader = document.querySelector('.bulan-column');
+    const bulanCells = document.querySelectorAll('.bulan-cell');
+
+    if (periode === 'bulanan') {
+        bulanColumnHeader.style.display = '';
+        bulanCells.forEach(cell => cell.style.display = '');
+    } else {
+        bulanColumnHeader.style.display = 'none';
+        bulanCells.forEach(cell => cell.style.display = 'none');
+    }
+}
+
+
+
             function applyServerFilter() {
                 const jenisPembayaran = document.getElementById('jenisPembayaran').value;
                 const tahunAjaran = document.getElementById('tahunAjaran').value;
@@ -751,6 +776,7 @@
             function initializeRekapPembayaranFilter() {
                 const jenisPembayaranSelect = document.getElementById('jenisPembayaran');   
                  jenisPembayaranSelect.addEventListener('change', applyServerFilter);
+                 toggleBulanColumnByPeriode();
             }
 
             //Initialize Tahun Ajaran Filter
@@ -804,7 +830,7 @@
                                         // Get the value
                                         const valueStatusPembayaran = this.value;
 
-                                        if (valueStatusPembayaran === "belum lunas") {
+                                        if (valueStatusPembayaran === "Belum Lunas") {
                                             nominalCicilan.style.display = "block";
                                             tanggalBayar.style.display = "block";
                                             tanggalLunas.style.display = "none";

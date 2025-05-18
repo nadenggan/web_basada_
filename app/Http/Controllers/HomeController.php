@@ -17,13 +17,15 @@ class HomeController extends Controller
     use logAktivitas;
     public function home(Request $request)
     {
-
         //set_time_limit(60);
 
         // Only get data Siswa
-        $users = User::with("kelas")->whereNotNull("nis");
+        $users = User::with("kelas")->whereNotNull("nis")->join('kelas', 'users.id_kelas', '=', 'kelas.id_kelas')
+            ->orderBy('kelas.tingkat_kelas', 'asc') // From X to XII
+            ->select('users.*');
+        ;
 
-        // Filter by Name, NIS, Jurusan
+        // Filter by Name, NIS, Jurusan, status
         if ($request->get('search')) {
             $search = $request->get('search');
 
@@ -46,7 +48,6 @@ class HomeController extends Controller
 
         // Paginate (all query string before, stay at URL )
         $users = $users->paginate(10)->appends($request->all());
-
 
         // Initiate PrediksiController
         $prediksiController = new PrediksiController();
@@ -89,9 +90,9 @@ class HomeController extends Controller
 
         // Total Jenis Pembayaran
         $totalJenisPembayaran = DB::table("jenis_pembayaran")->count();
-        $jenisPembayaranOptions = JenisPembayaran::all();
 
         //  Diagram Pie
+        $jenisPembayaranOptions = JenisPembayaran::all();
         $lunasCount = 0;
         $belumLunasCount = 0;
         $totalPembayaranDiagram = 0;
@@ -111,7 +112,7 @@ class HomeController extends Controller
 
         $pembayaransDiagram = $pembayaranQuery->get();
         $totalPembayaranDiagram = $pembayaransDiagram->count();
-        $lunasCount = $pembayaransDiagram->where('status_pembayaran', 'lunas')->count();
+        $lunasCount = $pembayaransDiagram->where('status_pembayaran', 'Lunas')->count();
         $belumLunasCount = $totalPembayaranDiagram - $lunasCount;
 
         $persentaseLunas = $totalPembayaranDiagram > 0 ? ($lunasCount / $totalPembayaranDiagram) * 100 : 0;

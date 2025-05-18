@@ -8,15 +8,15 @@ use App\Models\Kelas;
 
 class UpdateStudentClasses extends Command
 {
-    protected $signature = 'app:update-student-classes';
-    protected $description = 'Memperbarui tingkat kelas siswa dan menandai siswa lulus.';
+    protected $signature = 'app:update-student-classes'; //command name
+    protected $description = 'Memperbarui tingkat kelas siswa dan menandai siswa lulus.'; //command desc
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $this->info('Memulai proses kenaikan kelas...');
+        $this->info('Memulai proses kenaikan kelas...'); //message terminal
 
         User::where('status_siswa', 'Aktif')->chunk(100, function ($users) {
             foreach ($users as $user) {

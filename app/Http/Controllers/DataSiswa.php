@@ -24,7 +24,11 @@ class DataSiswa extends Controller
     public function dataSiswaAdmin(Request $request)
     {
         // Only get data Siswa
-        $users = User::with("kelas")->whereNotNull("nis");
+        $users = User::with("kelas")->whereNotNull("nis")->leftJoin('kelas', 'users.id_kelas', '=', 'kelas.id_kelas')
+            ->orderBy('kelas.tingkat_kelas', 'asc') // From X to XII
+            ->select('users.*');
+        ;
+        ;
 
         // Filter by Name, NIS, Jurusan
         if ($request->get('search')) {
@@ -49,7 +53,7 @@ class DataSiswa extends Controller
 
         // Paginate
         $users = $users->paginate(10)->appends($request->all());
-;
+        ;
 
         return view('admin/dataSiswa', compact("users", "request"));
     }
@@ -106,7 +110,7 @@ class DataSiswa extends Controller
         $tahunAjaranList = Pembayaran::where('user_id', $data->id)
             ->select('tahun_ajaran')
             ->distinct()
-            ->pluck('tahun_ajaran');
+            ->pluck('tahun_ajaran'); //array
 
         $tahunAjaranAktif = config('app.tahun_ajaran_aktif');
 
@@ -123,9 +127,9 @@ class DataSiswa extends Controller
         if ($request->has('tahunAjaran') && $request->tahunAjaran != '') {
             $pembayarans->where('tahun_ajaran', $request->tahunAjaran);
         } else {
-            // Default: gunakan tahun ajaran aktif
+            // Default:tahun ajaran aktif
             $pembayarans->where('tahun_ajaran', $tahunAjaranAktif);
-            $request->merge(['tahunAjaran' => $tahunAjaranAktif]); // supaya tetap terselected di Blade
+            $request->merge(['tahunAjaran' => $tahunAjaranAktif]); // selected at Blade
         }
 
         $pembayarans = $pembayarans->paginate(10)->appends($request->query());
@@ -144,7 +148,7 @@ class DataSiswa extends Controller
         // Change format for blade
         $prediksiMap = collect($prediksiSiswa)->keyBy('user_id');
 
-        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans', 'prediksiMap','tahunAjaranList'));
+        return view('rekapPembayaran', compact('data', 'kelas', 'jenisPembayaran', 'pembayarans', 'prediksiMap', 'tahunAjaranList'));
     }
     public function editDataSiswaAdmin($nis)
     {
@@ -309,7 +313,9 @@ class DataSiswa extends Controller
     public function dataSiswaGuru(Request $request)
     {
         // Only get data Siswa
-        $users = User::with("kelas")->whereNotNull("nis");
+        $users = User::with("kelas")->whereNotNull("nis")->leftjoin('kelas', 'users.id_kelas', '=', 'kelas.id_kelas')
+            ->orderBy('kelas.tingkat_kelas', 'asc') // From X to XII
+            ->select('users.*');
 
         // Filter by Name, NIS, Jurusan
         if ($request->get('search')) {
@@ -334,15 +340,13 @@ class DataSiswa extends Controller
 
         // Paginate
         $users = $users->paginate(10)->appends($request->all());
-;
 
         return view('guru/dataSiswa', compact("users", "request"));
     }
 
     public function importExcel(request $request)
     {
-
-        ini_set('max_execution_time', 300);
+        ini_set('max_execution_time', 300); // 5 minute max
 
         $file = $request->file("file");
         $namaFile = rand() . $file->getClientOriginalName();
@@ -355,6 +359,7 @@ class DataSiswa extends Controller
         // Log Act
         $this->logAktivitas('Import Data Siswa', 'Import data siswa bama file ' . $namaFile);
 
-        return redirect("/dataSiswaAdmin");
+        return redirect("/dataSiswaAdmin")->with('success', 'Data siswa berhasil diimpor.');
+        ;
     }
 }

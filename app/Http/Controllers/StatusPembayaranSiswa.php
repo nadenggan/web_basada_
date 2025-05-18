@@ -11,7 +11,11 @@ class StatusPembayaranSiswa extends Controller
 {
     public function statusPembayaranSiswa(Request $request)
     {
-        $users = User::with("kelas")->whereNotNull("nis");
+        $users = User::with("kelas")->whereNotNull("nis")->join('kelas', 'users.id_kelas', '=', 'kelas.id_kelas')
+            ->orderBy('kelas.tingkat_kelas', 'asc') // From X to XII
+            ->select('users.*');
+        ;
+        ;
         $jenisPembayaran = JenisPembayaran::all();
         $selectedJenisPembayaranId = $request->get('jenisPembayaran');
         $selectedBulan = $request->get('bulan');
@@ -40,8 +44,6 @@ class StatusPembayaranSiswa extends Controller
                 $request->merge(['tahunAjaran' => $selectedTahunAjaran]);
             }
         }
-
-
 
         // Selected the top jenisPembayaran
         if (!$selectedJenisPembayaranId && $jenisPembayaran->isNotEmpty()) {
@@ -97,7 +99,6 @@ class StatusPembayaranSiswa extends Controller
                 }
             ]);
         });
-
 
 
         return view('statusPembayaranSiswa', compact("users", "request", "jenisPembayaran", "showBulanFilter", "bulanList", "tahunAjaranList"));

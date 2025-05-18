@@ -1,6 +1,7 @@
 @extends("layout.main")
 @section("content")
 
+
     <!-- begin::Delete Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -70,6 +71,11 @@
                         <div class="card mb-4">
                             <!-- /.card-header -->
                             <div class="card-body">
+                                @if(session('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -80,7 +86,7 @@
                                             <th style="width: 200px">ALAMAT</th>
                                             <th>STATUS SISWA</th>
                                             <th>AKSI</th>
-                                            
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -93,28 +99,30 @@
                                                 <tr class="align-middle">
                                                     <td>{{$user->nis}}</td>
                                                     <td>{{$user->name}}</td>
-                                                    <td> 
-                                                @if ($user->id_kelas)
-                                                    {{ $user->kelas->tingkat_kelas }}
-                                                @else
-                                                    <span class="text-muted">-</span> 
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($user->id_kelas)
-                                                    {{ $user->kelas->jurusan }}
-                                                @else
-                                                    <span class="text-muted">-</span>
-                                                @endif
-                                            </td>
-                                                    <td style="width: 200px" >{{$user->alamat}}</td>
+                                                    <td>
+                                                        @if ($user->id_kelas)
+                                                            {{ $user->kelas->tingkat_kelas }}
+                                                        @else
+                                                            <span class="text-muted">-</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($user->id_kelas)
+                                                            {{ $user->kelas->jurusan }}
+                                                        @else
+                                                            <span class="text-muted">-</span>
+                                                        @endif
+                                                    </td>
+                                                    <td style="width: 200px">{{$user->alamat}}</td>
                                                     <td>{{$user->status_siswa}}</td>
                                                     <td>
-                                                        <button class="btn btn-primary" style="font-size: 15px; padding: 0.1rem 0.2rem;"><a href="" class="edit"
+                                                        <button class="btn btn-primary"
+                                                            style="font-size: 15px; padding: 0.1rem 0.2rem;"><a href="" class="edit"
                                                                 value="{{ $user->nis }}"
                                                                 style="color: white; text-decoration: none;">Edit</a></button>
 
-                                                        <button class="btn btn-danger hapus" value="{{ $user->nis }}"  style="color: white; text-decoration: none; font-size: 15px; padding: 0.1rem 0.2rem;">Hapus</button>
+                                                        <button class="btn btn-danger hapus" value="{{ $user->nis }}"
+                                                            style="color: white; text-decoration: none; font-size: 15px; padding: 0.1rem 0.2rem;">Hapus</button>
                                                     </td>
                                                 </tr>
                                             @endforeach

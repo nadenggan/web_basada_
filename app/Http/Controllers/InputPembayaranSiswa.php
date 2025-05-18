@@ -34,7 +34,7 @@ class InputPembayaranSiswa extends Controller
       $pembayaranData['bulan'] = $jenisPembayaran->periode === 'bulanan' ? $request->bulan : null;
 
       // Cicilan option
-      if ($request->status_pembayaran === "belum lunas") {
+      if ($request->status_pembayaran === "Belum Lunas") {
          // Create Pembayaran record
          $pembayaran = Pembayaran::create($pembayaranData);
 

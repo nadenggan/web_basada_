@@ -21,7 +21,7 @@ class SiswaImport implements ToModel, WithHeadingRow
 
         //dd($row);
 
-        // Remove space from each value
+        // Remove space from each value (per record)
         $row = array_change_key_case(array_map('trim', $row), CASE_LOWER);  
 
         $nis = $row["nis"] ?? null;

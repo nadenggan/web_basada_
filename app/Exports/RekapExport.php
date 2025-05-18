@@ -110,7 +110,7 @@ class RekapPembayaranSheet implements FromCollection, WithHeadings, ShouldAutoSi
      */
     public function title(): string
     {
-        return 'Rekap Pembayaran';
+        return 'Rekap Pembayaran'; //sheet name
     }
 }
 
@@ -189,6 +189,6 @@ class CicilanSheet implements FromCollection, WithHeadings, ShouldAutoSize, With
      */
     public function title(): string
     {
-        return 'Detail Cicilan';
+        return 'Detail Cicilan'; //sheet name
     }
 }

@@ -51,7 +51,6 @@
                                         <option value="">Pilih Status</option>
                                         <option value="Aktif" {{ $data->status_siswa == 'Aktif' ? 'selected' : '' }}>Aktif</option>
                                         <option value="Lulus" {{ $data->status_siswa == 'Lulus' ? 'selected' : '' }}>Lulus</option>
-                                        <option value="Pindah" {{ $data->status_siswa == 'Pindah' ? 'selected' : '' }}>Pindah</option>
                                         <option value="Keluar" {{ $data->status_siswa == 'Keluar' ? 'selected' : '' }}>Keluar</option>
                                     </select>
                                 </div>
