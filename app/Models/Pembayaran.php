@@ -15,6 +15,7 @@ class Pembayaran extends Model
         'tanggal_lunas',
         'bulan',
         'tahun_ajaran',
+        'bukti_pembayaran',
     ];
 
     public function users(){

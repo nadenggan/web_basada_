@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Models\JenisPembayaran;
 use App\Models\Pembayaran;
 use App\Models\Cicilan;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
 
 class InputPembayaranSiswa extends Controller
 {
@@ -28,30 +31,58 @@ class InputPembayaranSiswa extends Controller
          'id_jenis_pembayaran' => $request->id_jenis_pembayaran,
          'status_pembayaran' => $request->status_pembayaran,
          'tahun_ajaran' => $request->tahun_ajaran,
+         'bulan' => $jenisPembayaran->periode === 'bulanan' ? $request->bulan : null,
       ];
 
-      // Store bulan if jenis pembayaran is bulanan
-      $pembayaranData['bulan'] = $jenisPembayaran->periode === 'bulanan' ? $request->bulan : null;
+      //Lunas
+      if ($request->status_pembayaran === "Lunas") {
+         $pembayaranData['tanggal_lunas'] = $request->tanggal_lunas;
+      }
 
-      // Cicilan option
+      // If it has proof of payment
+      if ($request->hasFile('bukti_pembayaran')) {
+         $file = $request->file('bukti_pembayaran');
+         $filename = time() . '_' . $file->getClientOriginalName();
+         $file->move(public_path('uploads/bukti_pembayaran'), $filename);
+         $pembayaranData['bukti_pembayaran'] = 'uploads/bukti_pembayaran/' . $filename;
+      }
+
+      $pembayaran = Pembayaran::create($pembayaranData);
+
+      // Belum Lunas
       if ($request->status_pembayaran === "Belum Lunas") {
-         // Create Pembayaran record
-         $pembayaran = Pembayaran::create($pembayaranData);
-
-         // Create Cicilan record
          Cicilan::create([
             'id_pembayaran' => $pembayaran->id,
             'nominal' => $request->nominal_cicilan,
             'tanggal_bayar' => $request->tanggal_bayar,
          ]);
-
-      } else {
-         // Create Pembayaran record
-         $pembayaranData['tanggal_lunas'] = $request->tanggal_lunas;
-         Pembayaran::create($pembayaranData);
       }
-
-
       return redirect()->route('home');
    }
+
+   public function uploadBukti(Request $request, $id)
+   {
+      //dd($request->all()); 
+      $request->validate([
+         'bukti_pembayaran' => 'required|file|mimes:jpg,jpeg,png|max:2048'
+      ]);
+
+
+      $pembayaran = Pembayaran::findOrFail($id);
+
+      if ($request->hasFile('bukti_pembayaran')) {
+         $file = $request->file('bukti_pembayaran');
+         $filename = time() . '_' . $file->getClientOriginalName();
+
+         $file->move(public_path('uploads/bukti_pembayaran'), $filename);
+         $path = 'uploads/bukti_pembayaran/' . $filename;
+
+         $pembayaran->bukti_pembayaran = $path;
+
+         $pembayaran->save();
+      }
+
+      return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload.');
+   }
+
 }

@@ -17,7 +17,7 @@
                         </div>
                         <!--end::Header-->
                         <!--begin::Form-->
-                        <form method="POST" action="{{ route('storePembayaranSiswa')}}">
+                        <form method="POST" action="{{ route('storePembayaranSiswa')}}" enctype="multipart/form-data">
                             @csrf
 
                             <!--begin::Body-->
@@ -33,7 +33,8 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Tahun Ajaran</label>
-                                    <input type="text" class="form-control" name="tahun_ajaran" value="{{ env('TAHUN_AJARAN') }}">
+                                    <input type="text" class="form-control" name="tahun_ajaran"
+                                        value="{{ env('TAHUN_AJARAN') }}">
                                 </div>
 
                                 <div class="mb-3">
@@ -74,8 +75,8 @@
                                 </div>
 
                                 <div class="mb-3" style="display: none;" id="nominal_cicilan">
-                                    <label  class="form-label">Nominal Cicilan</label>
-                                    <input type="text" class="form-control" name="nominal_cicilan" >
+                                    <label class="form-label">Nominal Cicilan</label>
+                                    <input type="text" class="form-control" name="nominal_cicilan">
                                 </div>
 
                                 <div class="mb-3" style="display: none;" id="tanggal_bayar">
@@ -86,6 +87,11 @@
                                 <div class="mb-3" id="tanggal_lunas">
                                     <label class="form-label">Tanggal Lunas</label>
                                     <input type="date" class="form-control" name="tanggal_lunas">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Upload Bukti Pembayaran</label>
+                                    <input type="file" class="form-control" name="bukti_pembayaran" accept="image/*">
                                 </div>
                                 <!--end::Body-->
                                 <!--begin::Footer-->

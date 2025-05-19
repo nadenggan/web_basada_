@@ -73,6 +73,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin,guru"]], function () {
     Route::post('/cicilan/tambah', [DataSiswa::class, 'tambahCicilan'])->name('tambahCicilan');
     Route::get('/inputPembayaran/{nis}', [inputPembayaranSiswa::class, 'showInputPembayaran']);
     Route::post('/storePembayaranSiswa/', [InputPembayaranSiswa::class, 'storePembayaranSiswa'])->name("storePembayaranSiswa");
+    Route::post('/upload-bukti/{id}', [InputPembayaranSiswa::class, 'uploadBukti'])->name('upload.bukti');
     Route::get('/exportData/{nis}', [DataSiswa::class, 'exportData'])->name('exportData');
     Route::get('/prediksi-siswa', [PrediksiController::class, 'prediksiSemuaSiswa'])->name('prediksiSemuaSiswa');
 

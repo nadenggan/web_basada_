@@ -348,6 +348,7 @@
                                 tambahCicilan();
                                
                                 setupPaginationHandler();
+                                initializeBuktiPembayaranModal();
 
                                 // Mengubah URL tanpa reload halaman
                                 window.history.pushState({}, "", `/rekap-pembayaran/${nis}`);
@@ -469,6 +470,23 @@
                 });
             }
 
+            function initializeBuktiPembayaranModal() {
+                const modal = document.getElementById('buktiModal');
+                const modalBody = document.getElementById('buktiModalBody');
+
+               const buktiModal = new bootstrap.Modal(modal);
+
+    modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const imageUrl = button.getAttribute('data-img');
+
+        if (!imageUrl || imageUrl.trim() === '') {
+            modalBody.innerHTML = `<p class="text-muted">Tidak ada bukti pembayaran.</p>`;
+        } else {
+            modalBody.innerHTML = `<img src="${imageUrl}" class="img-fluid rounded" alt="Bukti Pembayaran">`;
+        }
+    });
+            }
 
 
 
