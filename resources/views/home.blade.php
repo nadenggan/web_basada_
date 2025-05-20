@@ -7,6 +7,21 @@
         <div class="app-content">
             <!--begin::Container-->
             <div class="container-fluid">
+                 @if ($notifications->isNotEmpty())
+                    <div class="alert alert-warning mb-3">
+                        <strong>Perhatian!</strong> Ada pembayaran yang terlambat:
+                        <ul>
+                            @foreach ($notifications as $notification)
+                                <li>
+                                    Siswa: {{ $notification->users->name }} (NIS: {{ $notification->users->nis }}, Kelas: {{ $notification->users->kelas ? $notification->users->kelas->tingkat_kelas : '-' }}) -
+                                    Jenis Pembayaran: {{ $notification->jenisPembayaran->nama_jenis_pembayaran }} (Tenggat: {{ \Carbon\Carbon::parse($notification->jenisPembayaran->tenggat_waktu)->format('d F Y') }})
+                                </li>
+                            @endforeach
+                        </ul>
+                        Segera periksa dan tindak lanjuti pembayaran yang belum lunas.
+                    </div>
+                @endif
+
                 <!--begin::Row-->
                 <div class="row justify-content-center">
                     <!-- begin::Diagram Pie -->

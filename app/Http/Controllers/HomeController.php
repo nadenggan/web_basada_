@@ -11,6 +11,7 @@ use App\Http\Controllers\PrediksiController;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\PembayaranImport;
 use App\Traits\LogAktivitas;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -122,7 +123,14 @@ class HomeController extends Controller
             $hasDiagramData = true;
         }
 
-        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap", "jenisPembayaranOptions", "persentaseLunas", "persentaseBelumLunas", "hasDiagramData"));
+        $notifications = Pembayaran::where('status_pembayaran', 'Belum Lunas')
+            ->whereHas('jenisPembayaran', function ($query) {
+                $query->where('tenggat_waktu', '<', Carbon::now()->toDateString());
+            })
+            ->with('users', 'jenisPembayaran')
+            ->get();
+
+        return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap", "jenisPembayaranOptions", "persentaseLunas", "persentaseBelumLunas", "hasDiagramData", 'notifications'));
     }
 
 
