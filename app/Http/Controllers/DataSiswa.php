@@ -328,8 +328,18 @@ class DataSiswa extends Controller
     public function updateDataRekapSiswa(Request $request)
     {
         $pembayaran = Pembayaran::findOrFail($request->id_pembayaran);
+        $originalStatus = $pembayaran->status_pembayaran;
+
+
         $pembayaran->status_pembayaran = $request->status_pembayaran;
-        $pembayaran->tanggal_lunas = $request->tanggal_lunas;
+
+        //  Lunas turn Belum Lunas
+        if ($originalStatus === 'Lunas' && $request->status_pembayaran === 'Belum Lunas') {
+            $pembayaran->tanggal_lunas = null;
+        } else {
+            $pembayaran->tanggal_lunas = $request->tanggal_lunas;
+        }
+
         $nis = $pembayaran->users->nis;
         $pembayaran->save();
 
