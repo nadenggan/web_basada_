@@ -243,16 +243,45 @@
                                                     <button class="btn btn-warning lihat-bukti"
                                                         style="padding: 0.2rem 0.3rem; font-size: 0.6rem;"
                                                         data-bs-toggle="modal" data-bs-target="#buktiModal"
-                                                        data-img="{{ $pembayaran->bukti_pembayaran ? asset($pembayaran->bukti_pembayaran) : '' }}">
-                                                        <i class="fa-solid fa-eye" style="color: white;"></i>
+                                                        data-img="{{ $pembayaran->bukti_pembayaran ? asset($pembayaran->bukti_pembayaran) : '' }}"
+                                                        data-pembayaran-id="{{ $pembayaran->id }}"> <i class="fa-solid fa-eye"
+                                                            style="color: white;"></i>
                                                     </button>
+
+                                                    <!-- Modal Bukti Pembayaran -->
+                                                    <div class="modal fade" id="buktiModal" tabindex="-1"
+                                                        aria-labelledby="buktiModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered modal-md">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Bukti Pembayaran</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"></button>
+                                                                </div>
+                                                                <div class="modal-body text-center" id="buktiModalBody">
+                                                                    <!-- Filled with JS -->
+                                                                </div>
+                                                                @if(auth()->user()->role == "admin")
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-success  ms-2"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#uploadBuktiModal"
+                                                                            data-pembayaran-id="{{ $pembayaran->id }}"> Upload
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
                                                     <!-- Modal Upload Bukti Pembayaran -->
                                                     <div class="modal fade" id="uploadBuktiModal" tabindex="-1"
                                                         aria-labelledby="uploadBuktiModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered modal-md">
                                                             <div class="modal-content">
-                                                                <form action="{{ route('upload.bukti', $pembayaran->id) }}"
+                                                                <form action="#"
                                                                     method="POST" enctype="multipart/form-data">
                                                                     @csrf
                                                                     @method('POST')
@@ -270,7 +299,7 @@
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="submit"
-                                                                            class="btn btn-primary">Upload</button>
+                                                                            class="btn btn-primary"  data-pembayaran-id="{{ $pembayaran->id }}">Upload</button>
                                                                         <button type="button" class="btn btn-secondary"
                                                                             data-bs-dismiss="modal">Batal</button>
                                                                     </div>
@@ -278,7 +307,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
 
                                                     <button class="btn btn-primary edit" value="{{ $pembayaran->id }}"
                                                         style="color: white; text-decoration: none; padding: 0.2rem 0.3rem; font-size: 0.6rem;"><i
@@ -308,34 +336,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <!-- Modal Bukti Pembayaran -->
-                        <div class="modal fade" id="buktiModal" tabindex="-1" aria-labelledby="buktiModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-md">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Bukti Pembayaran</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body text-center" id="buktiModalBody">
-                                        <!-- Filled with JS -->
-                                    </div>
-                                    @if(auth()->user()->role == "admin")
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-success  ms-2" data-bs-toggle="modal"
-                                                data-bs-target="#uploadBuktiModal"> Upload
-                                            </button>
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-
-
 
                         <!-- View Cicilan Modal -->
                         <div class="modal fade" id="viewCicilanModal" tabindex="-1" aria-hidden="true">

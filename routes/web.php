@@ -56,6 +56,7 @@ Route::group(["middleware" => ["auth", "checkrole:admin"]], function () {
     Route::post('/jenisPembayaranAdmin/update/{id}', [JenisPembayaran::class, 'updateJenisPembayaran'])->name("updateJenisPembayaran");
     Route::get('/tambah-data/', [DataSiswa::class, 'tambahDataSiswa'])->name("tambahDataSiswa");
     Route::post('/store-data/', [DataSiswa::class, 'storeDataSiswa'])->name("storeDataSiswa");
+    Route::delete('/hapus-bukti/{id}', [InputPembayaranSiswa::class, 'hapusBuktiPembayaran'])->name('hapus.bukti');
     Route::post('/importExcel', [DataSiswa::class, 'importExcel'])->name("importExcel");
     Route::post('/importExcelPembayaran', [HomeController::class, 'importExcelPembayaran'])->name('importExcelPembayaran');
 });

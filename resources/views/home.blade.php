@@ -473,22 +473,132 @@
             function initializeBuktiPembayaranModal() {
                 const modal = document.getElementById('buktiModal');
                 const modalBody = document.getElementById('buktiModalBody');
+                const uploadModal = document.getElementById('uploadBuktiModal');
+                const uploadForm = uploadModal.querySelector('form');
+                const uploadButton = modal.querySelector('.modal-footer .btn-success');
+                const deleteButton = document.createElement('button');
+                const buktiModalInstance = new bootstrap.Modal(modal);
 
-               const buktiModal = new bootstrap.Modal(modal);
+                deleteButton.type = 'button';
+                deleteButton.className = 'btn btn-danger ms-2';
+                deleteButton.textContent = 'Hapus Bukti';
 
-    modal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const imageUrl = button.getAttribute('data-img');
+                modal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const imageUrl = button.getAttribute('data-img');
+                    const pembayaranId = button.getAttribute('data-pembayaran-id');
 
-        if (!imageUrl || imageUrl.trim() === '') {
-            modalBody.innerHTML = `<p class="text-muted">Tidak ada bukti pembayaran.</p>`;
-        } else {
-            modalBody.innerHTML = `<img src="${imageUrl}" class="img-fluid rounded" alt="Bukti Pembayaran">`;
-        }
-    });
+                    // Clear delete button before
+                    const existingDeleteButton = modal.querySelector('.modal-footer .btn-danger');
+                    if (existingDeleteButton) {
+                        existingDeleteButton.remove();
+                    }
+
+                    if (!imageUrl || imageUrl.trim() === '') {
+                        modalBody.innerHTML = `<p class="text-muted">Tidak ada bukti pembayaran.</p>`;
+                        if (uploadButton) {
+                            uploadButton.style.display = 'inline-block';
+                        }
+                    } else {
+                        modalBody.innerHTML = `<img src="${imageUrl}" class="img-fluid rounded" alt="Bukti Pembayaran">`;
+                        if (uploadButton) {
+                            uploadButton.style.display = 'none';
+                        }
+                        deleteButton.addEventListener('click', function() {
+                            hapusBuktiPembayaran(pembayaranId);
+                            buktiModalInstance.hide();
+                        });
+                        modal.querySelector('.modal-footer').prepend(deleteButton);
+                    }
+
+                    uploadButton.setAttribute('data-pembayaran-id', pembayaranId); // Save ID 
+                });
+
+                uploadModal.addEventListener('show.bs.modal', function (event) {
+                    const pembayaranId = uploadButton.getAttribute('data-pembayaran-id');
+                    uploadForm.action = `/upload-bukti/${pembayaranId}`; // Set action form
+                });
+
+                  if (nis) {
+                            fetch(`/rekap-pembayaran/${nis}`)
+                                .then(response => response.text())
+                                .then(html => {
+                                    document.querySelector(".app-main").innerHTML = html;
+                                    initializeRekapPembayaranFilter();
+                                    initializeTahunAjaranFilter();
+                                    initializeDeleteModal();
+                                    editRekapModal();
+                                    showCicilanModal();
+                                    deleteCicilanModal();
+                                    editCicilanModal();
+                                    updateCicilan();
+                                    tambahCicilan();
+                                    setupPaginationHandler();
+                                    initializeBuktiPembayaranModal(); 
+                                })
+                                .catch(error => console.error("Error fetching rekap:", error));
+                        }
             }
 
+          function hapusBuktiPembayaran(pembayaranId) {
+                fetch(`/hapus-bukti/${pembayaranId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        
+                        //data-nis
+                        const jenisPembayaranSelect = document.getElementById('jenisPembayaran');
+                        const nis = jenisPembayaranSelect ? jenisPembayaranSelect.getAttribute('data-nis') : null;
 
+                        console.log("nis dari select:", nis);
+
+                        if (!nis) {
+                            const currentUrl = window.location.pathname;
+                            const parts = currentUrl.split('/');
+                            let nis = parts[parts.length - 1];
+                            if(nis === 'home'){
+                            nis = null;
+                            }
+                            console.log("nis dari URL:", nis);
+                        }
+
+                        if (nis) {
+                            fetch(`/rekap-pembayaran/${nis}`)
+                                .then(response => response.text())
+                                .then(html => {
+                                    document.querySelector(".app-main").innerHTML = html;
+                                    initializeRekapPembayaranFilter();
+                                    initializeTahunAjaranFilter();
+                                    initializeDeleteModal();
+                                    editRekapModal();
+                                    showCicilanModal();
+                                    deleteCicilanModal();
+                                    editCicilanModal();
+                                    updateCicilan();
+                                    tambahCicilan();
+                                    setupPaginationHandler();
+                                    initializeBuktiPembayaranModal();
+                                })
+                                .catch(error => console.error("Error fetching rekap:", error));
+                        } else {
+                            console.error("NIS tidak ditemukan setelah menghapus bukti.");
+                            alert("NIS tidak ditemukan. Mungkin terjadi kesalahan.");
+                        }
+                    } else {
+                        alert('Gagal menghapus bukti pembayaran.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus bukti pembayaran.');
+                });
+            }
 
             // Show Cicilan Modal
             function showCicilanModal() {

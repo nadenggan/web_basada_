@@ -9,6 +9,7 @@ use App\Models\Pembayaran;
 use App\Models\Cicilan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 
 class InputPembayaranSiswa extends Controller
@@ -81,8 +82,25 @@ class InputPembayaranSiswa extends Controller
 
          $pembayaran->save();
       }
-
       return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload.');
    }
+
+   public function hapusBuktiPembayaran($id)
+{
+    $pembayaran = Pembayaran::findOrFail($id);
+
+    if ($pembayaran->bukti_pembayaran) {
+        $filePath = public_path($pembayaran->bukti_pembayaran);
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+        }
+        $pembayaran->bukti_pembayaran = null; 
+        $pembayaran->save();
+
+        return response()->json(['success' => true, 'message' => 'Bukti pembayaran berhasil dihapus.']);
+    } else {
+        return response()->json(['success' => false, 'message' => 'Tidak ada bukti pembayaran untuk dihapus.']);
+    }
+}
 
 }
