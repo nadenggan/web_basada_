@@ -3,24 +3,51 @@
     <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
+           <div class="d-flex align-items-center">
+            <div class="me-auto">
+            </div>
+            <div class="ms-2">
+                <div class="dropdown">
+                    <button class="btn btn-icon btn-warning dropdown-toggle" type="button"
+                        id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-bell"></i>
+                        @if ($notifications->isNotEmpty())
+                            <span class="badge bg-danger rounded-pill">{{ $notifications->count() }}</span>
+                        @endif
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" style="max-height: 300px; overflow-y: auto;">
+                        @if ($notifications->isNotEmpty())
+                            <li>
+                                <h6 class="dropdown-header">Pembayaran Terlambat</h6>
+                            </li>
+                            @foreach ($notifications as $notification)
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <small>
+                                            {{ $notification->users->name }} (NIS: {{ $notification->users->nis }}, Kelas: {{ $notification->users->kelas ? $notification->users->id_kelas : '-' }}) -
+                                            Jenis Pembayaran: {{ $notification->jenisPembayaran->nama_jenis_pembayaran }}
+                                            @if ($notification->jenisPembayaran->periode == 'bulanan' && $notification->jenisPembayaran->tanggal_bulanan)
+                                                Bulan: {{ \Illuminate\Support\Str::title($notification->bulan) }}
+                                            @elseif ($notification->jenisPembayaran->tenggat_waktu)
+                                                (Tenggat: {{ \Carbon\Carbon::parse($notification->jenisPembayaran->tenggat_waktu)->format('d F Y') }})
+                                            @endif
+                                        </small>
+                                    </a>
+                                </li>
+                            @endforeach
+                        @else
+                            <li>
+                                <span class="dropdown-item">Tidak ada notifikasi</span>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </div>
         </div>
         <div class="app-content">
             <!--begin::Container-->
             <div class="container-fluid">
-                 @if ($notifications->isNotEmpty())
-                    <div class="alert alert-warning mb-3">
-                        <strong>Perhatian!</strong> Ada pembayaran yang terlambat:
-                        <ul>
-                            @foreach ($notifications as $notification)
-                                <li>
-                                    Siswa: {{ $notification->users->name }} (NIS: {{ $notification->users->nis }}, Kelas: {{ $notification->users->kelas ? $notification->users->kelas->tingkat_kelas : '-' }}) -
-                                    Jenis Pembayaran: {{ $notification->jenisPembayaran->nama_jenis_pembayaran }} (Tenggat: {{ \Carbon\Carbon::parse($notification->jenisPembayaran->tenggat_waktu)->format('d F Y') }})
-                                </li>
-                            @endforeach
-                        </ul>
-                        Segera periksa dan tindak lanjuti pembayaran yang belum lunas.
-                    </div>
-                @endif
 
                 <!--begin::Row-->
                 <div class="row justify-content-center">

@@ -123,12 +123,25 @@ class HomeController extends Controller
             $hasDiagramData = true;
         }
 
-        $notifications = Pembayaran::where('status_pembayaran', 'Belum Lunas')
-            ->whereHas('jenisPembayaran', function ($query) {
-                $query->where('tenggat_waktu', '<', Carbon::now()->toDateString());
+       $notifications = Pembayaran::where('status_pembayaran', 'Belum Lunas')
+        ->where(function ($query) {
+            // periode non-bulanan
+            $query->whereHas('jenisPembayaran', function ($jpQuery) {
+                $jpQuery->where('tenggat_waktu', '<', Carbon::now()->toDateString())
+                    ->where('periode', '!=', 'bulanan')
+                    ->orWhereNull('periode');
             })
-            ->with('users', 'jenisPembayaran')
-            ->get();
+            // periode bulanan
+            ->orWhere(function ($queryBulanan) {
+                $queryBulanan->whereHas('jenisPembayaran', function ($jpQueryBulanan) {
+                    $jpQueryBulanan->where('periode', 'bulanan')
+                        ->whereNotNull('tanggal_bulanan')
+                        ->where('tanggal_bulanan', '<', Carbon::now()->day);
+                });
+            });
+        })
+        ->with('users', 'jenisPembayaran')
+        ->get();
 
         return view('/home', compact("users", "total", "totalX", "totalXI", "totalXII", "totalJenisPembayaran", "request", "prediksiMap", "jenisPembayaranOptions", "persentaseLunas", "persentaseBelumLunas", "hasDiagramData", 'notifications'));
     }
