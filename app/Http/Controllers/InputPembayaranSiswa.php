@@ -82,7 +82,7 @@ class InputPembayaranSiswa extends Controller
 
          $pembayaran->save();
       }
-      return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload.');
+     return response()->json(['success' => true, 'message' => 'Bukti pembayaran berhasil diupload.', 'nis' => $pembayaran->users->nis]);
    }
 
    public function hapusBuktiPembayaran($id)

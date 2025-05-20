@@ -398,6 +398,7 @@
                             editCicilanModal();
                             updateCicilan();
                             deleteCicilanModal();
+                            initializeBuktiPembayaranModal();
 
                             // Update URL di address bar
                             window.history.pushState({}, '', url);
@@ -458,6 +459,7 @@
                                     showCicilanModal();
                                     deleteCicilanModal();
                                     editCicilanModal();
+                                    initializeBuktiPembayaranModal();
                                 })
                                 .catch(error => {
                                     console.error('Error fetching full rekap:', error);
@@ -470,7 +472,7 @@
                 });
             }
 
-            function initializeBuktiPembayaranModal() {
+           function initializeBuktiPembayaranModal() {
                 const modal = document.getElementById('buktiModal');
                 const modalBody = document.getElementById('buktiModalBody');
                 const uploadModal = document.getElementById('uploadBuktiModal');
@@ -511,33 +513,98 @@
                         modal.querySelector('.modal-footer').prepend(deleteButton);
                     }
 
-                    uploadButton.setAttribute('data-pembayaran-id', pembayaranId); // Save ID 
+                    uploadButton.setAttribute('data-pembayaran-id', pembayaranId); // Save ID
                 });
 
                 uploadModal.addEventListener('show.bs.modal', function (event) {
                     const pembayaranId = uploadButton.getAttribute('data-pembayaran-id');
-                    uploadForm.action = `/upload-bukti/${pembayaranId}`; // Set action form
+                    uploadForm.action = `/upload-bukti/${pembayaranId}`; // Set action form (mungkin tidak perlu jika pakai fetch)
                 });
 
-                  if (nis) {
-                            fetch(`/rekap-pembayaran/${nis}`)
-                                .then(response => response.text())
-                                .then(html => {
-                                    document.querySelector(".app-main").innerHTML = html;
-                                    initializeRekapPembayaranFilter();
-                                    initializeTahunAjaranFilter();
-                                    initializeDeleteModal();
-                                    editRekapModal();
-                                    showCicilanModal();
-                                    deleteCicilanModal();
-                                    editCicilanModal();
-                                    updateCicilan();
-                                    tambahCicilan();
-                                    setupPaginationHandler();
-                                    initializeBuktiPembayaranModal(); 
-                                })
-                                .catch(error => console.error("Error fetching rekap:", error));
+                uploadForm.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent default form submission
+
+                    const formData = new FormData(uploadForm);
+                    const url = uploadForm.action;
+
+                    fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            bootstrap.Modal.getInstance(uploadModal).hide(); // Hide upload modal
+                            if (data.nis) {
+                                // Fetch ulang halaman rekap dengan NIS yang sesuai
+                                fetch(`/rekap-pembayaran/${data.nis}`)
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        document.querySelector(".app-main").innerHTML = html;
+                                        initializeRekapPembayaranFilter();
+                                        initializeTahunAjaranFilter();
+                                        initializeDeleteModal();
+                                        editRekapModal();
+                                        showCicilanModal();
+                                        deleteCicilanModal();
+                                        editCicilanModal();
+                                        updateCicilan();
+                                        tambahCicilan();
+                                        setupPaginationHandler();
+                                        initializeBuktiPembayaranModal(); // Re-initialize modal event listeners
+                                        // Tampilkan pesan sukses (jika diperlukan)
+                                        // Misalnya: showAlert('success', data.message);
+                                    })
+                                    .catch(error => console.error("Error fetching rekap:", error));
+                            } else {
+                                // Jika NIS tidak ada di respon, mungkin fetch ulang dengan NIS yang terakhir dilihat
+                                const currentNis = document.getElementById('jenisPembayaran')?.getAttribute('data-nis');
+                                if (currentNis) {
+                                    fetch(`/rekap-pembayaran/${currentNis}`)
+                                        .then(response => response.text())
+                                        .then(html => {
+                                            document.querySelector(".app-main").innerHTML = html;
+                                            // ... re-initialize functions ...
+                                            initializeBuktiPembayaranModal();
+                                        })
+                                        .catch(error => console.error("Error fetching rekap:", error));
+                                } else {
+                                    // Handle jika NIS tidak tersedia
+                                    console.warn("NIS tidak tersedia untuk refresh rekap.");
+                                    // Mungkin reload halaman home atau tampilkan pesan error
+                                }
+                            }
+                        } else {
+                            // Handle error response (jika ada)
+                            // Misalnya: showAlert('error', 'Gagal mengupload bukti pembayaran.');
+                            console.error("Gagal mengupload bukti:", data);
                         }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        // Handle network error
+                    });
+                });
+
+                if (nis) {
+                    fetch(`/rekap-pembayaran/${nis}`)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.querySelector(".app-main").innerHTML = html;
+                            initializeRekapPembayaranFilter();
+                            initializeTahunAjaranFilter();
+                            initializeDeleteModal();
+                            editRekapModal();
+                            showCicilanModal();
+                            deleteCicilanModal();
+                            editCicilanModal();
+                            updateCicilan();
+                            tambahCicilan();
+                            setupPaginationHandler();
+                            initializeBuktiPembayaranModal();
+                        })
+                        .catch(error => console.error("Error fetching rekap:", error));
+                }
             }
 
           function hapusBuktiPembayaran(pembayaranId) {
@@ -702,6 +769,7 @@
                                                 editCicilanModal();
                                                 updateCicilan();
                                                 tambahCicilan();
+                                                initializeBuktiPembayaranModal();
                                             })
                                             .catch(error => console.error("Error reloading rekap:", error));
                                     } else {
@@ -794,6 +862,7 @@
                                                     showCicilanModal();
                                                     deleteCicilanModal();
                                                     editCicilanModal();
+                                                    initializeBuktiPembayaranModal();
                                                 })
                                                 .catch(error => {
                                                     console.error('Error fetching rekap:', error);
@@ -846,6 +915,7 @@
                                         showCicilanModal();
                                         deleteCicilanModal();
                                         editCicilanModal();
+                                        initializeBuktiPembayaranModal();
                                     })
                                     .catch(error => {
                                         console.error('Error fetching rekap:', error);
@@ -859,24 +929,22 @@
                 });
             }
 
-         function toggleBulanColumnByPeriode() {
-    const jenisPembayaranSelect = document.getElementById('jenisPembayaran');
-    const selectedOption = jenisPembayaranSelect.options[jenisPembayaranSelect.selectedIndex];
-    const periode = selectedOption.dataset.periode;
+           function toggleBulanColumnByPeriode() {
+                const jenisPembayaranSelect = document.getElementById('jenisPembayaran');
+                const selectedOption = jenisPembayaranSelect.options[jenisPembayaranSelect.selectedIndex];
+                const periode = selectedOption.dataset.periode;
 
-    const bulanColumnHeader = document.querySelector('.bulan-column');
-    const bulanCells = document.querySelectorAll('.bulan-cell');
+                const bulanColumnHeader = document.querySelector('.bulan-column');
+                const bulanCells = document.querySelectorAll('.bulan-cell');
 
-    if (periode === 'bulanan') {
-        bulanColumnHeader.style.display = '';
-        bulanCells.forEach(cell => cell.style.display = '');
-    } else {
-        bulanColumnHeader.style.display = 'none';
-        bulanCells.forEach(cell => cell.style.display = 'none');
-    }
-}
-
-
+                if (periode === 'bulanan') {
+                    bulanColumnHeader.style.display = '';
+                    bulanCells.forEach(cell => cell.style.display = '');
+                } else {
+                    bulanColumnHeader.style.display = 'none';
+                    bulanCells.forEach(cell => cell.style.display = 'none');
+                }
+            }
 
             function applyServerFilter() {
                 const jenisPembayaran = document.getElementById('jenisPembayaran').value;
@@ -895,6 +963,7 @@
                         showCicilanModal();
                         deleteCicilanModal();
                         editCicilanModal();
+                        initializeBuktiPembayaranModal();
                     })
                     .catch(error => console.error("Error applying filter:", error));
             }
@@ -1021,6 +1090,5 @@
             });
 
         </script>
-
     </main>
 @endsection
